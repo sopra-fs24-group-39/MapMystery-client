@@ -3,5 +3,17 @@
 .start-container {
   height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-buttons-container {
+  width: 400px;
+  height: 20vh;
+}
+
+.start-mpsp-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

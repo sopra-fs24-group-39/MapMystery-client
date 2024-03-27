@@ -1,13 +1,8 @@
 @import "../theme";
 
-.button-main {
-  height: 46px;
-  width: 100%;
-  position: relative;
-}
-
 .button-container {
   position: relative;
+  padding-bottom: 10px;
 }
 
 .button-container:hover {
@@ -25,9 +20,8 @@
   top: 0;
   left: 0;
   background: $primary-color;
-  padding: 10px 10px;
   border: solid 3px $border-color;
-  border-radius: 7px;
+  border-radius: 15px;
   box-shadow: 3px 3px 0 $secondary-color;
   outline: 4px solid transparent;
 }
@@ -50,19 +44,19 @@
   transform: skewX(310deg) translateX(0);
 }
 
-// large button properties
-.lg-button {
-  height: 46px;
-  width: 400px;
+.button-font-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.lg-button-font {
+.button-font {
   top: 0;
   left: auto;
   position: absolute;
   z-index: 10;
   margin-top: 0;
-  font-size: 30px;
+  font-size: $button-font-size;
   font-weight: bold;
   color: $button-text-color;
   text-shadow: 1px 1px 0 black; /* Shadow with x-offset, y-offset, and color */
@@ -70,49 +64,25 @@
   -webkit-text-stroke-color: black; /* Stroke color for WebKit browsers */
   text-stroke-width: 3px; /* Adjust the stroke width as needed */
   text-stroke-color: black; /* Stroke color */
+}
+
+// large button properties
+.lg-button {
+  height: 46px;
+  width: 400px;
+  position: relative;
 }
 
 // medium button properties
 .md-button {
   height: 46px;
-  width: 200px;
+  width: 185px;
+  position: relative;
 }
-
-.md-button-font {
-  top: 0;
-  left: auto;
-  position: absolute;
-  z-index: 10;
-  margin-top: 0;
-  font-size: 30px;
-  font-weight: bold;
-  color: $button-text-color;
-  text-shadow: 1px 1px 0 black; /* Shadow with x-offset, y-offset, and color */
-  -webkit-text-stroke-width: 1px; /* Adjust the stroke width as needed */
-  -webkit-text-stroke-color: black; /* Stroke color for WebKit browsers */
-  text-stroke-width: 3px; /* Adjust the stroke width as needed */
-  text-stroke-color: black; /* Stroke color */
-}
-
 
 // small button properties
 .sm-button {
   height: 46px;
   width: 100px;
-}
-
-.sm-button-font {
-  top: 0;
-  left: auto;
-  position: absolute;
-  z-index: 10;
-  margin-top: 0;
-  font-size: 30px;
-  font-weight: bold;
-  color: $button-text-color;
-  text-shadow: 1px 1px 0 black; /* Shadow with x-offset, y-offset, and color */
-  -webkit-text-stroke-width: 1px; /* Adjust the stroke width as needed */
-  -webkit-text-stroke-color: black; /* Stroke color for WebKit browsers */
-  text-stroke-width: 3px; /* Adjust the stroke width as needed */
-  text-stroke-color: black; /* Stroke color */
+  position: relative;
 }

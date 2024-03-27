@@ -8,23 +8,25 @@ const Start = () => {
   return (
     <BaseContainer>
       <div className={"start-container flex-center"}>
-        <Button
-          type={"lg"}
-          name={"Create Game"}>
-        </Button>
-        <Button
-          type={"lg"}
-          name={"Gamemode Selection"}>
-        </Button>
-        <div className={"flex-row"}>
+        <div className={"start-buttons-container"}>
           <Button
-            type={"md"}
-            name={"Multiplayer"}>
+            type={"lg"}
+            name={"Create Game"}>
           </Button>
           <Button
-            type={"md"}
-            name={"Singleplayer"}>
+            type={"lg"}
+            name={"Gamemode Selection"}>
           </Button>
+          <div className={"start-mpsp-select"}>
+            <Button
+              type={"md"}
+              name={"Multiplayer"}>
+            </Button>
+            <Button
+              type={"md"}
+              name={"Singleplayer"}>
+            </Button>
+          </div>
         </div>
       </div>
     </BaseContainer>
