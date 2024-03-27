@@ -7,6 +7,12 @@
    these values control the colors of your application.
    feel free to play around with these and see what other look you can come up with! :D
 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+$base-yellow: #FDF319;
+$threeD-yellow: #FC7121;
+$shine-yellow: #FC7121;
+$scale: black;
 
 $accent: #97ABFF;
 $accentDark: #123597;
@@ -22,7 +28,7 @@ $SMALL_WIDTH: 768px;
 
 /* some standard elements */
 /* fonts */
-$fontDefault: "M PLUS Rounded 1c", sans-serif;
+$fontDefault: "Roboto";
 $fontMono: "Roboto Mono", monospace;
 
 /* a standard drop shadow */
