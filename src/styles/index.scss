@@ -31,3 +31,9 @@ button {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
