@@ -7,26 +7,12 @@ import BaseContainer from "components/ui/BaseContainer";
 const Start = () => {
   return (
     <BaseContainer>
-      <div className={"start-container flex-center"}>
+      <div className={"center-container"}>
         <div className={"start-buttons-container"}>
           <Button
             type={"lg"}
-            name={"Create Game"}>
+            name={"Play"}>
           </Button>
-          <Button
-            type={"lg"}
-            name={"Gamemode Selection"}>
-          </Button>
-          <div className={"start-mpsp-select"}>
-            <Button
-              type={"md"}
-              name={"Multiplayer"}>
-            </Button>
-            <Button
-              type={"md"}
-              name={"Singleplayer"}>
-            </Button>
-          </div>
         </div>
       </div>
     </BaseContainer>

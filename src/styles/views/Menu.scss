@@ -1,0 +1,12 @@
+@import "../theme";
+
+.menu-buttons-container {
+  width: 400px;
+  height: 20vh;
+}
+
+.menu-mpsp-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

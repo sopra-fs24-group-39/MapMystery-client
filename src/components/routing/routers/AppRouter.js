@@ -3,6 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {GameGuard} from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
+import Menu from "../../views/Menu";
 import Start from "../../views/Start";
 
 /**
