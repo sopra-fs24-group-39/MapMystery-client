@@ -31,3 +31,11 @@ button {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+
+.center-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -1,20 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "../../styles/ui/Button.scss";
+import PropTypes from "prop-types";
 
-export const Button = props => (
-  <button
-    {...props}
-    style={{width: props.width, ...props.style}}
-    className={`primary-button ${props.className}`}>
-    {props.children}
-  </button>
-);
+//TODO: special buttons
 
+const Button = (props) => {
+  return (
+      <div className={"button-container"}>
+        <button
+          className={"button "+props.type+"-button"}>
+        </button>
+        <div className={"button-shine"}></div>
+        <div className={"button-font-container"}><span className={"button-font"}>{props.name}</span></div>
+      </div>
+  );
+};
 
 Button.propTypes = {
-  width: PropTypes.number,
-  style: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
+  type: PropTypes.string,
+  name: PropTypes.string,
 };
+
+export default Button;

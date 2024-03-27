@@ -1,5 +1,4 @@
 import React from "react";
-import {ReactLogo} from "../ui/ReactLogo";
 import PropTypes from "prop-types";
 import "../../styles/views/Header.scss";
 
@@ -12,10 +11,14 @@ import "../../styles/views/Header.scss";
  * @FunctionalComponent
  */
 const Header = props => (
-  <div className="header container" style={{height: props.height}}>
-    <h1 className="header title">SoPra FS24 rocks with React!</h1>
-    <ReactLogo width="60px" height="60px"/>
-  </div>
+  <nav className={"navbar-container"}>
+    <ul className={"nav-list"}>
+      <li><a className={"nav-link"}>Rankings</a></li>
+      <li><a className={"nav-link"}>Friends</a></li>
+      <li><a className={"nav-link"}>Settings</a></li>
+    </ul>
+    <h1 className={"nav-icon"}>Icon</h1>
+  </nav>
 );
 
 Header.propTypes = {
