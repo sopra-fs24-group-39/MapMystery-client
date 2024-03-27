@@ -1,0 +1,15 @@
+@import "../theme";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.base-element {
+  width: 100%;
+  min-height: 200px;
+  background: #f0f4f8;
+  border: 1px solid #d1dce5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-sizing: border-box;
+}
