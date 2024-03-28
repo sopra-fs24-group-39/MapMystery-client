@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 const BaseContainer = props => (
     <div {...props} className={`base-container ${props.className ?? ""}`}>
-      <div className={"gradient-container "}>
-        <div className={"gradient"}></div>
-      </div>
-      {props.children}
+        <div className={"gradient-container "}>
+            <div className={"gradient"}></div>
+        </div>
+        {props.children}
     </div>
 );
 

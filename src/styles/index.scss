@@ -15,6 +15,34 @@ body {
   background-color: var(--bg-color);
 }
 
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+.center-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// background style
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -51,30 +79,3 @@ body {
     --size: 500px;
   }
 }
-
-input,
-textarea,
-select,
-button {
-  font-family: inherit;
-  line-height: inherit;
-  font-size: inherit;
-  outline: none;
-}
-
-*:focus {
-  outline: none;
-}
-
-* {
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-.center-container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-

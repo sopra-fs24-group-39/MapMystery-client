@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 const Button = (props) => {
   return (
       <div className={"button-container"}>
-        <button
-          className={"button "+props.type+"-button"}>
-        </button>
-        <div className={"button-shine"}></div>
-        <div className={"button-font-container"}><span className={"button-font"}>{props.name}</span></div>
+          <button
+              className={"button "+props.type+"-button"}>
+          </button>
+          <div className={"button-shine"}></div>
+          <div className={"button-font-container"}><span className={"button-font"}>{props.name}</span></div>
       </div>
   );
 };
