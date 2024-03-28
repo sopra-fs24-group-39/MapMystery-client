@@ -5,12 +5,14 @@
 This file contains the general and shared style of your application.
  */
 body {
+  --bg-color: #14446b;
+
   margin: 0;
   padding: 0;
   min-width: 100vw;
   min-height: 100vh;
   font-family: $fontDefault;
-  background-image: linear-gradient(135deg, $accent 10%, $accentDark 100%);
+  background-color: var(--bg-color);
 }
 
 input,
@@ -37,5 +39,44 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+// background style
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.gradient-container {
+  position: absolute;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.gradient {
+  --size: 250px;
+  --speed: 46s;
+  --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
+  --bg-color: #45a9c8;
+
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  filter: blur(50px);
+  background-image: linear-gradient(150deg, hsl(185, 50%, 42%), hsl(207, 69%, 25%));
+  animation: rotate var(--speed) var(--easing) alternate infinite;
+  border-radius: 50%;
+}
+
+@media (min-width: 720px) {
+  .gradient {
+    --size: 500px;
+  }
 }
 

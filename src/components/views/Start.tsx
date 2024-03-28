@@ -6,16 +6,16 @@ import BaseContainer from "components/ui/BaseContainer";
 
 const Start = () => {
   return (
-    <BaseContainer>
-      <div className={"center-container"}>
-        <div className={"start-buttons-container"}>
-          <Button
-            type={"lg"}
-            name={"Play"}>
-          </Button>
-        </div>
-      </div>
-    </BaseContainer>
+      <BaseContainer>
+          <div className={"center-container"}>
+              <div className={"start-buttons-container"}>
+                  <Button
+                      type={"lg"}
+                      name={"Play"}>
+                  </Button>
+              </div>
+          </div>
+      </BaseContainer>
   );
 };
 
