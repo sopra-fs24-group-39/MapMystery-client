@@ -6,7 +6,7 @@ interface Header {
 }
 
 const Header: React.FC<Header> = ({ text }) => {
-  return <h1 className="header">{text}</h1>;
+  return <p className="header">{text}</p>;
 };
 
 export default Header;

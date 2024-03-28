@@ -5,17 +5,33 @@
   height: 50px;
   background-color: white;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
 }
 
 .nav-list {
   list-style-type: none;
   display: flex;
-  flex-direction: row;
+  align-items: center; // this ensures vertical centering
+  padding: 0;
+  .logo-item {
+      margin-right: 2em;
+      margin-left: 0.5em;
+  }
+  .nav-option {
+    margin-right: 2em;
+    font-weight: 500;
+  }
 }
 
-.nav-link {
-  margin-left: 15px;
+.nav-icon {
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px
 }
