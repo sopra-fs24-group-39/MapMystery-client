@@ -10,5 +10,5 @@ import App from "./App";
  * More: https://react.dev/reference/react-dom/client/createRoot 
  */
 const container = document.getElementById("app");
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container);
 root.render(<App tab="home" />);

@@ -2,14 +2,18 @@
 
 .button-container {
   position: relative;
-  padding-bottom: 10px;
 }
 
 .button-container:hover {
-  top: 1px;
-  transform: translateX(1px);
+  top: 2px;
+  transform: translateX(2px);
   .button {
-    box-shadow: 2px 2px 0 $secondary-color;
+    box-shadow:
+        1px 1px 0 $secondary-color,
+        2px 2px 0 $secondary-color,
+        3px 3px 0 $secondary-color,
+        4px 4px 0 $secondary-color,
+        5px 5px 0 $secondary-color;
   }
 }
 
@@ -22,13 +26,25 @@
   background: $primary-color;
   border: solid 3px $border-color;
   border-radius: 15px;
-  box-shadow: 3px 3px 0 $secondary-color;
+  box-shadow:
+    1px 1px 0 $secondary-color,
+    2px 2px 0 $secondary-color,
+    3px 3px 0 $secondary-color,
+    4px 4px 0 $secondary-color,
+    5px 5px 0 $secondary-color,
+    6px 6px 0 $secondary-color,
+    7px 7px 0 $secondary-color;
   outline: 4px solid transparent;
 }
 
 .button:hover {
   // transition: all .3s linear;
-  box-shadow: 2px 2px 0 $secondary-color;
+  box-shadow:
+    1px 1px 0 $secondary-color,
+    2px 2px 0 $secondary-color,
+    3px 3px 0 $secondary-color,
+    4px 4px 0 $secondary-color,
+    5px 5px 0 $secondary-color;
 }
 
 .button-shine {

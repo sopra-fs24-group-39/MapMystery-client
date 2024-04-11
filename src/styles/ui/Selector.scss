@@ -1,0 +1,51 @@
+@import "../theme";
+
+.tab-selector {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: $base-blue;
+  border-radius: 50px;
+  overflow: hidden;
+  border: solid 3px $border-color;
+  box-shadow:
+      1px 1px 0 $threeD-blue,
+      2px 2px 0 $threeD-blue,
+      3px 3px 0 $threeD-blue,
+      4px 4px 0 $threeD-blue,
+      5px 5px 0 $threeD-blue,
+      6px 6px 0 $threeD-blue,
+      7px 7px 0 $threeD-blue;
+
+  .tab-option {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+
+    &:hover {
+      background-color: darken($base-blue, 10%);
+    }
+
+    &.active {
+      background-color: transparent;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -2px; // Adjust based on the border thickness
+        bottom: -2px; // Adjust based on the border thickness
+        left: -2px; // Adjust based on the border thickness
+        right: -2px; // Adjust based on the border thickness
+        border-radius: 50px;
+        border: 3px solid white; // White pill-shaped border
+        pointer-events: none;
+      }
+    }
+  }
+}

@@ -5,5 +5,9 @@
   padding-left: 15px;
   margin-right: auto;
   padding-right: 15px;
-  overflow: scroll;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
