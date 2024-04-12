@@ -10,20 +10,24 @@ const Menu = () => {
           <div className={"center-container"}>
               <div className={"menu-buttons-container"}>
                   <Button
-                      type={"lg"}
+                      type={"regular"}
+                      width={"lg"}
                       name={"Create Game"}>
                   </Button>
                   <Button
-                      type={"lg"}
+                      type={"regular"}
+                      width={"lg"}
                       name={"Gamemode Selection"}>
                   </Button>
                   <div className={"menu-mpsp-select"}>
                       <Button
-                          type={"md"}
+                          type={"regular"}
+                          width={"md"}
                           name={"Multiplayer"}>
                       </Button>
                       <Button
-                          type={"md"}
+                          type={"regular"}
+                          width={"md"}
                           name={"Singleplayer"}>
                       </Button>
                   </div>

@@ -82,6 +82,89 @@
   text-stroke-color: black; /* Stroke color */
 }
 
+// login button
+
+.login-button {
+  z-index: 2;
+  // basic properties
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $base-yellow;
+  border: solid 1px $scale;
+  border-radius: 30px;
+  box-shadow:
+          1px 1px 0 $threeD-yellow,
+          2px 2px 0 $threeD-yellow,
+          3px 3px 0 $threeD-yellow,
+          4px 4px 0 $threeD-yellow,
+          5px 5px 0 $threeD-yellow,
+          6px 6px 0 $threeD-yellow,
+          7px 7px 0 $threeD-yellow;
+  outline: 4px solid transparent;
+}
+
+.login-button:hover {
+  // transition: all .3s linear;
+  box-shadow:
+          1px 1px 0 $threeD-yellow,
+          2px 2px 0 $threeD-yellow,
+          3px 3px 0 $threeD-yellow,
+          4px 4px 0 $threeD-yellow,
+          5px 5px 0 $threeD-yellow;
+}
+
+.login-button-shine {
+  z-index: 3;
+  // shine effect
+  position: absolute;
+  top: 3px;
+  left: 45px;
+  height: 40px;
+  width: 50px;
+  background: $button-shine-yellow;
+  transition: all .3s linear;
+  transform: skewX(310deg) translateX(0);
+}
+
+.login-button-font {
+  top: 0;
+  left: auto;
+  position: absolute;
+  z-index: 10;
+  margin-top: 0;
+  font-size: $button-font-size;
+  font-weight: bold;
+  color: $scale;
+  text-stroke-width: 3px; /* Adjust the stroke width as needed */
+  text-stroke-color: black; /* Stroke color */
+}
+
+.login-button-container {
+  position: relative;
+}
+
+.login-button-container:hover {
+  top: 2px;
+  transform: translateX(2px);
+  .button {
+    box-shadow:
+            1px 1px 0 $threeD-yellow,
+            2px 2px 0 $threeD-yellow,
+            3px 3px 0 $threeD-yellow,
+            4px 4px 0 $threeD-yellow,
+            5px 5px 0 $threeD-yellow;
+  }
+}
+
+
+// auto button properties
+.auto-button {
+  height: 46px;
+  width: 100%;
+  position: relative;
+}
+
 // large button properties
 .lg-button {
   height: 46px;

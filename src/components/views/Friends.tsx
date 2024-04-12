@@ -16,11 +16,13 @@ const Friends = () => {
         <div className={"input-container"}>
           <SearchBar height="46px" width="600px" />
           <Button
-            type={"md"}
+            type={"regular"}
+            width={"md"}
             name={"Add Friend"}>
           </Button>
           <Button
-            type={"md"}
+            type={"regular"}
+            width={"md"}
             name={"Create Link"}>
           </Button>
         </div>
