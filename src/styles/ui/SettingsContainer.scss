@@ -1,0 +1,74 @@
+@import "../theme";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.base-element-settings {
+  border: 5px solid #ffffff;
+  border-radius: 8px;
+  background: white;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+  display: flex
+}
+
+.sidebar{
+  background: $base-blue;
+  width: 35%;
+  border-radius: 8px;
+  border: 5px solid #ffffff;
+  position: relative;
+}
+
+.sidebar-top{
+  position: absolute;
+  top: 0;
+}
+
+.striped-background {
+  background-image: linear-gradient(
+    to bottom,
+    $light-blue-strips 0%,
+    $light-blue-strips 50%,
+    $darker-blue-strips 50%,
+    $darker-blue-strips 100%
+  );
+  background-size: 100% 125px;
+  position: relative;
+}
+
+.sidebar-bottom{
+  position: absolute;
+  bottom: 0;
+  border-top: 10px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-content{
+  background: $base-blue;
+  width: 65%;
+  border-radius: 8px;
+  border: 5px solid #ffffff;
+}
+
+.settings-chapter{
+  font-size: 2.1rem;
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: $base-yellow;
+}

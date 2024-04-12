@@ -3,8 +3,8 @@ import BaseContainer from "components/ui/BaseContainer";
 import BackgroundImage from "./sources/background.png";
 import Header from "components/views/Header";
 import Title from "components/ui/Title";
-import "../../styles/views/Rankings.scss";
-import BaseElement from "components/ui/Container";
+import "../../styles/views/Settings.scss";
+import BaseElementSettings from "components/ui/SettingsContainer";
 
 const Settings = () => {
   return (
@@ -13,7 +13,7 @@ const Settings = () => {
         <Header/>
         <Title text="Settings" className="site-title"></Title>
         <div className={"container-container"}>
-          <BaseElement width={1000} height={670}/>
+          <BaseElementSettings width={1000} height={670}/>
         </div>
       </div>
     </BaseContainer>
