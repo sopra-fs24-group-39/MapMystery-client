@@ -5,7 +5,7 @@ import Header from "components/views/Header";
 import Title from "components/ui/Title";
 import SearchBar from "components/ui/Searchbar";
 import "../../styles/views/Friends.scss";
-import BaseElement from "components/ui/Container";
+import BaseElementFriends from "components/ui/FriendsContainer";
 import Button from "components/ui/Button";
 
 const Friends = () => {
@@ -27,8 +27,8 @@ const Friends = () => {
           </Button>
         </div>
         <Title text="Friends" className="title"></Title>
-        <div className={"container-container"}>
-          <BaseElement width={1000} height={570}/>
+        <div className={"container-container2"}>
+          <BaseElementFriends width={1000} height={570}/>
         </div>
       </div>
     </BaseContainer>
