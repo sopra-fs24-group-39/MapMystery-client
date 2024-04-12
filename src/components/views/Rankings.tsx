@@ -4,7 +4,7 @@ import BackgroundImage from "./sources/background.png";
 import Header from "components/views/Header";
 import Title from "components/ui/Title";
 import "../../styles/views/Rankings.scss";
-import BaseElement from "components/ui/Container";
+import BaseElementRankings from "components/ui/RankingsContainer";
 import TabSelector from "components/ui/Selector";
 
 const Rankings = () => {
@@ -20,8 +20,8 @@ const Rankings = () => {
           />
         </div>
         <Title text="Rankings" className="site-title"></Title>
-        <div className={"container-container"}>
-          <BaseElement width={1000} height={570}/>
+        <div className={"element-container"}>
+          <BaseElementRankings width={1000} height={570} withStripes/>
         </div>
       </div>
     </BaseContainer>
