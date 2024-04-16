@@ -9,9 +9,7 @@ const GameRouter = () => {
     <div style={{display: "flex", flexDirection: "column"}}>
       <Routes>
 
-        <Route path="" element={<Menu />} />
-
-        <Route path="dashboard" element={<Game />} />
+        <Route path="" element={<Game />} />
 
         <Route path="*" element={<Navigate to="dashboard" replace />} />
 
