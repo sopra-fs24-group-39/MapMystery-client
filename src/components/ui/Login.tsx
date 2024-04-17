@@ -91,11 +91,12 @@ const Login = () => {
       const requestBody = JSON.stringify({ username, userEmail, password });
       const response = await api.post("/users", requestBody);
       // Get the returned user and update a new object.
-      const user = new User(response.data);
+      const user = new User(response.data.user);
+      const token = response.data.token;
 
       // Store the token into the local storage.
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("userId", user.userId);
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
@@ -110,11 +111,12 @@ const Login = () => {
       console.log(requestBody);
       const response = await api.put("/users/login", requestBody);
       // Get the returned user and update a new object.
-      const user = new User(response.data);
+      const user = new User(response.data.user);
+      const token = response.data.token;
 
       // Store the token into the local storage.
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("userId", user.userId);
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
