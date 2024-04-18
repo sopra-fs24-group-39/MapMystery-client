@@ -38,7 +38,10 @@ const PanoramaView = () => {
                     enableCloseButton: false,
                     addressControl: false,
                     showRoadLabels: false,
-                    zoomControl: false
+                    zoomControl: false,
+                    motionTrackingControl: false,
+                    fullscreenControl: false
+
                 }
             );
         }
