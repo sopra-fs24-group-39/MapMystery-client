@@ -37,6 +37,15 @@
   outline: 4px solid transparent;
 }
 
+.button-active {
+  box-shadow:
+          1px 1px 0 $secondary-color,
+          2px 2px 0 $secondary-color,
+          3px 3px 0 $secondary-color,
+          4px 4px 0 $secondary-color,
+          5px 5px 0 $secondary-color;
+}
+
 .button:hover {
   // transition: all .3s linear;
   box-shadow:
@@ -141,6 +150,7 @@
 }
 
 .login-button-container {
+  width: 100%;
   position: relative;
 }
 
