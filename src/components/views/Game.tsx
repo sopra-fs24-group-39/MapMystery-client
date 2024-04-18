@@ -8,6 +8,7 @@ import Header from "./Header";
 import Logo from "../pictures/Logo";
 import DropDown from "../ui/DropDown";
 import Timer from "../ui/Timer";
+import {useNavigate} from "react-router-dom";
 
 const Game = () => {
   const [playerMS, setPlayerMS] = useState("");
@@ -55,7 +56,8 @@ const Game = () => {
           <Button
             type={"regular"}
             width={"lg"}
-            name={"Create Game"}>
+            name={"Create Game"}
+          >
           </Button>
           <div className={"menu-mpsp-select mt-3"}>
             <div className={"flex flex-row items-center"}
