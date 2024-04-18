@@ -17,7 +17,7 @@ const Header = props => {
     <nav className="navbar-container">
       <ul className="nav-list">
         <li className="logo-item" onClick={() => handleNavigation("/")}>
-          <Logo width="50px" height="50px" />
+          <Logo width="50px" height="50px"/>
         </li>
         <li onClick={() => handleNavigation("/rankings")} className="nav-option">
           Rankings
@@ -27,6 +27,9 @@ const Header = props => {
         </li>
         <li onClick={() => handleNavigation("/settings")} className="nav-option">
           Settings
+        </li>
+        <li onClick={() => handleNavigation("/panoramaview")} className="nav-option">
+          PanoramaView
         </li>
       </ul>
       <div className="nav-icon">

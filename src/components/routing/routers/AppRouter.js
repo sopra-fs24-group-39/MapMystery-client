@@ -9,6 +9,8 @@ import Rankings from "../../views/Rankings";
 import Friends from "../../views/Friends";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
+import PanoramaView from "../../views/PanoramaView";
+
 
 /**
  * Main router of your application.
@@ -26,6 +28,7 @@ const AppRouter = () => {
         <Route path="/rankings" element={<Rankings />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/panoramaview" element={<PanoramaView/>} />
 
         <Route path="/login_test" element={<Login />} />
 

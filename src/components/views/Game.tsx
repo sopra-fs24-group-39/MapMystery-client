@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import BackgroundImage from "./sources/background.png";
 import Header from "./Header";
 import Logo from "../pictures/Logo";
+import {useNavigate} from "react-router-dom";
 
 const Game = () => {
   return (
@@ -19,7 +20,8 @@ const Game = () => {
           <Button
             type={"regular"}
             width={"lg"}
-            name={"Create Game"}>
+            name={"Create Game"}
+          >
           </Button>
           <Button
             type={"regular"}
