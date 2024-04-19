@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../styles/ui/GameInput.scss";
 import Button from "components/ui/Button";
 import PanoramaView from "../views/PanoramaView";
+import MapsView from "../views/MapsView";
 
 const GameInput = () => {
   const [yellowStyle, setYellowStyle] = useState({
@@ -65,6 +66,7 @@ const GameInput = () => {
         style={blueStyle}
         onClick={!isYellowSmaller() ? handleSwap : undefined}
       >
+        <MapsView />
         {blueStyle.zIndex < yellowStyle.zIndex && (
           <div className="click-overlay" onClick={handleSwap} />
         )}

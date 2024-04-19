@@ -10,6 +10,7 @@ import Friends from "../../views/Friends";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
 import PanoramaView from "../../views/PanoramaView";
+import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
 
 
@@ -45,11 +46,10 @@ const AppRouter = () => {
         <Route path="/settings/*" element={<GameRouter base="/settings"/>} />
       </Route>
 
-      <Route path="/globeguesser/*" element={<GameGuard />}>
-        <Route path="/globeguesser/*" element={<GameRouter base="/globeguesser"/>} />
-      </Route>
-
         <Route path="/login_test" element={<Login />} />
+
+        <Route path="/globeguesser" element={<GlobeGuesser/>} />
+        <Route path="/mapview" element={<MapsView/>} />
 
         <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />

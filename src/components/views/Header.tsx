@@ -31,6 +31,9 @@ const Header = props => {
         <li className="menu-link nav-option" onClick={() => handleNavigation("/globeguesser")}>
           GameView
         </li>
+        <li className="menu-link nav-option" onClick={() => handleNavigation("/mapview")}>
+          mapview
+        </li>
       </ul>
       <div className="nav-icon">
         <MinidenticonImg username="SoPra" saturation={60} lightness={50} width="45" height="45" />
