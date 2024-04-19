@@ -64,7 +64,7 @@ const PanoramaView = () => {
     }, []);
 
     return (
-        <div id="panorama" style={{ width: '100%', height: '100vh'}}></div>
+        <div id="panorama" style={{ width: '100%', height: '100%'}}></div>
     );
 };
 

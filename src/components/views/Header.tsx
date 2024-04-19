@@ -28,8 +28,8 @@ const Header = props => {
         <li onClick={() => handleNavigation("/settings")} className="nav-option">
           Settings
         </li>
-        <li onClick={() => handleNavigation("/panoramaview")} className="nav-option">
-          PanoramaView
+        <li onClick={() => handleNavigation("/globeguesser")} className="nav-option">
+          GameView
         </li>
       </ul>
       <div className="nav-icon">

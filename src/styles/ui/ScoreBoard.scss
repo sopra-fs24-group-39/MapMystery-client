@@ -1,0 +1,65 @@
+@import "../theme";
+.base-elements {
+  background: $base-blue;
+  border: 10px solid #ffffff;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+  position: absolute;
+  top: 6%;
+  right: 2.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.timer-header {
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.round-info {
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.players-list {
+  width: 100%;
+  text-align: center;
+}
+
+.player {
+  padding: 1.5rem;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  &.dark {
+    background-color: $dark-accent-blue;
+  }
+
+  &.light {
+    background-color: $light-accent-blue;
+  }
+
+  &.highlighted {
+    background-color: yellow;
+  }
+}
