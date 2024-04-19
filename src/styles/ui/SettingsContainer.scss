@@ -71,4 +71,12 @@
   margin-bottom: 1rem;
   font-weight: bold;
   color: $base-yellow;
+  &:hover{
+    cursor: pointer;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+  }
 }

@@ -136,16 +136,16 @@ const Login = () => {
             <div className={"login-button-container flex"}
                  onClick={() => formActionHandler()}>
               {isRegister && <Button type={"login"}
-                                      width={"auto"}
+                                      width={"lg"}
                                       name={"Register"}>
               </Button>}
               {!isRegister && <Button type={"login"}
-                                       width={"auto"}
+                                       width={"lg"}
                                        name={"Login"}>
               </Button>}
             </div>
             <div>
-              <a style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("I have an accout! Login")}</a>
+              <a className="register-login-link" style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("Already got an account! Login")}</a>
             </div>
             <Link to={"/"}>Close</Link>
             {error ? <p>Ooops: {error.message}</p> : null}

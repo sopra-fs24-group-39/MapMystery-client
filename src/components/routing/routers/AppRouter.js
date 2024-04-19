@@ -20,16 +20,34 @@ import GlobeGuesser from "../../views/GlobeGuesser";
  * The main difference between these two routes is the following:
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial 
+ * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial
+
+         <Route path="/rankings" element={<Rankings />} />
+         <Route path="/friends" element={<Friends />} />
+         <Route path="/settings" element={<Settings />} />
+         <Route path="/globeguesser" element={<GlobeGuesser/>} />
+
  */
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/rankings" element={<Rankings />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/globeguesser" element={<GlobeGuesser/>} />
+        <Route path="/friends/*" element={<GameGuard />}>
+          <Route path="/friends/*" element={<GameRouter base="/friends"/>} />
+        </Route>
+
+      <Route path="/rankings/*" element={<GameGuard />}>
+       <Route path="/rankings/*" element={<GameRouter base="/rankings"/>} />
+      </Route>
+
+      <Route path="/settings/*" element={<GameGuard />}>
+        <Route path="/settings/*" element={<GameRouter base="/settings"/>} />
+      </Route>
+
+      <Route path="/globeguesser/*" element={<GameGuard />}>
+        <Route path="/globeguesser/*" element={<GameRouter base="/globeguesser"/>} />
+      </Route>
 
         <Route path="/login_test" element={<Login />} />
 

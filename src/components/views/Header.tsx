@@ -16,24 +16,23 @@ const Header = props => {
   return (
     <nav className="navbar-container">
       <ul className="nav-list">
-        <li className="logo-item" onClick={() => handleNavigation("/")}>
+        <li className="logo-item menu-link" onClick={() => handleNavigation("/")}>
           <Logo width="50px" height="50px"/>
         </li>
-        <li onClick={() => handleNavigation("/rankings")} className="nav-option">
+        <li className="menu-link nav-option" onClick={() => handleNavigation("/rankings")}>
           Rankings
         </li>
-        <li onClick={() => handleNavigation("/friends")} className="nav-option">
+        <li className="menu-link nav-option" onClick={() => handleNavigation("/friends")}>
           Friends
         </li>
-        <li onClick={() => handleNavigation("/settings")} className="nav-option">
+        <li className="menu-link nav-option" onClick={() => handleNavigation("/settings")}>
           Settings
         </li>
-        <li onClick={() => handleNavigation("/globeguesser")} className="nav-option">
+        <li className="menu-link nav-option" onClick={() => handleNavigation("/globeguesser")}>
           GameView
         </li>
       </ul>
       <div className="nav-icon">
-        {/*asking backend team to make two random numbers between 0-100 @ user creation*/}
         <MinidenticonImg username="SoPra" saturation={60} lightness={50} width="45" height="45" />
       </div>
     </nav>

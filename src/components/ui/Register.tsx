@@ -22,8 +22,8 @@ const Register = () => {
           <label style={{fontWeight: 700}}>confirm password:</label>
           <Input height={"50px"} width={"auto"} type={"password"} />
           <a style={{fontWeight: 700}}>forgot your password?</a>
-          <div className={"login-button-container flex"}>
-            <Button type={"login"} width={"auto"} name={"Login"}></Button>
+          <div className={"login-button-container"}>
+            <Button type={"login"} width={"lg"} name={"Login"}></Button>
           </div>
           <div>
             <p style={{fontWeight: 700}}>Don&apos;t have an account yet? </p>
