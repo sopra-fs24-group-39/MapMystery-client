@@ -12,6 +12,7 @@ import Login from "../../ui/Login";
 import PanoramaView from "../../views/PanoramaView";
 import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
+import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 
 
 /**
@@ -46,7 +47,7 @@ const AppRouter = () => {
         <Route path="/settings/*" element={<GameRouter base="/settings"/>} />
       </Route>
 
-        <Route path="/login_test" element={<Login />} />
+        <Route path="/test" element={<GlobeGuesserLobby />} />
 
         <Route path="/globeguesser" element={<GlobeGuesser/>} />
         <Route path="/mapview" element={<MapsView/>} />

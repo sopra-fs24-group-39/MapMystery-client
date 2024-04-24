@@ -12,6 +12,9 @@ import PropTypes from "prop-types";
 * Type options
 * @login: color = yellow
 * @regular: color = blue
+*
+* Name options
+* @name: type string
 * */
 
 const regButton = (width, name) => {
