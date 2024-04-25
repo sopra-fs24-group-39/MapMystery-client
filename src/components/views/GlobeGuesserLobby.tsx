@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BaseContainer from "../ui/BaseContainer";
 import BackgroundImage from "./sources/background.png";
 import Header from "./Header";
@@ -16,6 +16,7 @@ type GlobeGuesserLobbyProps = {
 const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLeaving, setIsLeaving] = useState(false);
   var lobbyId = localStorage.getItem("lobby")
   console.log(`${lobbyId} and ${localStorage.getItem("lobby")} in Lobby`)
 
@@ -37,29 +38,24 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     setupSubscription();
 
     //sending distance to backend for pointa
-    if (distance) {
-      const requestBody = JSON.stringify({"id" : localStorage.getItem("userId"), "score" : distance});
-      console.log(`requestBody for sending distance: ${requestBody}`);
-
-      async function sendDistance() {
-        const response = await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody);
-        console.log(`distance: ${distance} sent`);
-      }
-
-      sendDistance();
+    if (distance && localStorage.getItem("visited")) {
+      console.log(`Sending distance: ${distance} to lobby ID: ${lobbyId}`);
+      webSocketService.sendDistance(distance, lobbyId);
     }
 
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
-        console.log("Unsubscribed from the lobby.");
+      if (isLeaving) {
+        if (subscription) {
+          subscription.unsubscribe();
+          console.log("Unsubscribed from the lobby.");
+        }
+        webSocketService.disconnect();
       }
-      webSocketService.disconnect();
     };
-  }, [lobbyId, distance]);
+  }, [lobbyId, isLeaving]);
 
   function handleLobbyUpdate(message) {
-          let parsedMessage;
+    let parsedMessage;
           try {
               parsedMessage = JSON.parse(message);
           } catch (error) {
@@ -87,6 +83,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   }
 
   function leaveLobby() {
+    setIsLeaving(true)
     webSocketService.disconnect();
     navigate('/');
   }

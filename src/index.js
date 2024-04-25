@@ -10,7 +10,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <GoogleMapsProvider>
-      <App tab="home" />
+        <App tab="home" />
     </GoogleMapsProvider>
   </React.StrictMode>
 );

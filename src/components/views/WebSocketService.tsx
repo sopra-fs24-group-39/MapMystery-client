@@ -33,9 +33,9 @@ class WebSocketService {
   }
 
   async subscribe(lobbyId, onMessageReceived) {
-      console.log(`received lobby id: ${lobbyId}`);
+      console.log(`(WS) received lobby id: ${lobbyId}`);
       lobbyId = localStorage.getItem("lobby");
-      console.log(`storage lobby id: ${lobbyId}`);
+      console.log(`(WS) storage lobby id: ${lobbyId}`);
 
       if (!this.client || !this.connected) {
         console.log("Client is not connected or not initialized.");
@@ -58,14 +58,15 @@ class WebSocketService {
     }
   }
 
-  sendDistance(distance, lobbyId) {
-      if (this.client && this.connected) {
-          this.client.publish({
-              destination: `/topic/lobby/GameMode1/${lobbyId}`,
-              body: JSON.stringify({ Score: distance }),
-          });
-        console.log("sent (WebSocket)")
-      }
+  async sendDistance(distance, lobbyId) {
+    await this.waitForConnection();
+    if (this.client && this.connected) {
+        this.client.publish({
+          destination: `/app/send/${localStorage.getItem("lobby")}`,
+          body: JSON.stringify({ id: localStorage.getItem("userId"), score: distance.toString() }),
+        });
+      console.log("Distance sent via WebSocket: " + distance)
+    }
   }
 
   disconnect() {

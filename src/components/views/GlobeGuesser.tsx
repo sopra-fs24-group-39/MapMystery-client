@@ -15,6 +15,8 @@ const GlobeGuesser: React.FC = () => {
   const [timerTime, setTimerTime] = useState(120);
   const navigate = useNavigate();
 
+  localStorage.setItem("visited", true);
+
   const handleDistance = (calculatedDistance: number) => {
     setDistance(calculatedDistance);
     console.log("(GlobeGuesser) Distance from GameInput:", calculatedDistance);
