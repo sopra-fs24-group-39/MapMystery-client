@@ -1,76 +1,78 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useGoogleMaps } from './GoogleMapsContext';
 
-const MapComponent = () => {
-  const mapRef = useRef(null);
-  const [marker, setMarker] = useState(null);
-  const [location, setLocation] = useState({ lat: null, lng: null });
+const MapView = ({ onMarkerUpdate, panoramaCoords, markerCoords }) => {
+    const { isLoaded } = useGoogleMaps();
+    const mapRef = useRef(null);
+    const panoramaMarkerRef = useRef(null);
+    const userMarkerRef = useRef(null);
 
-  useEffect(() => {
-    const loadGoogleMapsScript = () => {
-      if (!window.google) {
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAHcyXt5iCbj4hM5bESFohiwjCUXoN6vBQ&callback=initializeMap`;
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
-      }
+    useEffect(() => {
+        if (isLoaded && mapRef.current && !window.googleMapInitialized) {
+            const map = new google.maps.Map(mapRef.current, {
+                center: panoramaCoords || { lat: 47.377076, lng: 8.544310 },
+                zoom: 8,
+                mapId: '4504f8b37365c3d0',
+                streetViewControl: false,
+                fullscreenControl: false,
+            });
+
+            // Place initial markers
+            if (panoramaCoords) {
+                placeMarker(panoramaCoords, map, panoramaMarkerRef);
+            }
+            if (markerCoords) {
+                placeMarker(markerCoords, map, userMarkerRef);
+            }
+
+            map.addListener('click', (e) => {
+                const position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+                placeMarker(position, map, userMarkerRef);
+                onMarkerUpdate(position);
+            });
+
+            window.googleMapInitialized = true;
+        }
+
+        return () => {
+            window.googleMapInitialized = false;
+            if (panoramaMarkerRef.current) {
+                panoramaMarkerRef.current.setMap(null);
+            }
+            if (userMarkerRef.current) {
+                userMarkerRef.current.setMap(null);
+            }
+        };
+    }, [isLoaded, panoramaCoords, markerCoords]);
+
+    const placeMarker = (position, map, markerRef) => {
+        if (markerRef.current) {
+            markerRef.current.setMap(null);
+        }
+
+        const newMarker = new google.maps.Marker({
+            position,
+            map,
+        });
+
+        markerRef.current = newMarker;
+        console.log("Marker placed at: ", position);
     };
 
-    window.initializeMap = async () => {
-      const { Map } = google.maps;
-      const map = new Map(mapRef.current, {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
-        mapId: '4504f8b37365c3d0'
-      });
-
-      map.addListener('click', async (e) => {
-        console.log("Map clicked: ", e.latLng);
-        const latLng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
-        await placeMarker(latLng, map);
-      });
-    };
-
-    loadGoogleMapsScript();
-
-    return () => {
-      window.initializeMap = undefined;
-    };
-  }, []);
-
-  const placeMarker = async (position, map) => {
-    console.log("Placing marker...");
-    setMarker(prevMarker => {
-      if (prevMarker) {
-        console.log("Removing existing marker");
-        prevMarker.setMap(null);
-      }
-      const { Marker } = google.maps;
-      const newMarker = new Marker({
-        position,
-        map,
-      });
-
-      console.log("Marker placed at: ", position);
-      setLocation(position);
-      return newMarker;
-    });
-  };
-
-  const removeMarker = () => {
-    setMarker(prevMarker => {
-      if (prevMarker) {
-        console.log("Removing marker manually...");
-        prevMarker.setMap(null);
-      }
-      setLocation({ lat: null, lng: null });
-      return null;
-    });
-  };
-
-  return (
-    <div ref={mapRef} style={{ height: '100%', width: '100%' }} />
-  );
+    return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
 };
 
-export default MapComponent;
+MapView.propTypes = {
+    onMarkerUpdate: PropTypes.func.isRequired,
+    panoramaCoords: PropTypes.shape({
+        lat: PropTypes.number.isRequired,
+        lng: PropTypes.number.isRequired
+    }),
+    markerCoords: PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number
+    }),
+};
+
+export default MapView;

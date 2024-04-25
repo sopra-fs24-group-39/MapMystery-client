@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "../../styles/ui/SettingsContainer.scss";
 import Button from "components/ui/Button";
+import { useNavigate } from 'react-router-dom';
 
 type BaseElementSettingsProps = {
   width?: string;
@@ -9,6 +10,13 @@ type BaseElementSettingsProps = {
 
 const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800px', height = '500px' }) => {
   const [selectedContent, setSelectedContent] = useState('default');
+  const navigate = useNavigate(); // Correctly placed within the component body
+
+  const doLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    navigate('/login'); // Use navigate to redirect after logout
+  };
 
   const containerStyle = { width, minHeight: height };
   const sidebarStyle = { width: '35%', height: height };
@@ -43,7 +51,6 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
     <div className="base-element-settings" style={containerStyle}>
       <div className="sidebar" style={sidebarStyle}>
         <div className="sidebar-top striped-background" style={sidebarTopStyle}>
-          {/* Add onClick handlers here */}
           <div className="settings-chapter" onClick={() => changeContent('Account Settings')}>Account Settings</div>
           <div className="settings-chapter" onClick={() => changeContent('Personal Information')}>Personal Information</div>
           <div className="settings-chapter" onClick={() => changeContent('Ranking Settings')}>Ranking Settings</div>
@@ -52,7 +59,7 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
           <div className="settings-chapter" onClick={() => changeContent('Chat Settings')}>Chat Settings</div>
         </div>
         <div className="sidebar-bottom" style={sidebarBottomStyle}>
-          <Button type={"login"} width={"md"} name={"Log out"} />
+          <Button type={"login"} width={"md"} name={"Log out"} onClick={doLogout} />
         </div>
       </div>
       <div className="main-content" style={mainContentStyle}>

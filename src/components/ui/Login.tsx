@@ -89,14 +89,19 @@ const Login = () => {
   const doRegister = async () => {
     try {
       const requestBody = JSON.stringify({ username, userEmail, password });
-      const response = await api.post("/users", requestBody);
+      const response1 = await api.post("/users", requestBody);
       // Get the returned user and update a new object.
-      const user = new User(response.data.user);
-      const token = response.data.token;
+      const response2 = await api.put("/users/login", requestBody);
+      const user = new User(response2.data.user);
+      const token = response2.data.token;
 
       // Store the token into the local storage.
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id);
+
+      console.log(localStorage.getItem("token"))
+      console.log(localStorage.getItem("userId"))
+
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
@@ -108,7 +113,6 @@ const Login = () => {
   const doLogin = async () => {
     try {
       const requestBody = JSON.stringify({ username, userEmail, password });
-      console.log(requestBody);
       const response = await api.put("/users/login", requestBody);
       // Get the returned user and update a new object.
       const user = new User(response.data.user);
@@ -117,6 +121,9 @@ const Login = () => {
       // Store the token into the local storage.
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id);
+
+      console.log(localStorage.getItem("token"))
+      console.log(localStorage.getItem("userId"))
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
@@ -148,7 +155,7 @@ const Login = () => {
               <a className="register-login-link" style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("Already got an account! Login")}</a>
             </div>
             <Link to={"/"}>Close</Link>
-            {error ? <p>Ooops: {error.message}</p> : null}
+            {error ? <p>{error.message}</p> : null}
           </BaseElement>
         </div>
       </div>

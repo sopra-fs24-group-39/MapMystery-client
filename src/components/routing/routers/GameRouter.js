@@ -2,6 +2,9 @@ import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 import Game from "../../views/Game";
 import Menu from "../../views/Menu";
+import Rankings from "../../views/Rankings";
+import Friends from "../../views/Friends";
+import Settings from "../../views/Settings";
 import PropTypes from "prop-types";
 
 const GameRouter = () => {
@@ -14,7 +17,7 @@ const GameRouter = () => {
         <Route path="*" element={<Navigate to="dashboard" replace />} />
 
       </Routes>
-   
+
     </div>
   );
 };

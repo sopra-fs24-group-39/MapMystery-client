@@ -7,12 +7,12 @@ import Menu from "../../views/Menu";
 import Start from "../../views/Start";
 import Rankings from "../../views/Rankings";
 import Friends from "../../views/Friends";
+import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
 import PanoramaView from "../../views/PanoramaView";
 import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
-import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 
 
 /**
@@ -35,22 +35,20 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/friends/*" element={<GameGuard />}>
-          <Route path="/friends/*" element={<GameRouter base="/friends"/>} />
+        <Route path="/friends" element={<Friends />}>
         </Route>
 
-      <Route path="/rankings/*" element={<GameGuard />}>
-       <Route path="/rankings/*" element={<GameRouter base="/rankings"/>} />
+      <Route path="/rankings" element={<Rankings />}>
       </Route>
 
-      <Route path="/settings/*" element={<GameGuard />}>
-        <Route path="/settings/*" element={<GameRouter base="/settings"/>} />
+      <Route path="/settings" element={<Settings />}>
       </Route>
 
-        <Route path="/test" element={<GlobeGuesserLobby />} />
+        <Route path="/login_test" element={<Login />} />
 
         <Route path="/globeguesser" element={<GlobeGuesser/>} />
         <Route path="/mapview" element={<MapsView/>} />
+        <Route path="/lobby" element={<GlobeGuesserLobby/>} />
 
         <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />

@@ -1,17 +1,27 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Timer = () => {
-  const [seconds, setSeconds] = useState(0);
+interface TimerProps {
+  initialSeconds: number;
+  onTimeUp: () => void;
+}
+
+const Timer: React.FC<TimerProps> = ({ initialSeconds, onTimeUp }) => {
+  const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
+    if (seconds === 0) {
+      onTimeUp();
+      return;
+    }
+
     const intervalId = setInterval(() => {
-      setSeconds(prevSeconds => prevSeconds + 1);
+      setSeconds(prevSeconds => prevSeconds - 1);
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [seconds, onTimeUp]);
 
-  const formatTime = (time) => {
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const remainingSeconds = time % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;

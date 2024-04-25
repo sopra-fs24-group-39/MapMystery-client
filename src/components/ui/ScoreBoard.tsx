@@ -34,7 +34,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
   const [time, setTime] = useState(initialTime);
 
   useEffect(() => {
-    setTime(initialTime); // This will update the time whenever initialTime changes
+    setTime(initialTime);
   }, [initialTime]);
 
   useEffect(() => {
@@ -42,11 +42,11 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
       if (time > 0) {
         setTime(time - 1);
       } else {
-        clearInterval(timer); // Stop the timer when it reaches 0
+        clearInterval(timer);
       }
     }, 1000);
-    return () => clearInterval(timer); // Clean up the interval on component unmount
-  }, [time, initialTime]); // Depend on initialTime to reset the interval when it changes
+    return () => clearInterval(timer);
+  }, [time, initialTime]);
 
   const formatTime = () => {
     const minutes = Math.floor(time / 60);
@@ -75,7 +75,6 @@ type Player = {
 };
 
 const PlayersList: React.FC<PlayersListProps> = ({ players }) => {
-  // Sort players by points in descending order
   const sortedPlayers = [...players].sort((a, b) => parseInt(b.points) - parseInt(a.points));
 
   return (

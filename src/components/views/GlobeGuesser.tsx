@@ -4,12 +4,21 @@ import Header from "components/views/Header";
 import GameInput from "components/ui/GameInput";
 import ScoreBoard from "components/ui/ScoreBoard";
 import BackgroundImage from "./sources/background.png";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const GlobeGuesser = () => {
-  const [timerTime, setTimerTime] = useState(180);  // Default timer
+const GlobeGuesser: React.FC = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const lat = queryParams.get('lat');
+  const long = queryParams.get('long');
+  const [distance, setDistance] = useState<number | null>(null);
+  const [timerTime, setTimerTime] = useState(120);
+  const navigate = useNavigate();
 
-  const handleSetTimerTime = (time) => {
-    setTimerTime(time);
+  const handleDistance = (calculatedDistance: number) => {
+    setDistance(calculatedDistance);
+    console.log("(GlobeGuesser) Distance from GameInput:", calculatedDistance);
+    navigate(`/lobby?distance=${calculatedDistance}`);
   }
 
   return (
@@ -17,7 +26,7 @@ const GlobeGuesser = () => {
       <div className={"center-container"}>
         <Header />
         <ScoreBoard timerTime={timerTime} />
-        <GameInput setTimerTime={handleSetTimerTime} />
+        <GameInput lat={lat} long={long} onDistanceCalculated={handleDistance} />
       </div>
     </BaseContainer>
   );

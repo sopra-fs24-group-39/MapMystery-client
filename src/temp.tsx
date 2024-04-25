@@ -12,57 +12,52 @@ import PropTypes from "prop-types";
 * Type options
 * @login: color = yellow
 * @regular: color = blue
-*
-* Name options
-* @name: type string
 * */
 
 const regButton = (width, name, onClick) => {
   return (
     <div className={"button-container"}>
       <button
-        className={"button "+width+"-button"}
+        className={"button " + width + "-button"}
         onClick={onClick}>
+        {name}
       </button>
       <div className={"button-shine"}></div>
       <div className={"button-font-container"}><span className={"button-font"}>{name}</span></div>
     </div>
   );
-}
+};
 
 const loginButton = (width, name, onClick) => {
   return (
     <div className={"login-button-container"}>
       <button
-        className={"login-button "+width+"-button"}
+        className={"login-button " + width + "-button"}
         onClick={onClick}>
+        {name}
       </button>
       <div className={"login-button-shine"}></div>
       <div className={"button-font-container"}><span className={"login-button-font"}>{name}</span></div>
     </div>
   );
-}
+};
 
 const Button = (props) => {
   const { type, width, name, onClick } = props;
   let res = null;
   if (type === "login") {
-    res = loginButton(width,name, onClick);
+    res = loginButton(width, name, onClick);
   } else if (type === "regular") {
     res = regButton(width, name, onClick);
   }
-  return (
-      <>
-        {res}
-      </>
-  );
+  return <>{res}</>;
 };
 
 Button.propTypes = {
   type: PropTypes.string,
   width: PropTypes.string,
   name: PropTypes.string,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func, // Ensure this prop type is included for validation
 };
 
 export default Button;
