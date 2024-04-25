@@ -36,7 +36,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
 
     setupSubscription();
 
-    //sending distance to backend for points
+    //sending distance to backend for pointa
     if (distance) {
       const requestBody = JSON.stringify({"id" : localStorage.getItem("userId"), "score" : distance});
       console.log(`requestBody for sending distance: ${requestBody}`);
