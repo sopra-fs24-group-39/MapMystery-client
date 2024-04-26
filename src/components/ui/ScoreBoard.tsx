@@ -7,18 +7,20 @@ const players = [
   {name: 'StarlightSprinter', points: '123'},
   {name: 'QuantumQuest', points: '98'},
   {name: 'EchoEnigma', points: '85'},
-  {name: 'NebulaNavigator', points: '52'},
-  {name: 'PixelPioneer', points: '31'},
 ]
 
 type ScoreBoardProps = {
   children?: React.ReactNode;
   width?: string;
   height?: string;
+  onTimeExpired?: () => void;
+  currentRound: number;
+  totalRounds: number;
 };
 
 type TimerProps = {
   initialTime: number;
+  onTimeExpired?: () => void;
 };
 
 type RoundProps = {
@@ -30,7 +32,7 @@ type PlayersListProps = {
   players: Player[];
 };
 
-const Timer: React.FC<TimerProps> = ({ initialTime }) => {
+const Timer: React.FC<TimerProps> = ({ initialTime, onTimeExpired }) => {
   const [time, setTime] = useState(initialTime);
 
   useEffect(() => {
@@ -43,10 +45,13 @@ const Timer: React.FC<TimerProps> = ({ initialTime }) => {
         setTime(time - 1);
       } else {
         clearInterval(timer);
+        if (onTimeExpired) {
+          onTimeExpired();
+        }
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [time, initialTime]);
+  }, [time, initialTime, onTimeExpired]);
 
   const formatTime = () => {
     const minutes = Math.floor(time / 60);
@@ -92,10 +97,8 @@ const PlayersList: React.FC<PlayersListProps> = ({ players }) => {
 };
 
 
-const ScoreBoard: React.FC<ScoreBoardProps> = ({ children, width = '25%', height = '56%' }) => {
-  const [timerTime, setTimerTime] = useState(180);
-  const [currentRound, setCurrentRound] = useState(3);
-  const [totalRounds, setTotalRounds] = useState(5);
+const ScoreBoard: React.FC<ScoreBoardProps> = ({ onTimeExpired, children, currentRound, totalRounds, width = '25%', height = '15%' }) => {
+  const [timerTime, setTimerTime] = useState(120);
 
   const style = { width, minHeight: height };
   const setCustomTime = (newTime: number) => {
@@ -114,9 +117,9 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({ children, width = '25%', height
 
   return (
     <div className="base-elements" style={style}>
-      <Timer initialTime={timerTime} />
+      <Timer initialTime={timerTime} onTimeExpired={onTimeExpired} />
       <Round currentRound={currentRound} totalRounds={totalRounds} />
-      <PlayersList players={players} />
+      {/* <PlayersList players={players} /> */}
     </div>
   );
 };
