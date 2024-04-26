@@ -1,0 +1,78 @@
+@import "../theme";
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid white;
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid white;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid white;
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+
+  border-right:15px solid white;
+}
+
+.drop-down {
+  margin-top: 5px;
+  background: $primary-color;
+  border: solid 3px $border-color;
+  border-radius: 15px;
+  box-shadow:
+          1px 1px 0 $secondary-color,
+          2px 2px 0 $secondary-color,
+          3px 3px 0 $secondary-color,
+          4px 4px 0 $secondary-color,
+          5px 5px 0 $secondary-color,
+          6px 6px 0 $secondary-color,
+          7px 7px 0 $secondary-color;
+  outline: 4px solid transparent;
+}
+
+
+.dd-link:hover {
+  text-decoration: underline;
+}
+
+.dd-active {
+  color: white;
+}
+
+.w-400 {
+  width: 400px;
+}
+
+.h-46 {
+  height: 46px;
+}
+
+.dd-font {
+  font-size: $button-font-size;
+  font-weight: bold;
+  color: $button-text-color;
+  text-shadow: 1px 1px 0 black; /* Shadow with x-offset, y-offset, and color */
+  -webkit-text-stroke-width: 1px; /* Adjust the stroke width as needed */
+  -webkit-text-stroke-color: black; /* Stroke color for WebKit browsers */
+  text-stroke-width: 3px; /* Adjust the stroke width as needed */
+  text-stroke-color: black; /* Stroke color */
+}

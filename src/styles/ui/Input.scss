@@ -1,0 +1,27 @@
+@import "../theme";
+
+.input-bar {
+  display: flex;
+  align-items: center;
+  background: $base-blue;
+  border-radius: 50px;
+  border: solid 3px $border-color;
+  padding: 1rem;
+  overflow: hidden;
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    margin-right: 0.5rem;
+    flex-grow: 1;
+    color: black;
+    font-size: 1.25rem;
+    font-weight: bold;
+
+    &::placeholder {
+      color: $special-font-color;
+      opacity: 1;
+    }
+  }
+}

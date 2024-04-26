@@ -4,8 +4,9 @@
 class User {
   constructor(data = {}) {
     this.id = null;
-    this.name = null;
     this.username = null;
+    this.userEmail = null;
+    this.password = null;
     this.token = null;
     this.status = null;
     Object.assign(this, data);

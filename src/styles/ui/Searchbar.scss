@@ -1,0 +1,48 @@
+@import "../theme";
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: $base-blue;
+  border-radius: 50px;
+  border: solid 3px $border-color;
+  padding: 1rem;
+  overflow: hidden;
+  box-shadow:
+      1px 1px 0 $threeD-blue,
+      2px 2px 0 $threeD-blue,
+      3px 3px 0 $threeD-blue,
+      4px 4px 0 $threeD-blue,
+      5px 5px 0 $threeD-blue,
+      6px 6px 0 $threeD-blue,
+      7px 7px 0 $threeD-blue;
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    margin-right: 0.5rem;
+    flex-grow: 1;
+    color: $special-font-color;
+    font-size: 1.25rem;
+    font-weight: bold;
+    &::placeholder {
+      color: $special-font-color;
+      opacity: 1;
+    }
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    svg {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+}
+

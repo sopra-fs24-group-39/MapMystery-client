@@ -1,0 +1,125 @@
+@import "../theme";
+
+.base-element-rankings {
+  background: $base-blue;
+  border: 10px solid #ffffff;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+   &::after {
+      content: "";
+      display: block;
+      height: 2000px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: -1;
+    }
+}
+
+.striped-background {
+  background-image: linear-gradient(
+    to bottom,
+    $light-blue-strips 0%,
+    $light-blue-strips 50%,
+    $darker-blue-strips 50%,
+    $darker-blue-strips 100%
+  );
+  background-size: 100% 100px;
+  position: relative;
+}
+
+.title-row {
+  background-color: $title-blue-strips;
+  color: $yellow-strips;
+  font-size: 2rem;
+  font-weight: bold;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+button {
+
+  }
+
+.player-row {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1rem;
+}
+
+.light-stripe {
+  background-color: $light-blue-strips;
+}
+
+.dark-stripe {
+  background-color: $darker-blue-strips;
+}
+
+.overall_button{
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      color: black;
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 1.24rem;
+      font-weight: bold;
+}
+
+.highlighted-row {
+  background-color: $yellow-strips;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1rem;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.player-id {
+  width: 3rem;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.player-name {
+  flex-grow: 1;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.player-overall,
+.player-last30days {
+  width: 6rem;
+  margin-right: 4rem;
+  font-weight: bold;
+  text-align: center;
+}
+

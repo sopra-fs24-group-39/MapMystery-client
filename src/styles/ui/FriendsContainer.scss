@@ -1,0 +1,123 @@
+@import "../theme";
+
+.base-element-friends {
+  border: 10px solid #ffffff;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+   &::after {
+      content: "";
+      display: block;
+      height: 2000px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: -1;
+    }
+   background-image: linear-gradient(
+            to bottom,
+            $light-blue-strips 0%,
+            $light-blue-strips 50%,
+            $darker-blue-strips 50%,
+            $darker-blue-strips 100%
+          );
+          background-size: 100% 100px;
+}
+
+.light-stripe {
+  background-color: $light-blue-strips;
+  height: 50px
+}
+
+.dark-stripe {
+  background-color: $darker-blue-strips;
+  height: 50px
+}
+
+.light-stripe, .dark-stripe {
+  transition: height 0.1s ease;
+}
+
+.light-stripe.expanded, .dark-stripe.expanded {
+  height: 100px;
+}
+
+.player-status {
+  width: 3rem;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.player-name {
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.visible-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+.expanded {
+  height: 100px;
+}
+
+.toggle-details {
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: auto;
+}
+
+.additional-details {
+  display: flex;
+  align-items: flex-start;
+  margin-right: 1rem;
+}
+
+.invite-button, .delete-button {
+  padding-right: 4px;
+  padding-left: 4px;
+  border: none;
+  background-color: $base-yellow;
+  color: black;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-button {
+  margin-right: 1rem;
+  font-weight: bold;
+  background-color: #ff0000;
+}
+
+.invite-button{
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.player-status.online {
+  color: green; /* Or use a hex code like #28a745 for more specific shade */
+}
+
+.player-status.offline {
+  color: red; /* Or use a hex code like #dc3545 for more specific shade */
+}
+
+

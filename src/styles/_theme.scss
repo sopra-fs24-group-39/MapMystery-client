@@ -7,6 +7,19 @@
    these values control the colors of your application.
    feel free to play around with these and see what other look you can come up with! :D
 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+$base-yellow: #FDF319;
+$threeD-yellow: #FC7121;
+$shine-yellow: #FC7121;
+$button-shine-yellow: #fcfac0;
+$scale: black;
+
+$base-blue: #82CBE2;
+$threeD-blue: #C3EDFE;
+$shine-blue: #C6EEFC;
+$dark-accent-blue:#74B6CB;
+$light-accent-blue:#8FDEF7;
 
 $accent: #97ABFF;
 $accentDark: #123597;
@@ -22,8 +35,11 @@ $SMALL_WIDTH: 768px;
 
 /* some standard elements */
 /* fonts */
-$fontDefault: "M PLUS Rounded 1c", sans-serif;
+$fontDefault: "Roboto";
 $fontMono: "Roboto Mono", monospace;
+$default-font-size: 25px;
+$default-font-color: #C1ECFD;
+$special-font-color: #FFFCB0;
 
 /* a standard drop shadow */
 $dropShadow: 0 0.25em 0.25em rgba(0, 0, 0, 0.25);
@@ -38,6 +54,12 @@ $border-color: #ffffff;
 $button-text-color: #f1f411;
 $button-font-size: 25px;
 // TODO: special buttons
+
+/* Colors for the BaseElement Content */
+$title-blue-strips: #82CBE2;
+$light-blue-strips: #8FDEF7;
+$darker-blue-strips: #74B6CB;
+$yellow-strips: #FDF319;
 
 /* mixins
 
