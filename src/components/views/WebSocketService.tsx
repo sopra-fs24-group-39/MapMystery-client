@@ -1,6 +1,6 @@
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-//s
+
 class WebSocketService {
   constructor() {
     this.client = null;
@@ -8,7 +8,7 @@ class WebSocketService {
   }
 
   initializeWebSocket() {
-    const socket = new SockJS('https://my-server-url.oa.r.appspot.com/ws');
+    const socket = new SockJS('http://localhost:5500/ws');
     this.client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {
