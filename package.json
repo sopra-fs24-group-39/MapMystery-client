@@ -20,7 +20,7 @@
   },
   "scripts": {
     "dev": "PORT=5500 react-scripts start",
-    "start": "serve -s build",
+    "start": "serve -s build -l 5500",
     "build": "react-scripts build",
     "gcp-build": "",
     "eject": "react-scripts eject",
