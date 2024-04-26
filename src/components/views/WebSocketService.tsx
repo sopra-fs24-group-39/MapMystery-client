@@ -8,7 +8,7 @@ class WebSocketService {
   }
 
   initializeWebSocket() {
-    const socket = new SockJS('http://localhost:5500/ws');
+    const socket = new SockJS('http://localhost:8080/ws');
     this.client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {
