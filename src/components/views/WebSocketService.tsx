@@ -8,7 +8,7 @@ class WebSocketService {
   }
 
   initializeWebSocket() {
-    const socket = new SockJS('https://sopra-fs24-group-39-server.oa.r.appspot.com/ws'); //'https://142.251.46.180:443/wss'
+    const socket = new SockJS('https://sopra-fs24-group-39-server.oa.r.appspot.com//ws'); //'https://142.251.46.180:443/wss'
     this.client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {
