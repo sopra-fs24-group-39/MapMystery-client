@@ -4,7 +4,7 @@ import SockJS from 'sockjs-client';
 class WebSocketService {
   constructor() {
     this.client = null;
-    this.connected = false;  // Ensure this flag is declared
+    this.connected = false;
   }
 
   initializeWebSocket() {
@@ -32,24 +32,46 @@ class WebSocketService {
     this.client.activate();
   }
 
-  async subscribe(lobbyId, onMessageReceived) {
-      console.log(`(WS) received lobby id: ${lobbyId}`);
-      lobbyId = localStorage.getItem("lobby");
-      console.log(`(WS) storage lobby id: ${lobbyId}`);
+  async subscribe1(lobbyId, onMessageReceived) {
+    //console.log(`(WS) received lobby id: ${lobbyId}`);
+    lobbyId = localStorage.getItem("lobby");
+    //console.log(`(WS) storage lobby id: ${lobbyId}`);
 
-      if (!this.client || !this.connected) {
-        console.log("Client is not connected or not initialized.");
-        await this.waitForConnection();
-      }
+    if (!this.client || !this.connected) {
+      console.log("Client is not connected or not initialized.");
+      await this.waitForConnection();
+    }
 
-      if (this.connected) {
-        const subscription = this.client.subscribe(`/topic/lobby/GameMode1/${lobbyId}`, (message) => {
-          console.log(`Subscribed to: /topic/lobby/GameMode1/${lobbyId}`);
-          console.log("Received message:", message.body);
-          onMessageReceived(message.body);
-        });
-        return subscription;
-      }
+    if (this.connected) {
+      const subscription = this.client.subscribe(`/topic/lobby/GameMode1/coordinates/${lobbyId}`, (message) => {
+        //console.log(`(WS) Subscribed to: /topic/lobby/GameMode1/${lobbyId}`);
+        //console.log("(WS) Received message:", message.body);
+        onMessageReceived(message.body);
+      });
+
+      return subscription;
+    }
+  }
+
+  async subscribe2(lobbyId, onMessageReceived) {
+    //console.log(`(WS) received lobby id: ${lobbyId}`);
+    lobbyId = localStorage.getItem("lobby");
+    //console.log(`(WS) storage lobby id: ${lobbyId}`);
+
+    if (!this.client || !this.connected) {
+      console.log("Client is not connected or not initialized.");
+      await this.waitForConnection();
+    }
+
+    if (this.connected) {
+      const subscription = this.client.subscribe(`/topic/lobby/GameMode1/LeaderBoard/${lobbyId}`, (message) => {
+        //console.log(`(WS) Subscribed to: /topic/lobby/GameMode1/${lobbyId}`);
+        //console.log("(WS) Received message:", message.body);
+        onMessageReceived(message.body);
+      });
+
+      return subscription;
+    }
   }
 
   async waitForConnection() {
@@ -58,24 +80,13 @@ class WebSocketService {
     }
   }
 
-  async sendDistance(distance, lobbyId) {
-    await this.waitForConnection();
-    if (this.client && this.connected) {
-        this.client.publish({
-          destination: `/app/send/${localStorage.getItem("lobby")}`,
-          body: JSON.stringify({ id: localStorage.getItem("userId"), score: distance.toString() }),
-        });
-      console.log("Distance sent via WebSocket: " + distance)
-    }
-  }
-
   disconnect() {
     if (this.client && this.connected) {
       this.client.deactivate().then(() => {
-        console.log("WebSocket client deactivated.");
+        //console.log("WebSocket client deactivated.");
         this.connected = false;
       }).catch((error) => {
-        console.error("Failed to deactivate WebSocket client:", error);
+        //console.error("Failed to deactivate WebSocket client:", error);
       });
     }
   }
