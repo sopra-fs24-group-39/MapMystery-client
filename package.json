@@ -19,7 +19,7 @@
     "typescript": "^3.2.1"
   },
   "scripts": {
-    "dev": "PORT=5500 react-scripts start",
+    "dev": "set PORT=5500 && react-scripts start",
     "start": "serve -s build",
     "build": "react-scripts build",
     "gcp-build": "",
