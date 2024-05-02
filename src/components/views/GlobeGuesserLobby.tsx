@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import { webSocketService } from './WebSocketService';
 import { useNavigate, useLocation } from "react-router-dom";
 import { api, handleError } from "helpers/api";
+import { useBeforeUnload } from "helpers/useBeforeUnload";
 
 type GlobeGuesserLobbyProps = {
   lobbyId: string;
@@ -121,9 +122,28 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     }
   }
 
-  function leaveLobby() {
-    webSocketService.disconnect();
-    navigate('/');
+  async function leaveLobby() {
+    try {
+      webSocketService.disconnect();
+      //gettging the things needed to leave lobby
+      const userId = localStorage.getItem("userId");
+      const lobbyId = localStorage.getItem("lobby");
+      const token = localStorage.getItem("token");
+      localStorage.removeItem("round", 0);
+      localStorage.removeItem("defaultLeaderboard")
+      localStorage.removeItem("gamemode")
+
+      //making the call to leave the lobby
+      const headers = {
+        'Authorization': `${token}`
+      };
+
+      await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      localStorage.setItem("leave", "true");
+      navigate('/');
+    } catch (error) {
+      console.error(`Failed to leave lobby: ${handleError(error)}`);
+    }
   }
 
   async function skipFirst() {
@@ -141,6 +161,12 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
           console.error(`Failed to update score: ${handleError(error)}`);
         }
   }
+
+  useBeforeUnload("Leaving this page will reset the game", () => {
+    console.log("User is leaving the page or closing tab.");
+    leaveLobby();
+
+  });
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
