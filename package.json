@@ -16,7 +16,8 @@
     "react-scripts": "^5.0.1",
     "serve": "^14.2.1",
     "sockjs-client": "^1.6.1",
-    "typescript": "^3.2.1"
+    "typescript": "^3.2.1",
+    "ws": "^8.17.0"
   },
   "scripts": {
     "dev": "PORT=5500 react-scripts start",

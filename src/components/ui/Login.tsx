@@ -7,6 +7,7 @@ import Button from "./Button";
 import {useNavigate, Link} from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
+import ErrorMsg from "./ErrorMsg";
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -14,6 +15,7 @@ const Login = () => {
   const [username, setUsername] = useState<string>(null);
   const [userEmail, setUserEmail] = useState<string>(null);
   const [password, setPassword] = useState<string>(null);
+  const [confPassword, setConfPassword] = useState<string>(null);
   const [error, setError] = useState<string>(null);
 
   const navigate = useNavigate();
@@ -70,8 +72,8 @@ const Login = () => {
           <label style={{fontWeight: 700}}>confirm password:</label>
           <Input height={"50px"} width={"auto"}
                  type={"password"}
-                 value={password}
-                 onChange={(p) => (setPassword(p))}
+                 value={confPassword}
+                 onChange={(cp) => (setConfPassword(cp))}
           />
         </>
       );
@@ -87,26 +89,30 @@ const Login = () => {
   }
 
   const doRegister = async () => {
-    try {
-      const requestBody = JSON.stringify({ username, userEmail, password });
-      const response1 = await api.post("/users", requestBody);
-      // Get the returned user and update a new object.
-      const response2 = await api.put("/users/login", requestBody);
-      const user = new User(response2.data.user);
-      const token = response2.data.token;
+    if (confPassword === password) {
+      try {
+        const requestBody = JSON.stringify({ username, userEmail, password });
+        const response1 = await api.post("/users", requestBody);
+        // Get the returned user and update a new object.
+        const response2 = await api.put("/users/login", requestBody);
+        const user = new User(response2.data.user);
+        const token = response2.data.token;
 
-      // Store the token into the local storage.
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", user.id);
+        // Store the token into the local storage.
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", user.id);
 
-      console.log(localStorage.getItem("token"))
-      console.log(localStorage.getItem("userId"))
+        console.log(localStorage.getItem("token"))
+        console.log(localStorage.getItem("userId"))
 
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      navigate("/game");
-    } catch (error) {
-      setError(error);
+        // Login successfully worked --> navigate to the route /game in the GameRouter
+        navigate("/game");
+      } catch (e) {
+        setError(e.message);
+      }
+    } else {
+      setError("Passwords do not match");
     }
   }
 
@@ -155,7 +161,7 @@ const Login = () => {
               <a className="register-login-link" style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("Already got an account! Login")}</a>
             </div>
             <Link to={"/"}>Close</Link>
-            {error ? <p>{error.message}</p> : null}
+            {error && <ErrorMsg text={error}></ErrorMsg>}
           </BaseElement>
         </div>
       </div>

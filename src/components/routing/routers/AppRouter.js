@@ -13,6 +13,7 @@ import Login from "../../ui/Login";
 import PanoramaView from "../../views/PanoramaView";
 import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
+import EmailVerified from "../../views/EmailVerified";
 
 
 /**
@@ -56,6 +57,9 @@ const AppRouter = () => {
 
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Start/>} />
+        </Route>
+
+        <Route path="/test" element={<EmailVerified/>}>
         </Route>
 
         <Route path="/" element={
