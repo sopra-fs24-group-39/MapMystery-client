@@ -3,6 +3,7 @@ import { api, handleError } from "helpers/api";
 import "../../styles/ui/NavDropDown.scss";
 import "../../styles/views/Header.scss";
 import { useNavigate } from "react-router-dom";
+import Button from "components/ui/Button";
 
 const NavDropDown = () => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const NavDropDown = () => {
       const response = await api.put("/users/" + userId, requestBody, config);
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("gamemode");
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
       navigate("/login");
     } catch (e) {
       alert(e);
@@ -46,8 +51,8 @@ const NavDropDown = () => {
   }
 
   return(
-    <div className={"bg-white p-4 rounded-md"}>
-      { element() }
+    <div className={"dropdown p-4 rounded-md"}>
+      <Button type={"login"} width={"md"} name={"Log out"} onClick={logout} />
     </div>
   );
 }

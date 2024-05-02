@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Game.scss";
 import "styles/ui/DropDown.scss";
@@ -18,17 +18,23 @@ const Game = () => {
   const [mp, setMp] = useState("");
   const [sp, setSp] = useState("hidden");
   const [timerActive, setTimerActive] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState("Select your preferences and join a lobby");
 
   function populateBeforeAPICall() {
-    setGameMode(localStorage.getItem("gamemode"));
+    const selectedGameMode = localStorage.getItem("gamemode");
+    if (!selectedGameMode) {
+      setText("Please select a game mode before starting the game");
+      console.log("No game mode selected");
+      return;
+    }
+    setGameMode(selectedGameMode);
     if (mp === "hidden") {
       setPlayerMS("Singleplayer");
     } else {
       setPlayerMS("Multiplayer");
     }
     setTimerActive(true);
-    setText("hidden");
+    setText("");
   }
 
 async function onTimeUp() {
@@ -107,7 +113,7 @@ function prepareUserDTO(userData) {
         <Header/>
         <Logo width="400px" height="400px" className="logo" />
         <div className="text-container-sm">
-          <p className={text}>Select your preferences and join a lobby</p>
+           <p className={text}>{text !== "hidden" ? text : "Select your preferences and join a lobby"}</p>
           {timerActive && (
             <>
               <p><Timer initialSeconds={5} onTimeUp={onTimeUp} /></p>

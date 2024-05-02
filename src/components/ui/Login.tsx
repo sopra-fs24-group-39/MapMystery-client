@@ -101,9 +101,11 @@ const Login = () => {
         // Store the token into the local storage.
         localStorage.setItem("token", token);
         localStorage.setItem("userId", user.id);
+        localStorage.setItem("username", user.username);
 
         console.log(localStorage.getItem("token"))
         console.log(localStorage.getItem("userId"))
+        console.log(localStorage.getItem("username"))
 
 
         // Login successfully worked --> navigate to the route /game in the GameRouter
@@ -127,9 +129,11 @@ const Login = () => {
       // Store the token into the local storage.
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id);
+      localStorage.setItem("username", user.username);
 
       console.log(localStorage.getItem("token"))
       console.log(localStorage.getItem("userId"))
+      console.log(localStorage.getItem("username"))
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");

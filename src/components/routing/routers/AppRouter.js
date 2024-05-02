@@ -14,6 +14,7 @@ import PanoramaView from "../../views/PanoramaView";
 import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
 import EmailVerified from "../../views/EmailVerified";
+import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
 
 
 /**
@@ -36,20 +37,18 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/friends" element={<Friends />}>
+
+        <Route element={<GameGuard />}>
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/rankings" element={<Rankings />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/globeguesser" element={<GlobeGuesser />} />
+          <Route path="/lobby" element={<GlobeGuesserLobby />} />
         </Route>
-
-      <Route path="/rankings" element={<Rankings />}>
-      </Route>
-
-      <Route path="/settings" element={<Settings />}>
-      </Route>
 
         <Route path="/login_test" element={<Login />} />
 
-        <Route path="/globeguesser" element={<GlobeGuesser/>} />
-        <Route path="/mapview" element={<MapsView/>} />
-        <Route path="/lobby" element={<GlobeGuesserLobby/>} />
+        <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
 
         <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />

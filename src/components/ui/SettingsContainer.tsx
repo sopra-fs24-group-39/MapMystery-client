@@ -30,6 +30,7 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
     }
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     navigate('/login'); // Use navigate to redirect after logout
   };
 
