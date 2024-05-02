@@ -109,7 +109,7 @@ const Login = () => {
         // Login successfully worked --> navigate to the route /game in the GameRouter
         navigate("/game");
       } catch (e) {
-        setError(e.message);
+        setError(e.response.data.message);
       }
     } else {
       setError("Passwords do not match");
@@ -133,8 +133,8 @@ const Login = () => {
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
-    } catch (error) {
-      setError(error);
+    } catch (e) {
+      setError(e.response.data.message);
     }
   }
 
@@ -142,6 +142,9 @@ const Login = () => {
       <div className={"center-container login-background"}>
         <div className={"container-container"}>
           <BaseElement width={750} height={570}>
+            <div className={"flex flex-row justify-end"}>
+              <Link to={"/"}>X</Link>
+            </div>
             <div className={""}>
               <Title text="Welcome back!" className="site-title" size={"md"}></Title>
             </div>
@@ -160,7 +163,6 @@ const Login = () => {
             <div>
               <a className="register-login-link" style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("Already got an account! Login")}</a>
             </div>
-            <Link to={"/"}>Close</Link>
             {error && <ErrorMsg text={error}></ErrorMsg>}
           </BaseElement>
         </div>
