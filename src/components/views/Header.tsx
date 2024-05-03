@@ -81,8 +81,8 @@ const Header = props => {
           <li className="menu-link nav-option" onClick={() => handleNavigation("/settings")}>
             Settings
           </li>
-          <li className="menu-link nav-option" onClick={() => handleNavigation("/distance")}>
-            Distance
+          <li className="menu-link nav-option" onClick={() => handleNavigation("/country")}>
+                      Country
           </li>
         </ul>
         <div className="nav-icon" onClick={expandAvatar}>

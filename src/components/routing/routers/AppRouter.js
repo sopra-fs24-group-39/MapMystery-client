@@ -12,6 +12,7 @@ import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
 import PanoramaView from "../../views/PanoramaView";
 import MapsView from "../../views/MapsView";
+import GameInput from "../../views/FlagFinder";
 import GlobeGuesser from "../../views/GlobeGuesser";
 import EmailVerified from "../../views/EmailVerified";
 import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
@@ -48,6 +49,7 @@ const AppRouter = () => {
 
         <Route path="/login_test" element={<Login />} />
 
+        <Route path="/country" element={<GameInput />} />
         <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
 
         <Route path="/game/*" element={<GameGuard />}>

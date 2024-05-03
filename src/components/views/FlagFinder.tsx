@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/ui/GameInput.scss";
 import Button from "components/ui/Button";
 import PanoramaView from "../views/PanoramaView";
-import MapsView from "../views/MapsView";
+import MapViewCountry from "../views/MapsViewCountry";
 import { calculateDistance } from "../../helpers/distance";
 import { useNavigate } from "react-router-dom";
 
@@ -76,29 +76,26 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, 
       }
     }, [submitAttempted, markerCoords, onDistanceCalculated]);
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = () => {
     console.log("Button (GameInput) clicked, Marker Coords:", markerCoords);
     setSubmitAttempted(true);
 
     if (markerCoords) {
-      await onDistanceCalculated(calculateDistance(panoramaCoords.lat, panoramaCoords.lng, markerCoords.lat, markerCoords.lng));
       onNavigate({
-          lat1: panoramaCoords.lat,
-          lng1: panoramaCoords.lng,
-          lat2: markerCoords.lat,
-          lng2: markerCoords.lng
-        });
+        lat1: panoramaCoords.lat,
+        lng1: panoramaCoords.lng,
+        lat2: markerCoords.lat,
+        lng2: markerCoords.lng
+      });
     } else {
-        await onDistanceCalculated(100000000);
-        onNavigate({
-          lat1: panoramaCoords.lat,
-          lng1: panoramaCoords.lng,
-          lat2: -10000000000,
-          lng2: -10000000000,
-        });
+      onNavigate({
+        lat1: panoramaCoords.lat,
+        lng1: panoramaCoords.lng,
+        lat2: -10000000000,
+        lng2: -10000000000,
+      });
     }
   };
-
 
   return (
     <div>
@@ -107,7 +104,12 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, 
         {isYellowSmaller() && <div className="click-overlay" onClick={handleSwap} />}
       </div>
       <div className="rectangle blue-rectangle" style={blueStyle} onClick={!isYellowSmaller() ? handleSwap : undefined}>
-        <MapsView onMarkerUpdate={handleMarkerUpdate} />
+       <MapViewCountry
+           onCountryUpdate={(country) => console.log(country)}
+           panoramaCoords={{ lat: 47.377076, lng: 8.544310 }}
+           markerCoords={{ lat: 47.377076, lng: 8.544310 }}
+       />
+
         {!isYellowSmaller() && <div className="click-overlay" onClick={handleSwap} />}
       </div>
       <div className="submit-button">

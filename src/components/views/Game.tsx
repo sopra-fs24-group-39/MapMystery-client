@@ -55,7 +55,6 @@ async function onTimeUp() {
         var lobbyId = await join_lobby(user)
         localStorage.setItem("lobby", lobbyId)
         console.log(`(Game.tsx) set lobby id in local storage ${localStorage.getItem("lobby")}`)
-        localStorage.setItem("visited", false);
         navigate("/lobby");
         setTimerActive(false);
     } catch (error) {

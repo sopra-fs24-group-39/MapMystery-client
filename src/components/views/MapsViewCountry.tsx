@@ -11,7 +11,7 @@ const MapViewCountry = ({ onCountryUpdate }) => {
     useEffect(() => {
         if (isLoaded && mapRef.current && !window.googleMapInitialized) {
             const map = new google.maps.Map(mapRef.current, {
-                center: { lat: 47.377076, lng: 8.544310 }, // Default map center
+                center: { lat: 47.377076, lng: 8.544310 },
                 zoom: 8,
                 mapId: '4504f8b37365c3d0',
                 streetViewControl: false,
