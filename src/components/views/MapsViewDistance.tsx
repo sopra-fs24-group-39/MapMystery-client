@@ -15,10 +15,6 @@ const MapsView = ({ coords1, coords2 }) => {
                 mapId: '4504f8b37365c3d0',
                 streetViewControl: false,
                 fullscreenControl: false,
-                zoomControl: false,
-                scrollwheel: false,
-                disableDoubleClickZoom: true,
-                draggable: false,
                 gestureHandling: 'none'
             });
 
@@ -26,11 +22,11 @@ const MapsView = ({ coords1, coords2 }) => {
 
             let pos1, pos2;
             if (coords1) {
-                pos1 = placeMarker(coords1, map, markerRef1);
+                pos1 = placeMarker(coords1, map, markerRef1, false);
                 bounds.extend(pos1);
             }
             if (coords2) {
-                pos2 = placeMarker(coords2, map, markerRef2);
+                pos2 = placeMarker(coords2, map, markerRef2, true);
                 bounds.extend(pos2);
             }
 
@@ -57,19 +53,34 @@ const MapsView = ({ coords1, coords2 }) => {
         };
     }, [isLoaded, coords1, coords2]);
 
-    const placeMarker = (position, map, markerRef) => {
+    const placeMarker = (position, map, markerRef, isCoords2) => {
         if (markerRef.current) {
             markerRef.current.setMap(null);
         }
         const newMarker = new google.maps.Marker({
             position,
             map,
+            label: isCoords2 ? 'Your Guess' : 'Target',
+            icon: isCoords2 ? {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: 'red',
+                fillOpacity: 0.9,
+                scale: 8,
+                strokeColor: 'red',
+                strokeWeight: 3
+            } : {
+               path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+               fillColor: 'yellow',
+               fillOpacity: 0.9,
+               scale: 8,
+               strokeColor: 'black',
+               strokeWeight: 3
+            },
         });
         markerRef.current = newMarker;
         return position;
     };
 
-    //drawing a curved line between the two points, set geodisc to false to make it a straight line
     const drawLine = (start, end, map) => {
         if (lineRef.current) {
             lineRef.current.setMap(null);
