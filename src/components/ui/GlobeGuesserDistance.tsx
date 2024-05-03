@@ -1,33 +1,50 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/ui/GlobeGuesserDistance.scss";
-import Button from "components/ui/Button";
-import PanoramaView from "../views/PanoramaView";
 import MapViewDistance from "../views/MapsViewDistance";
 import { calculateDistance } from "../../helpers/distance";
 
-const GlobeGuesserDistance = () => {
-  //test coords
-  const testCoords1 = { lat: 40.7128, lng: -74.0060 };
-  const testCoords2 = { lat: 47.373878, lng: 8.545094 };
+interface Coords {
+  lat: number;
+  lng: number;
+}
 
-  const [distance, setDistance] = useState(null);
+interface GlobeGuesserDistanceProps {
+  coords1: Coords;
+  coords2: Coords;
+}
+
+const noCoordsSubmittedValue = -10000000000;
+
+const GlobeGuesserDistance: React.FC<GlobeGuesserDistanceProps> = ({ coords1, coords2 }) => {
+  const [distance, setDistance] = useState<number | null>(null);
+  const [displayCoords2, setDisplayCoords2] = useState<boolean>(true);
 
   useEffect(() => {
-    if (testCoords1 && testCoords2) {
-      const dist = calculateDistance(testCoords1.lat, testCoords1.lng, testCoords2.lat, testCoords2.lng);
+    if (coords2.lat === noCoordsSubmittedValue && coords2.lng === noCoordsSubmittedValue) {
+      console.log("No coordinates submitted for coords2");
+      setDisplayCoords2(false);
+      setDistance(null);
+    } else {
+      const dist = calculateDistance(coords1.lat, coords1.lng, coords2.lat, coords2.lng);
       const roundedDistance = Math.floor(dist);
       setDistance(roundedDistance);
       console.log(`Distance between the points is ${dist} m`);
     }
-  }, []);
+  }, [coords1, coords2]);
 
   return (
     <div>
-      {distance && <p className="distance-text">Distance: {distance} meters!</p>}
+      {distance !== null ? (
+        <p className="distance-text">Distance: {distance} meters!</p>
+      ) : (
+        !displayCoords2 && <p className="distance-text">No coords submitted.</p>
+      )}
       <div className="distance-element">
         <MapViewDistance
-          coords1={testCoords1}
-          coords2={testCoords2}
+          coords1={coords1}
+          coords2={displayCoords2 ? coords2 : null}
+          label2={displayCoords2 ? "Your Guess" : ""}
+          customMarker2={displayCoords2}
         />
       </div>
     </div>

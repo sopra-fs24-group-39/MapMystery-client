@@ -9,8 +9,8 @@ import Friends from "../../views/Friends";
 import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
+import GameInput from "../../views/FlagFinder";
 import GlobeGuesser from "../../views/GlobeGuesser";
-import EmailVerified from "../../views/EmailVerified";
 import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
 import PrivateLobby from "../../views/PrivateLobby";
 import JoinPrivateLobby from "../../views/JoinPrivateLobby";
@@ -48,6 +48,7 @@ const AppRouter = () => {
 
         <Route path="/login_test" element={<Login />} />
 
+        <Route path="/country" element={<GameInput />} />
         <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
 
         <Route path="/game/*" element={<GameGuard />}>
@@ -56,9 +57,6 @@ const AppRouter = () => {
 
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Start/>} />
-        </Route>
-
-        <Route path="/test" element={<EmailVerified/>}>
         </Route>
 
         <Route path="/privateLobby" element={<PrivateLobby/>}>
