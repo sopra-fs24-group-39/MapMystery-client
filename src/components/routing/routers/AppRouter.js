@@ -3,18 +3,18 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {GameGuard} from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
-import Menu from "../../views/Menu";
 import Start from "../../views/Start";
 import Rankings from "../../views/Rankings";
 import Friends from "../../views/Friends";
 import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
-import PanoramaView from "../../views/PanoramaView";
-import MapsView from "../../views/MapsView";
 import GlobeGuesser from "../../views/GlobeGuesser";
 import EmailVerified from "../../views/EmailVerified";
 import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
+import PrivateLobby from "../../views/PrivateLobby";
+import JoinPrivateLobby from "../../views/JoinPrivateLobby";
+import CreatePrivateLobby from "../../views/CreatePrivateLobby";
 
 
 /**
@@ -60,6 +60,13 @@ const AppRouter = () => {
 
         <Route path="/test" element={<EmailVerified/>}>
         </Route>
+
+        <Route path="/privateLobby" element={<PrivateLobby/>}>
+        </Route>
+
+        <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
+
+        <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
 
         <Route path="/" element={
           <Navigate to="/game" replace />

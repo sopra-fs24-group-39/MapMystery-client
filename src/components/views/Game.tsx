@@ -107,6 +107,10 @@ function prepareUserDTO(userData) {
     setTimerActive(false);
   }
 
+  function handlePrivateSwitch() {
+    navigate("/privateLobby");
+  }
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container left-5"}>
@@ -121,12 +125,14 @@ function prepareUserDTO(userData) {
           )}
         </div>
         <div className={"menu-buttons-container"}>
-          <Button
-            type={"regular"}
-            width={"lg"}
-            name={"Create Game"}
-          >
-          </Button>
+          <div onClick={handlePrivateSwitch}>
+            <Button
+              type={"regular"}
+              width={"lg"}
+              name={"Create or join Game"}
+            >
+            </Button>
+          </div>
           <div className={"menu-mpsp-select mt-3"}>
             <div className={"flex flex-row items-center"} onClick={handleMPlayer}>
               <div className={"arrow-right " + mp}></div>
