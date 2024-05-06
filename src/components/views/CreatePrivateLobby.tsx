@@ -6,6 +6,7 @@ import BackgroundImage from "./sources/background.png";
 import { api } from "helpers/api";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
+import ErrorMsg from "../ui/ErrorMsg";
 
 const CreatePrivateLobby = () => {
   const navigate = useNavigate();
@@ -47,8 +48,8 @@ const CreatePrivateLobby = () => {
             {notactive? <Button type={"regular"} name={"Get a code to share"} width={"lg"} onClick={callCreatePrivateLobby}></Button>:null}
           </div>
           <div className={"text-container"}>
-            <p>Share this code with your Friends: {code}</p>
-            {error && <p>error</p>}
+            <p>Share the code that you will see on the next page with your friends.</p>
+            {error && <ErrorMsg text={error}></ErrorMsg>}
           </div>
         </div>
       </div>

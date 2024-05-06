@@ -10,6 +10,17 @@ import DropDown from "../ui/DropDown";
 import Timer from "../ui/Timer";
 import { api, handleError } from "helpers/api";
 import { useNavigate } from "react-router-dom";
+import GameInfo from "../ui/GameInfo";
+
+const showGameInformation = (stat) => {
+  if (stat) {
+    return (
+      <div className={"full-h-w z-20"} style={{position: "absolute"}}>
+        <GameInfo></GameInfo>
+      </div>
+    );
+  }
+}
 
 const Game = () => {
   const navigate = useNavigate();
@@ -19,6 +30,11 @@ const Game = () => {
   const [sp, setSp] = useState("hidden");
   const [timerActive, setTimerActive] = useState(false);
   const [text, setText] = useState("Select your preferences and join a lobby");
+  const [isInfo, setIsInfo] = useState(false);
+
+  const handleInformationPopUp = () => {
+    setIsInfo(!isInfo);
+  }
 
   function populateBeforeAPICall() {
     const selectedGameMode = localStorage.getItem("gamemode");
@@ -112,6 +128,7 @@ function prepareUserDTO(userData) {
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+      {showGameInformation(isInfo)}
       <div className={"center-container left-5"}>
         <Header/>
         <Logo width="400px" height="400px" className="logo" />
@@ -124,6 +141,10 @@ function prepareUserDTO(userData) {
           )}
         </div>
         <div className={"menu-buttons-container"}>
+          <div onClick={handleInformationPopUp}>
+            <p className={"text-white"}>Click here for more information about the game</p>
+            <br />
+          </div>
           <div onClick={handlePrivateSwitch}>
             <Button
               type={"regular"}

@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { api } from "helpers/api";
 import { useNavigate } from "react-router-dom";
+import ErrorMsg from "../ui/ErrorMsg";
 
 const JoinPrivateLobby = () => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const JoinPrivateLobby = () => {
             <div className={"pt-4"}>
               <Button width={"lg"} name={"Join"} type={"regular"} onClick={callPrivateLobbyComponent}></Button>
             </div>
+            {error && <ErrorMsg text={error}></ErrorMsg>}
           </div>
         </div>
       </div>
