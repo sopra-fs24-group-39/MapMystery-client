@@ -2,18 +2,13 @@ import { React, useState } from "react";
 import PropTypes from "prop-types";
 import "../../styles/ui/DropDown.scss";
 import "../../styles/ui/Button.scss";
+import { ReactComponent as InfoIcon } from "./sources/info.svg";
 
-/*
-*   @props.defaultValue: A value that is displayed in the dropdown
-*   @props.altValues: An array of values that is displayed in the dropdown (includes the default value!)
-*/
-
-
-const DropDown = (props) => {
+const DropDown = ({ defaultValue, altValues, onInfoClick }) => {
   const [isExtended, setIsExtended] = useState(false);
   const [downSwitch, setDSwitch] = useState("");
   const [upSwitch, setUSwitch] = useState("hidden");
-  const [selectedValue, setSelectedValue] = useState(props.defaultValue);
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   function handleSelectedValue(element) {
     setSelectedValue(element);
@@ -38,36 +33,36 @@ const DropDown = (props) => {
     return "";
   }
 
-  const arrayItems = props.altValues.map((x) =>
-    <div key={x}
-         className={"dd-link "+helperSelectedValue(x)}
-         onClick={() => handleSelectedValue(x)}>
+  const arrayItems = altValues.map((x) =>
+    <div key={x} className={"dd-link " + helperSelectedValue(x)} onClick={() => handleSelectedValue(x)}>
       <p className={"dd-font"}>{x}</p>
+      <InfoIcon className="info-icon" onClick={(e) => {
+        e.stopPropagation();
+        onInfoClick(x);
+      }}/>
     </div>
   );
 
   return(
     <>
-    <div className={"w-400 h-46 drop-down rounded-2xl flex flex-row justify-around items-center border-3 border-white"}
-         onClick={extendHandler}>
-      <p className={"dd-font"}>{selectedValue}</p>
-      <div className={"arrow-down " + downSwitch}>
+      <div className={"w-400 h-46 drop-down rounded-2xl flex flex-row justify-around items-center border-3 border-white"}
+           onClick={extendHandler}>
+        <p className={"dd-font"}>{selectedValue}</p>
+        <div className={"arrow-down " + downSwitch}></div>
+        <div className={"arrow-up " + upSwitch}></div>
       </div>
-      <div className={"arrow-up " + upSwitch}>
+      <div className={"w-400 drop-down rounded-2xl flex flex-col justify-around items-center border-2 border-white " + upSwitch}
+           onClick={extendHandler}>
+        {arrayItems}
       </div>
-    </div>
-    <div className={"w-400 drop-down rounded-2xl flex flex-col justify-around items-center border-2 border-white " + upSwitch}
-         onClick={extendHandler}>
-      {arrayItems}
-    </div>
     </>
   );
-}
+};
 
 DropDown.propTypes = {
   defaultValue: PropTypes.string,
   altValues: PropTypes.array,
-}
+  onInfoClick: PropTypes.func.isRequired,
+};
 
 export default DropDown;
-
