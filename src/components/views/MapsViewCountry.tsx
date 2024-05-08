@@ -51,20 +51,20 @@ const MapViewCountry = ({ onCountryUpdate }) => {
 
     const reverseGeocode = (position) => {
         geocoder.current.geocode({ location: position }, (results, status) => {
-            if (status === 'OK') {
-                if (results[0]) {
-                    const addressComponents = results[0].address_components;
-                    const countryComponent = addressComponents.find(component =>
+            if (status === google.maps.GeocoderStatus.OK) {
+                const country = results.find(result =>
+                    result.address_components.some(component =>
                         component.types.includes("country")
-                    );
-                    const country = countryComponent ? countryComponent.long_name : 'Unknown country';
-                    onCountryUpdate(country);
-                    console.log("Country found: ", country);
-                } else {
-                    console.log('No results found');
-                }
+                    )
+                )?.address_components.find(component =>
+                    component.types.includes("country")
+                )?.long_name || 'Unknown country';
+
+                onCountryUpdate(country);
+                console.log("Country found: ", country);
             } else {
                 console.error('Geocoder failed due to: ' + status);
+                onCountryUpdate('Unknown country');
             }
         });
     };
