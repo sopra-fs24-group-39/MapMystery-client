@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/ui/GameInput.scss";
 import Button from "components/ui/Button";
-import PanoramaView from "../views/PanoramaView";
+import FlagView from "../views/FlagView";
 import MapViewCountry from "../views/MapsViewCountry";
 import { calculateDistance } from "../../helpers/distance";
 import { useNavigate } from "react-router-dom";
 
 interface GameInputProps {
-  lat: string;
-  long: string;
-  onDistanceCalculated: (distance: number) => void;
-  onNavigate: (coords: { lat1: number; lng1: number; lat2: number; lng2: number; }) => void;
+
 }
 
-const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, onNavigate }) => {
+const GameInput: React.FC<GameInputProps> = ({ }) => {
   const navigate = useNavigate();
-  const [yellowStyle, setYellowStyle] = useState({
-    width: '70%',
-    height: '75%',
-    top: '6%',
+  const [yellowStyle] = useState({
+    width: '75%',
+    height: '80%',
+    top: '2%',
     left: '1%',
     zIndex: 1,
     position: 'absolute',
@@ -26,91 +23,36 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, 
   });
 
   const [blueStyle, setBlueStyle] = useState({
-    width: '35%',
-    height: '35%',
-    top: '64%',
+    width: '32%',
+    height: '37%',
+    top: '62%',
     left: '64%',
     zIndex: 2,
     position: 'absolute',
     border: 'solid 15px #82CBE2',
+    overflow: 'hidden',
   });
 
-  const handleSwap = () => {
-      if (yellowStyle.zIndex < blueStyle.zIndex) {
-        setYellowStyle(prev => ({ ...prev, ...blueStyle, zIndex: 2, border: 'solid 15px #FFD700' }));
-        setBlueStyle(prev => ({ ...prev, ...yellowStyle, zIndex: 1, border: 'solid 15px #ADD8E6' }));
-      } else {
-        setBlueStyle(prev => ({ ...prev, ...yellowStyle, zIndex: 2, border: 'solid 15px #ADD8E6' }));
-        setYellowStyle(prev => ({ ...prev, ...blueStyle, zIndex: 1, border: 'solid 15px #FFD700' }));
-      }
-  };
-
-  const [panoramaCoords, setPanoramaCoords] = useState({ lat: parseFloat(lat), lng: parseFloat(long) });
-  const [markerCoords, setMarkerCoords] = useState(null);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-
-  const isYellowSmaller = () => {
-      const yellowArea = parseFloat(yellowStyle.width) * parseFloat(yellowStyle.height);
-      const blueArea = parseFloat(blueStyle.width) * parseFloat(blueStyle.height);
-      return yellowArea < blueArea;
-    };
-
-  const handleMarkerUpdate = (coords) => {
-      console.log("coordinates updated (GameInput):", coords);
-      setMarkerCoords(coords);
-  };
-
-  useEffect(() => {
-      if (submitAttempted) {
-        if (markerCoords) {
-          const distance = calculateDistance(panoramaCoords.lat, panoramaCoords.lng, markerCoords.lat, markerCoords.lng);
-          console.log("Calculated Distance (GameInput):", distance);
-          onDistanceCalculated(distance);
-        } else {
-          onDistanceCalculated(100000000);
-          console.log("No marker set, default distance returned (GameInput)");
-        }
-        setButtonDisabled(true);
-        setSubmitAttempted(false);
-      }
-    }, [submitAttempted, markerCoords, onDistanceCalculated]);
-
   const handleButtonClick = () => {
-    console.log("Button (GameInput) clicked, Marker Coords:", markerCoords);
-    setSubmitAttempted(true);
+    console.log("Submit button clicked");
+  }
 
-    if (markerCoords) {
-      onNavigate({
-        lat1: panoramaCoords.lat,
-        lng1: panoramaCoords.lng,
-        lat2: markerCoords.lat,
-        lng2: markerCoords.lng
-      });
-    } else {
-      onNavigate({
-        lat1: panoramaCoords.lat,
-        lng1: panoramaCoords.lng,
-        lat2: -10000000000,
-        lng2: -10000000000,
-      });
-    }
-  };
+  const handleFlagLoad = (width, height) => {
+      const aspectRatio = width / height;
+      const newHeight = parseInt(blueStyle.width, 10) / aspectRatio;
+      setBlueStyle(prevStyle => ({
+        ...prevStyle,
+        height: `${newHeight}%`
+      }));
+    };
 
   return (
     <div>
-      <div className="rectangle yellow-rectangle" style={yellowStyle} onClick={isYellowSmaller() ? handleSwap : undefined}>
-        <PanoramaView coordinates={panoramaCoords} />
-        {isYellowSmaller() && <div className="click-overlay" onClick={handleSwap} />}
+      <div className="rectangle yellow-rectangle" style={yellowStyle}>
+        <MapViewCountry onCountryUpdate={(country) => console.log(country)} />
       </div>
-      <div className="rectangle blue-rectangle" style={blueStyle} onClick={!isYellowSmaller() ? handleSwap : undefined}>
-       <MapViewCountry
-           onCountryUpdate={(country) => console.log(country)}
-           panoramaCoords={{ lat: 47.377076, lng: 8.544310 }}
-           markerCoords={{ lat: 47.377076, lng: 8.544310 }}
-       />
-
-        {!isYellowSmaller() && <div className="click-overlay" onClick={handleSwap} />}
+      <div className="rectangle blue-rectangle" style={blueStyle}>
+        <FlagView countryCode="ch" onFlagLoad={handleFlagLoad}/>
       </div>
       <div className="submit-button">
         <Button type={"login"} width={"lg"} name={"Submit Guess"} onClick={handleButtonClick}></Button>
