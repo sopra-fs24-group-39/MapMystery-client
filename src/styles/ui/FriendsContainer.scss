@@ -2,11 +2,12 @@
 
 .base-element-friends {
   border: 10px solid #ffffff;
-  max-height: 500px;
+  max-height: 50vh;
+  max-width: 75vw;
   border-radius: 8px;
   background-clip: padding-box;
   margin-bottom: 2rem;
-  overflow-y: auto;
+  overflow-y: scroll;
   box-shadow:
     1px 1px 0 $threeD-blue,
     2px 2px 0 $threeD-blue,

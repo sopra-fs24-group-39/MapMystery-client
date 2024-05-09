@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 const BaseContainer = ({ className, children, backgroundImage }) => {
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    // document.body.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = 'unset';
+      //document.body.style.overflow = 'unset';
     };
   }, []);
 

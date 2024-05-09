@@ -2,11 +2,9 @@ import { React, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "../../styles/views/Header.scss";
-import DropDown from "components/views/DropDown";
 import Logo from "components/pictures/Logo";
 import MinidenticonImg from "components/pictures/ProfilePicture";
 import NavDropDown from "../ui/NavDropDown";
-import { api, handleError } from "helpers/api";
 
 const Header = props => {
   const [navDropDown, setNavDropDown] = useState("hidden");

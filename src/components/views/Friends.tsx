@@ -10,7 +10,7 @@ import Button from "components/ui/Button";
 
 const Friends = () => {
   return (
-    <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+    <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-clip">
       <div className={"center-container"}>
         <Header/>
         <div className={"input-container"}>
@@ -26,10 +26,8 @@ const Friends = () => {
             name={"Create Link"}>
           </Button>
         </div>
-        <Title text="Friends" className="title"></Title>
-        <div className={"container-container2"}>
-          <BaseElementFriends width={1000} height={570}/>
-        </div>
+        <Title text="Friends" className="title" size="md"></Title>
+        <BaseElementFriends width={"75vw"} height={"50vh"}/>
       </div>
     </BaseContainer>
   );

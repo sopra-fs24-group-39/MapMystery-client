@@ -8,12 +8,12 @@ import BaseElementSettings from "components/ui/SettingsContainer";
 
 const Settings = () => {
   return (
-    <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+    <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-clip">
       <div className={"center-container"}>
         <Header/>
-        <Title text="Settings" className="site-title"></Title>
+        <Title text="Settings" className="site-title" size="md"></Title>
         <div className={"container-container"}>
-          <BaseElementSettings width={1000} height={670}/>
+          <BaseElementSettings width={"75vw"} height={"65vh"}/>
         </div>
       </div>
     </BaseContainer>

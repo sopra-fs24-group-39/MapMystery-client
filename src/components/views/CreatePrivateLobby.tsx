@@ -25,7 +25,7 @@ const CreatePrivateLobby = () => {
     try {
       const requestBody = JSON.stringify({ id });
       const response = await api.post("/Lobby/private/GameMode1", requestBody, config);
-      setCode(response.data.authKey);
+
       localStorage.setItem("authKey", response.data.authKey);
       localStorage.setItem("lobby", response.data.lobbyId);
     } catch (e) {

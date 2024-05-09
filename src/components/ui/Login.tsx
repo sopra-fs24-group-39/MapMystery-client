@@ -144,8 +144,8 @@ const Login = () => {
 
   return (
       <div className={"center-container login-background"}>
-        <div className={"container-container"}>
-          <BaseElement width={750} height={570}>
+        <div className={"container-containe overflow-scroll"}>
+          <BaseElement width={"77vw"} height={"55vh"}>
             <div className={"flex flex-row justify-end"}>
               <Link to={"/"}>X</Link>
             </div>

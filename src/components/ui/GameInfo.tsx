@@ -14,7 +14,7 @@ const GameInfo = () => {
           </div>
           <div>
             <Title text={"Game Information"} size={"md"}></Title>
-            <div className={"text-container"}>
+            <div className={"text-containe"}>
               <h1>Gamemodes</h1>
               <h3>Geo Genius:</h3>
               <p>Guess the location of an arbitrary google maps streetview image.

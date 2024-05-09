@@ -78,7 +78,7 @@ const friends = [
    'last30days_points': 67},
 ];
 
-const BaseElementRankings: React.FC<BaseElementRankings> = ({ width = '800px', height = '500px' }) => {
+const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) => {
    const [sortedFriends, setSortedFriends] = useState(friends);
    const [sortedPlayers, setSortedPlayers] = useState(players);
 

@@ -13,6 +13,7 @@ const JoinPrivateLobby = () => {
   const navigate = useNavigate();
 
   const [link, setLink] = useState("");
+  const [lobbyID, setLobbyID] = useState(null);
   const [error, setError] = useState(null);
 
   const callPrivateLobbyComponent = async () => {
@@ -24,12 +25,11 @@ const JoinPrivateLobby = () => {
       }
     };
     const id = localStorage.getItem("userId");
-    const lobbyID = 5;
     try {
       const requestBody = JSON.stringify({id, lobbyID, authKey});
       console.log(requestBody);
       const response = await api.post("/Lobby/GameMode1", requestBody, config);
-      localStorage.setItem("lobby", 3);
+      localStorage.setItem("lobby", lobbyID);
       navigate("/lobby");
     } catch (e) {
       setError(e.response.data.message);
@@ -47,6 +47,7 @@ const JoinPrivateLobby = () => {
         <div>
           <div>
             <Input height={"50px"} width={"400px"} type={"text"} value={link} onChange={(l)=>(setLink(l))}></Input>
+            <Input height={"50px"} width={"400px"} type={"text"} value={lobbyID} onChange={(lid)=>(setLobbyID(lid))}></Input>
             <div className={"pt-4"}>
               <Button width={"lg"} name={"Join"} type={"regular"} onClick={callPrivateLobbyComponent}></Button>
             </div>

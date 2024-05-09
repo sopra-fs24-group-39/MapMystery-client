@@ -173,11 +173,9 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
           ) : (
             <>
               <Title text={"Globe Guesser"} size={"md"} />
-              {(parseInt(localStorage.getItem("round"), 10) === 0 && localStorage.getItem("authKey") !== null) && (
-                <div className="final-scores-leave">Lobby Code: {localStorage.getItem("authKey")}</div>
-              )}
             </>
           )}
+        {localStorage.getItem("authKey") !== null? <div className="final-scores-leave">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</div>:null}
         <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
         <div>
           <div onClick={leaveLobby}>

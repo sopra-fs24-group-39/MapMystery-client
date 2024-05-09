@@ -127,11 +127,11 @@ function prepareUserDTO(userData) {
   }
 
   return (
-    <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+    <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
       {showGameInformation(isInfo)}
       <div className={"center-container left-5"}>
         <Header/>
-        <Logo width="400px" height="400px" className="logo" />
+        <Logo width="40vh" height="40vh" className="logo" />
         <div className="text-container-sm">
            <p className={text}>{text !== "hidden" ? text : "Select your preferences and join a lobby"}</p>
           {timerActive && (
