@@ -9,6 +9,7 @@ import "../../styles/ui/GlobeGuesserDistanceScreen.scss";
 import { webSocketService } from './WebSocketService';
 import ScoreBoard from "components/ui/ScoreBoard";
 
+
 const GlobeGuesserDistanceScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
