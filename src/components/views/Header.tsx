@@ -80,7 +80,7 @@ const Header = props => {
             Settings
           </li>
           <li className="menu-link nav-option" onClick={() => handleNavigation("/country")}>
-                      Country
+            Country
           </li>
         </ul>
         <div className="nav-icon" onClick={expandAvatar}>
