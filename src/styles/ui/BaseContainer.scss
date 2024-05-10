@@ -1,11 +1,13 @@
 @import "../theme";
 
 .base-container {
-  height: 100vh;
   margin-left: auto;
   padding-left: 15px;
   margin-right: auto;
   padding-right: 15px;
-  max-width: $DESKTOP_WIDTH;
-  color: $textColor;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
