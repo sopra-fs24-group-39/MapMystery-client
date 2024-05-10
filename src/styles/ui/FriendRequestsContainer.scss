@@ -1,0 +1,100 @@
+@import "../theme";
+
+.base-element-friends-req {
+  border: 10px solid #ffffff;
+  max-height: 500px;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  overflow-y: auto;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+   background-image: linear-gradient(
+            to bottom,
+            $light-blue-strips 0%,
+            $light-blue-strips 50%,
+            $darker-blue-strips 50%,
+            $darker-blue-strips 100%
+          );
+          background-size: 100% 100px;
+}
+
+.light-stripe {
+  background-color: $light-blue-strips;
+  height: 50px;
+}
+
+.dark-stripe {
+  background-color: $darker-blue-strips;
+  height: 50px;
+}
+
+
+.player-status {
+  width: 3rem;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.player-name {
+  margin-right: 1rem;
+  font-weight: bold;
+  align-self: center;
+}
+
+.player-buttons{
+  display: flex;
+  gap: 1rem;
+  margin-right: 1rem;
+}
+
+.accept-button{
+  background-color: #14e34b;
+  color: black;
+  border-radius: 5px;
+  padding: 0.5rem;
+  cursor: pointer;
+  box-shadow:
+      1px 1px 0 lighten(#14e34b, 30%),
+      2px 2px 0 lighten(#14e34b, 30%),
+      3px 3px 0 lighten(#14e34b, 30%),
+      4px 4px 0 lighten(#14e34b, 30%);
+
+  &:active{
+    cursor: pointer;
+    background-color: darken(#14e34b, 10%);
+    outline: 2px solid white;
+  }
+}
+
+.decline-button{
+  background-color: #ff0000;
+  color: black;
+  border-radius: 5px;
+  padding: 0.5rem;
+  cursor: pointer;
+  box-shadow:
+        1px 1px 0 lighten(#ff0000, 30%),
+        2px 2px 0 lighten(#ff0000, 30%),
+        3px 3px 0 lighten(#ff0000, 30%),
+        4px 4px 0 lighten(#ff0000, 30%);
+
+  &:active{
+    cursor: pointer;
+    background-color: darken(#14e34b, 10%);
+    outline: 2px solid white;
+  }
+}
+
+

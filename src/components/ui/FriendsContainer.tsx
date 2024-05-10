@@ -1,17 +1,6 @@
-import React, {useState}  from 'react';
+import React, {useState, useEffect}  from 'react';
 import "../../styles/ui/FriendsContainer.scss";
-
-// Mock data
-const friends = [
-  {status: 'online', name: 'StarlightSprinter', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'online', name: 'QuantumQuest', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'offline', name: 'EchoEnigma', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'online', name: 'NebulaNavigator', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'offline', name: 'PixelPioneer', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'offline', name: 'CyberSorcerer', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'offline', name: 'MysticMerlin', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-  {status: 'online', name: 'GalacticGuardian', GlobeGuesser: '1231 / #12', FlagFinder: '1911 / #2', GeoGenius: '209 / #234'},
-];
+import { api, handleError } from "helpers/api";
 
 interface BaseElementFriendsProps {
   width?: string;
@@ -20,12 +9,76 @@ interface BaseElementFriendsProps {
 
 const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px', height = '500px' }) => {
   const style = { width, minHeight: height };
+  const [friends, setFriends] = useState([]);
   const [expandedRows, setExpandedRows] = useState({});
 
   const toggleDetails = (index) => {
     const newExpandedRows = { ...expandedRows, [index]: !expandedRows[index] };
     setExpandedRows(newExpandedRows);
   };
+
+  useEffect(() => {
+    getFriends();
+  }, []);
+
+  const getFriends = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        'Authorization': `${token}`
+      };
+      const response = await api.get(`/friends/${localStorage.getItem("userId")}`, { headers });
+      console.log(response);
+      if (response.data) {
+            setFriends(response.data.map(friend => ({
+              id: friend.id,
+              name: friend.username,
+              status: friend.status.toLowerCase() === 'online' ? 'online' : 'offline',
+              userEmail: friend.userEmail,
+              score: friend.score,
+              currentPoints: friend.currentpoints,
+              verified: friend.verified,
+              featuredInRankings: friend.featured_in_rankings,
+            })));
+          }
+    } catch (error) {
+      console.error('Failed to fetch friends:', error);
+    }
+    console.log("Friends", friends);
+  };
+
+  async function handleDelete(username) {
+    console.log("Delete button clicked", username);
+    if (username === "") {
+          return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        'Authorization': `${token}`,
+        'Content-Type': 'application/json'
+      };
+      const requestBody = JSON.stringify({ username: username });
+      console.log(requestBody);
+
+      const response = await api.delete(`/friends/${localStorage.getItem("userId")}`, {
+        headers: headers,
+        data: requestBody
+      });
+
+      if (response.status === 200) {
+        console.log("Friend successfully deleted");
+      } else {
+        console.log("Failed to delete friend");
+      }
+    } catch (error) {
+          handleError(error);
+    }
+  }
+
+  async function handleInvite(username: string) {
+    console.log("Invite button clicked", username);
+  }
 
   return (
     <div className="base-element-friends" style={style}>
@@ -36,20 +89,20 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
               {expandedRows[index] ? '▶' : '▼'}
             </button>
             <div className="player-name">{friend.name}</div>
-            {expandedRows[index] && (
+            {/*{expandedRows[index] && (
               <>
                 <div className="player-globe">GlobeGuesser: {friend.GlobeGuesser}</div>
                 <div className="player-flag">FlagFinder: {friend.FlagFinder}</div>
                 <div className="player-geo">GeoGenius: {friend.GeoGenius}</div>
               </>
-            )}
+            )}*/}
             <div className={`player-status ${friend.status === 'online' ? 'online' : 'offline'}`}>
               {friend.status}
             </div>
             {expandedRows[index] && (
               <>
-                <button className="invite-button">Invite</button>
-                <button className="delete-button">Delete</button>
+                <button className="invite-button" onClick={() => handleInvite(friend.name)}>Invite</button>
+                <button className="delete-button" onClick={() => handleDelete(friend.name)}>Delete</button>
               </>
             )}
           </div>

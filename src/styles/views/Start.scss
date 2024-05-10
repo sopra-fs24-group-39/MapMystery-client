@@ -11,15 +11,16 @@
 
 .text-container {
   text-align: center;
-  margin-top: 2em;
-  margin-bottom: 3em;
+  margin-top: 1em;
+  margin-bottom: 2em;
   font-size: $default-font-size;
   color: $default-font-color;
   max-width: 50em;
+  font-size: large;
 }
 
 .main-body{
-    overflow: hidden;
+    //overflow: hidden;
 }
 
 .full-h-w {

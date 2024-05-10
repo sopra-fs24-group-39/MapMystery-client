@@ -6,14 +6,35 @@
 
 .text-container-sm {
   text-align: center;
-  margin-top: 2em;
-  margin-bottom: 3em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   font-size: $default-font-size;
   color: $default-font-color;
   max-width: 50em;
   font-size: 1.5em;
 }
 
+.text-info {
+    text-align: center;
+    font-size: $default-font-size;
+    color: $default-font-color;
+    max-width: 50em;
+    font-size: 0.7em;
+    margin-top: 0.5em;
+}
+
 .gm-active {
   text-decoration: underline;
+}
+
+
+.menu-buttons-container {
+  width: 400px;
+  height: 20vh;
+}
+
+.menu-mpsp-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

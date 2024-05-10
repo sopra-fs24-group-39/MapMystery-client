@@ -8,6 +8,8 @@ import Button from "../ui/Button";
 import { webSocketService } from './WebSocketService';
 import { useNavigate, useLocation } from "react-router-dom";
 import { api, handleError } from "helpers/api";
+import { useBeforeUnload } from "helpers/useBeforeUnload";
+import "../../styles/ui/GlobeGuesserLobby.scss";
 
 type GlobeGuesserLobbyProps = {
   lobbyId: string;
@@ -22,14 +24,23 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   //const [leaderBoard, setLeaderBoard] = useState({});
   const navigate = useNavigate();
   var lobbyId = localStorage.getItem("lobby")
-  console.log(`${lobbyId} and ${localStorage.getItem("lobby")} in Lobby`)
 
   useEffect(() => {
     localStorage.setItem('round', currentRound);
     localStorage.setItem('round', currentRound);
     setupSubscription1();
     setupSubscription2();
+    if (parseInt(localStorage.getItem("round")) === 5) {
+      console.log("Round is 5, starting timer...");
+      const timer = setTimeout(handleTimerComplete, 10000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
+
+  const handleTimerComplete = () => {
+    leaveLobby();
+  }
 
   function initializeLeaderboard() {
     const defaultLeaderboard = JSON.stringify({
@@ -94,7 +105,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
       console.log('(GlobeGuesserLobby) Lobby update with latitude:', latitude, 'and longitude:', longitude);
-      navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&round=${(currentRound + 1)%5}`);
+      navigate(`/globeguesser?ping=${longitude}&pong=${latitude}`);
     } else {
       console.error('Invalid latitude or longitude values:', latitude, longitude);
     }
@@ -104,7 +115,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   async function setupSubscription2() {
     console.log("(GlobeGuesserLobby) Subscribing2 ");
     let subscription = await webSocketService.subscribe2(lobbyId, handleLeaderBoardUpdate);
-    localStorage.setItem("sub2", true);
   }
 
   //setupSubscription2();
@@ -121,39 +131,66 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     }
   }
 
-  function leaveLobby() {
-    webSocketService.disconnect();
-    navigate('/');
-  }
-
-  async function skipFirst() {
+  async function leaveLobby() {
     try {
-          const userId = localStorage.getItem("userId");
-          const token = localStorage.getItem("token");
-          const requestBody = JSON.stringify({ "id": userId, "score": 100000000000 });
-          console.log(`(GlobeGuesserLobby) score to /Lobby/GameMode1/${lobbyId} with ${requestBody}`);
-          const headers = {
-            'Authorization': `${token}`
-          };
-          await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
+      webSocketService.disconnect();
+      //gettging the things needed to leave lobby
+      const userId = localStorage.getItem("userId");
+      const lobbyId = localStorage.getItem("lobby");
+      const token = localStorage.getItem("token");
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
 
-        } catch (error) {
-          console.error(`Failed to update score: ${handleError(error)}`);
-        }
+      //making the call to leave the lobby
+      const headers = {
+        'Authorization': `${token}`
+      };
+
+      await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      navigate('/');
+    } catch (error) {
+      console.error(`Failed to leave lobby: ${handleError(error)}`);
+    }
   }
+
+  useBeforeUnload("Leaving this page will reset the game", () => {
+    console.log("User is leaving the page or closing tab.");
+    leaveLobby();
+
+  });
+
+  const handleCustomNavigate = async (url) => {
+    console.log("URL", url);
+    try {
+      await leaveLobby();
+      navigate(url);
+    } catch (error) {
+      console.error("Error during navigation preparation: ", error);
+      navigate("/game")
+    }
+  };
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
-        <Header />
-        <Title text={"Globe Guesser"} size={"md"} />
+        <Header onNavigateClick={handleCustomNavigate} />
+          {(parseInt(localStorage.getItem("round"), 10) === 5) ? (
+            <>
+              <Title text={"Final Scores"} size={"md"} />
+              <div className="final-scores-leave">To play another round, leave the game.</div>
+            </>
+          ) : (
+            <>
+              <Title text={"Globe Guesser"} size={"md"} />
+            </>
+          )}
+        {localStorage.getItem("authKey") !== null? <div className="final-scores-leave">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</div>:null}
         <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
         <div>
           <div onClick={leaveLobby}>
             <Button width={"md"} type={"regular"} name={"Leave Game"} />
-          </div>
-          <div onClick={skipFirst}>
-            <Button width={"md"} type={"regular"} name={"skip"} />
           </div>
         </div>
       </div>

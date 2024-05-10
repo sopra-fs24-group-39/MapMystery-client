@@ -3,16 +3,20 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {GameGuard} from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
-import Menu from "../../views/Menu";
 import Start from "../../views/Start";
 import Rankings from "../../views/Rankings";
 import Friends from "../../views/Friends";
 import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 import Settings from "../../views/Settings";
 import Login from "../../ui/Login";
-import PanoramaView from "../../views/PanoramaView";
-import MapsView from "../../views/MapsView";
+import FlagFinder from "../../views/FlagFinder";
 import GlobeGuesser from "../../views/GlobeGuesser";
+import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
+import PrivateLobby from "../../views/PrivateLobby";
+import JoinPrivateLobby from "../../views/JoinPrivateLobby";
+import CreatePrivateLobby from "../../views/CreatePrivateLobby";
+import FlagFinderGuesses from "../../views/FlagFinderGuesses";
+import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
 
 
 /**
@@ -35,20 +39,22 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/friends" element={<Friends />}>
+
+        <Route element={<GameGuard />}>
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/rankings" element={<Rankings />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/globeguesser" element={<GlobeGuesser />} />
+          <Route path="/lobby" element={<GlobeGuesserLobby />} />
         </Route>
 
-        <Route path="/rankings" element={<Rankings />}>
-        </Route>
-
-        <Route path="/settings" element={<Settings />}>
-        </Route>
-
-        <Route path="/login_test" element={<Login />} />
-
-        <Route path="/globeguesser" element={<GlobeGuesser/>} />
         <Route path="/mapview" element={<MapsView/>} />
-        <Route path="/lobby" element={<GlobeGuesserLobby/>} />
+
+        <Route path="/country" element={<FlagFinder />} />
+        <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
+        <Route path="/ffguesses" element={<FlagFinderGuesses />} />
+
+        <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
 
         <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />
@@ -57,6 +63,13 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Start/>} />
         </Route>
+
+        <Route path="/privateLobby" element={<PrivateLobby/>}>
+        </Route>
+
+        <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
+
+        <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
 
         <Route path="/" element={
           <Navigate to="/game" replace />

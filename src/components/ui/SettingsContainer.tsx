@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "../../styles/ui/SettingsContainer.scss";
 import Button from "components/ui/Button";
 import { useNavigate } from 'react-router-dom';
+import { api } from "helpers/api";
 
 type BaseElementSettingsProps = {
   width?: string;
@@ -12,10 +13,23 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
   const [selectedContent, setSelectedContent] = useState('default');
   const navigate = useNavigate(); // Correctly placed within the component body
 
-  const doLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    navigate('/login'); // Use navigate to redirect after logout
+  const doLogout = async () => {
+    const userId = localStorage.getItem("userId");
+    const status = "OFFLINE";
+    const token = localStorage.getItem("token");
+    try {
+      const requestBody = JSON.stringify({status});
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+        const response = await api.put("/users/" + userId, requestBody, config);
+    } catch (e) {
+    } finally {
+      localStorage.clear();
+      navigate('/login'); // Use navigate to redirect after logout
+    }
   };
 
   const containerStyle = { width, minHeight: height };

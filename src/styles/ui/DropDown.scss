@@ -76,3 +76,15 @@
   text-stroke-width: 3px; /* Adjust the stroke width as needed */
   text-stroke-color: black; /* Stroke color */
 }
+
+.dd-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dd-font {
+  margin-right: 10px; /* Ensure some space between the text and the icon */
+}

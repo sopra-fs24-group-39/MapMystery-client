@@ -10,9 +10,10 @@ interface GameInputProps {
   lat: string;
   long: string;
   onDistanceCalculated: (distance: number) => void;
+  onNavigate: (coords: { lat1: number; lng1: number; lat2: number; lng2: number; }) => void;
 }
 
-const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated }) => {
+const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, onNavigate }) => {
   const navigate = useNavigate();
   const [yellowStyle, setYellowStyle] = useState({
     width: '70%',
@@ -67,7 +68,7 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated }
           console.log("Calculated Distance (GameInput):", distance);
           onDistanceCalculated(distance);
         } else {
-          onDistanceCalculated(100000000);
+          onDistanceCalculated(20037508);
           console.log("No marker set, default distance returned (GameInput)");
         }
         setButtonDisabled(true);
@@ -75,11 +76,29 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated }
       }
     }, [submitAttempted, markerCoords, onDistanceCalculated]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     console.log("Button (GameInput) clicked, Marker Coords:", markerCoords);
     setSubmitAttempted(true);
-    //navigate("/distance", { state: { panoramaCoords, markerCoords } });
+
+    if (markerCoords) {
+      await onDistanceCalculated(calculateDistance(panoramaCoords.lat, panoramaCoords.lng, markerCoords.lat, markerCoords.lng));
+      onNavigate({
+          lat1: panoramaCoords.lat,
+          lng1: panoramaCoords.lng,
+          lat2: markerCoords.lat,
+          lng2: markerCoords.lng
+        });
+    } else {
+        await onDistanceCalculated(20037508);
+        onNavigate({
+          lat1: panoramaCoords.lat,
+          lng1: panoramaCoords.lng,
+          lat2: -10000000000,
+          lng2: -10000000000,
+        });
+    }
   };
+
 
   return (
     <div>
