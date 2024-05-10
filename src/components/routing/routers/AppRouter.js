@@ -44,9 +44,11 @@ const AppRouter = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/globeguesser" element={<GlobeGuesser />} />
           <Route path="/lobby" element={<GlobeGuesserLobby />} />
+          <Route path="/login" element={<Start/>} />
+          <Route path="/privateLobby" element={<PrivateLobby/>} />
+          <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
+          <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
         </Route>
-
-        <Route path="/login_test" element={<Login />} />
 
         <Route path="/country" element={<GameInput />} />
         <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
@@ -54,17 +56,6 @@ const AppRouter = () => {
         <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />
         </Route>
-
-        <Route path="/login" element={<LoginGuard />}>
-          <Route path="/login" element={<Start/>} />
-        </Route>
-
-        <Route path="/privateLobby" element={<PrivateLobby/>}>
-        </Route>
-
-        <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
-
-        <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
 
         <Route path="/" element={
           <Navigate to="/game" replace />
