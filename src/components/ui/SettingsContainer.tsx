@@ -26,12 +26,10 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
       };
         const response = await api.put("/users/" + userId, requestBody, config);
     } catch (e) {
-      alert(e);
+    } finally {
+      localStorage.clear();
+      navigate('/login'); // Use navigate to redirect after logout
     }
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    navigate('/login'); // Use navigate to redirect after logout
   };
 
   const containerStyle = { width, minHeight: height };

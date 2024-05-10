@@ -20,15 +20,11 @@ const NavDropDown = () => {
         }
       };
       const response = await api.put("/users/" + userId, requestBody, config);
-      localStorage.removeItem("userId");
-      localStorage.removeItem("token");
-      localStorage.removeItem("lobby");
-      localStorage.removeItem("gamemode");
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      navigate("/login");
     } catch (e) {
-      alert(e);
+
+    } finally {
+      localStorage.clear();
+      navigate("/login");
     }
 
     // put users/user_ID body: status: OFFLINE

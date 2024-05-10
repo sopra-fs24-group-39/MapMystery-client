@@ -13,12 +13,13 @@ const JoinPrivateLobby = () => {
   const navigate = useNavigate();
 
   const [link, setLink] = useState("");
-  const [lobbyID, setLobbyID] = useState(null);
   const [error, setError] = useState(null);
 
   const callPrivateLobbyComponent = async () => {
     const token = localStorage.getItem("token");
-    const authKey = link;
+    let parsedText = link.split("$");
+    const authKey = parsedText[0];
+    const lobbyID = parsedText[1];
     const config = {
       headers: {
         Authorization: `${token}`
@@ -47,7 +48,6 @@ const JoinPrivateLobby = () => {
         <div>
           <div>
             <Input height={"50px"} width={"400px"} type={"text"} value={link} onChange={(l)=>(setLink(l))}></Input>
-            <Input height={"50px"} width={"400px"} type={"text"} value={lobbyID} onChange={(lid)=>(setLobbyID(lid))}></Input>
             <div className={"pt-4"}>
               <Button width={"lg"} name={"Join"} type={"regular"} onClick={callPrivateLobbyComponent}></Button>
             </div>

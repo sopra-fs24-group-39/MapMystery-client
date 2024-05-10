@@ -128,7 +128,7 @@ const Friends = () => {
           }
         </div>
         {showFriends ?
-          <Title text="Friends" className="title"></Title>
+          <Title text="Friends" className="title" size={"md"}></Title>
           :
           <Title text="Friend Requests" className="title" size={"md"}></Title>
         }
