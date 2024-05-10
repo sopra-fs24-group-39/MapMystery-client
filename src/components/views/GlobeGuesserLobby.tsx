@@ -168,7 +168,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       navigate(url);
     } catch (error) {
       console.error("Error during navigation preparation: ", error);
-      navigate("/start")
+      navigate("/game")
     }
   };
 

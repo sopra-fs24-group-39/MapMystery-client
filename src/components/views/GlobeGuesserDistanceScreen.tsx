@@ -7,6 +7,7 @@ import GlobeGuesserDistance from "components/ui/GlobeGuesserDistance";
 import BackgroundImage from "./sources/background.png";
 import "../../styles/ui/GlobeGuesserDistanceScreen.scss";
 import { webSocketService } from './WebSocketService';
+import { api, handleError } from "helpers/api";
 import ScoreBoard from "components/ui/ScoreBoard";
 import { useBeforeUnload } from "helpers/useBeforeUnload";
 
@@ -100,7 +101,7 @@ const GlobeGuesserDistanceScreen = () => {
           navigate(url);
       } catch (error) {
           console.error("Error during navigation preparation: ", error);
-          navigate("/start")
+          navigate("/game")
       }
   };
 
