@@ -25,6 +25,7 @@ const Start = () => {
   const [isPlayButton, setIsPlayButton] = useState(1);
 
   const handleClick = () => {
+    localStorage.clear();
     setIsLogin(!isLogin);
     setIsPlayButton(-1*isPlayButton);
   }

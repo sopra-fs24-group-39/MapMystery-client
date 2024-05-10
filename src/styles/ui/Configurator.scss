@@ -1,0 +1,77 @@
+@import "../theme";
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
+.configurator {
+  width: 55vw;
+  background: $base-blue;
+  border: 10px solid #ffffff;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.number-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0;
+
+  label {
+    margin-right: 10px;
+    flex: 0 0 auto;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  input[type="number"] {
+    border: none;
+    background: transparent;
+    color: black;
+    font-size: 50px;
+    font-weight: 900;
+    width: 80px;
+    text-align: center;
+    outline: none;
+    margin: 0 0px;
+  }
+
+  arrow {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      background-color: transparent;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .up {
+      border-width: 0 15px 24px 15px;
+      border-color: transparent transparent $base-yellow transparent;
+    }
+
+    .down {
+      border-width: 24px 15px 0 15px;
+      border-color: $base-yellow transparent transparent transparent;
+    }
+}
+
+

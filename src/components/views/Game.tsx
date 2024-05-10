@@ -43,6 +43,7 @@ const Game = () => {
       console.log("No game mode selected");
       return;
     }
+
     setGameMode(selectedGameMode);
     if (mp === "hidden") {
       setPlayerMS("Singleplayer");
@@ -58,6 +59,11 @@ async function onTimeUp() {
     const token = localStorage.getItem("token");
     console.log(userId)
     console.log(token)
+
+     if (localStorage.getItem("gamemode") === "Flag Finder") {
+       navigate("/ffconfiguration");
+       return;
+     }
 
     try {
         const config = {

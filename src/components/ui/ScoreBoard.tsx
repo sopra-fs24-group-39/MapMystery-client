@@ -9,9 +9,10 @@ type ScoreBoardProps = {
   onTimeExpired?: () => void;
   currentRound: number;
   totalRounds: number;
+  initialTime?: number; // Optional initial time for the timer
 };
 
-const Timer: React.FC<TimerProps & { time: number }> = ({ onTimeExpired, time }) => {
+const Timer: React.FC<{ time: number; onTimeExpired?: () => void }> = ({ onTimeExpired, time }) => {
   const [localTime, setLocalTime] = useState(time);
 
   useEffect(() => {
@@ -48,7 +49,6 @@ const Timer: React.FC<TimerProps & { time: number }> = ({ onTimeExpired, time })
   );
 };
 
-
 type RoundProps = {
   currentRound: number;
   totalRounds: number;
@@ -62,23 +62,22 @@ const Round: React.FC<RoundProps> = ({ currentRound, totalRounds }) => {
   );
 };
 
-const ScoreBoard: React.FC<ScoreBoardProps> = ({ onTimeExpired, children, currentRound, totalRounds, width = '25%', height = '15%' }) => {
-  const [timerTime, setTimerTime] = useState(60);
+const ScoreBoard: React.FC<ScoreBoardProps> = ({
+  onTimeExpired,
+  children,
+  currentRound,
+  totalRounds,
+  width = '25%',
+  height = '15%',
+  initialTime = 60
+}) => {
+  const [timerTime, setTimerTime] = useState(initialTime);
 
   const style = { width, minHeight: height };
-  const setCustomTime = (newTime: number) => {
-    setTimerTime(newTime);
-  };
-
-  const setRound = (newRound: number) => {
-    if (newRound <= totalRounds && newRound >= 1) {
-      setCurrentRound(newRound);
-    }
-  };
 
   return (
     <div className="base-elements" style={style}>
-     <Timer time={timerTime} onTimeExpired={onTimeExpired} />
+      <Timer time={timerTime} onTimeExpired={onTimeExpired} />
       <Round currentRound={currentRound} totalRounds={totalRounds} />
     </div>
   );
