@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "../../styles/views/Header.scss";
@@ -6,7 +6,7 @@ import Logo from "components/pictures/Logo";
 import MinidenticonImg from "components/pictures/ProfilePicture";
 import NavDropDown from "../ui/NavDropDown";
 
-const Header = props => {
+const Header = ({ onNavigateClick }) => {
   const [navDropDown, setNavDropDown] = useState("hidden");
   const [username, setUsername] = useState("");
   const [hasToken, setHasToken] = useState(false);
@@ -23,11 +23,10 @@ const Header = props => {
         setUsername(storedUsername);
         updateColorSettings(storedUsername);
       }
-    setHasToken(token !== null);
+      setHasToken(token !== null);
     };
 
     window.addEventListener("storage", checkForUsername);
-
     checkForUsername();
 
     return () => {
@@ -36,7 +35,11 @@ const Header = props => {
   }, []);
 
   const handleNavigation = (path) => {
-    navigate(path);
+    if (onNavigateClick) {
+      onNavigateClick(path);
+    } else {
+      navigate(path);
+    }
   };
 
   function expandAvatar() {
@@ -44,24 +47,22 @@ const Header = props => {
   }
 
   const hashString = str => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = (hash << 5) - hash + char;
-        //Convert to 32bit integer
-        hash |= 0;
-      }
-      return hash;
-   };
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0;
+    }
+    return hash;
+  };
 
   const updateColorSettings = username => {
-      const hash = hashString(username);
-      //saturation and lightness between 0 and 100
-      const newSaturation = Math.abs(hash % 100);
-      const newLightness = Math.abs(hash % 100);
-      setSaturation(newSaturation);
-      setLightness(newLightness);
-    };
+    const hash = hashString(username);
+    const newSaturation = Math.abs(hash % 100);
+    const newLightness = Math.abs(hash % 100);
+    setSaturation(newSaturation);
+    setLightness(newLightness);
+  };
 
   return (
     <div className={"h-12"}>
@@ -96,6 +97,7 @@ const Header = props => {
 
 Header.propTypes = {
   height: PropTypes.string,
+  onNavigateClick: PropTypes.func,
 };
 
 export default Header;

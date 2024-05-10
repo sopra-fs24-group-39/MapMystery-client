@@ -68,7 +68,7 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, 
           console.log("Calculated Distance (GameInput):", distance);
           onDistanceCalculated(distance);
         } else {
-          onDistanceCalculated(100000000);
+          onDistanceCalculated(20037508);
           console.log("No marker set, default distance returned (GameInput)");
         }
         setButtonDisabled(true);
@@ -89,7 +89,7 @@ const GameInput: React.FC<GameInputProps> = ({ lat, long, onDistanceCalculated, 
           lng2: markerCoords.lng
         });
     } else {
-        await onDistanceCalculated(100000000);
+        await onDistanceCalculated(20037508);
         onNavigate({
           lat1: panoramaCoords.lat,
           lng1: panoramaCoords.lng,

@@ -6,9 +6,9 @@ export const useBeforeUnload = (message: string, onBeforeUnload: () => void) => 
       onBeforeUnload();
 
       // returnValue triggers confirmation message
-      //event.preventDefault();
-      //console.log(message);
-      //event.returnValue = message;
+      event.preventDefault();
+      console.log(message);
+      event.returnValue = message;
     };
 
     window.addEventListener('beforeunload', handler);

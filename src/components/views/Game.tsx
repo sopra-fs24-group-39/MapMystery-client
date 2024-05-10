@@ -134,7 +134,7 @@ function prepareUserDTO(userData) {
         <Logo width="40vh" height="40vh" className="logo" />
         <div className="text-container-sm">
            <p className={text}>{text !== "hidden" ? text : "Select your preferences and join a lobby"}</p>
-           <p className={"text-info"}>For more information on the game modes click the information icon in the gamemode selection</p>
+           <p className={"text-info"}>For more information on the game modes click the information icon in the game mode selection</p>
           {timerActive && (
             <>
               <p><Timer initialSeconds={5} onTimeUp={onTimeUp} /></p>
@@ -152,7 +152,7 @@ function prepareUserDTO(userData) {
             <Button
               type={"regular"}
               width={"lg"}
-              name={"Create or join Game"}
+              name={"Create or join a private Game"}
             >
             </Button>
           </div>
@@ -177,7 +177,7 @@ function prepareUserDTO(userData) {
           <div className={"mt-3"}>
             <DropDown
               defaultValue={"Select Gamemode"}
-              altValues={["Globe Guesser", "Flag Finder", "Geo Genius"]}
+              altValues={["Globe Guesser", "Flag Finder"]}
               onInfoClick={(gameMode) => {
                 handleInformationPopUp()
               }}

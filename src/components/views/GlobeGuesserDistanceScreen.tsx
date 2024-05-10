@@ -8,6 +8,7 @@ import BackgroundImage from "./sources/background.png";
 import "../../styles/ui/GlobeGuesserDistanceScreen.scss";
 import { webSocketService } from './WebSocketService';
 import ScoreBoard from "components/ui/ScoreBoard";
+import { useBeforeUnload } from "helpers/useBeforeUnload";
 
 
 const GlobeGuesserDistanceScreen = () => {
@@ -62,10 +63,51 @@ const GlobeGuesserDistanceScreen = () => {
     return <p>Invalid coordinates provided in URL.</p>;
   }
 
+  async function leaveLobby() {
+    try {
+      webSocketService.disconnect();
+      //gettging the things needed to leave lobby
+      const userId = localStorage.getItem("userId");
+      const lobbyId = localStorage.getItem("lobby");
+      const token = localStorage.getItem("token");
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+
+      //making the call to leave the lobby
+      const headers = {
+        'Authorization': `${token}`
+      };
+
+      await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      navigate('/');
+    } catch (error) {
+      console.error(`Failed to leave lobby: ${handleError(error)}`);
+    }
+  }
+
+  useBeforeUnload("Leaving this page will reset the game", () => {
+    console.log("User is leaving the page or closing tab.");
+    leaveLobby();
+
+  });
+
+  const handleCustomNavigate = async (url) => {
+    console.log("URL", url);
+      try {
+          await leaveLobby();
+          navigate(url);
+      } catch (error) {
+          console.error("Error during navigation preparation: ", error);
+          navigate("/start")
+      }
+  };
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
-        <Header/>
+        <Header onNavigateClick={handleCustomNavigate} />
       </div>
       <div className="main-body-distance">
         <Title text="Your Guess:" className="site-title" size={"md"}></Title>

@@ -161,10 +161,21 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
 
   });
 
+  const handleCustomNavigate = async (url) => {
+    console.log("URL", url);
+    try {
+      await leaveLobby();
+      navigate(url);
+    } catch (error) {
+      console.error("Error during navigation preparation: ", error);
+      navigate("/start")
+    }
+  };
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
-        <Header />
+        <Header onNavigateClick={handleCustomNavigate} />
           {(parseInt(localStorage.getItem("round"), 10) === 5) ? (
             <>
               <Title text={"Final Scores"} size={"md"} />
