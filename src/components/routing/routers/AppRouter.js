@@ -48,8 +48,6 @@ const AppRouter = () => {
           <Route path="/lobby" element={<GlobeGuesserLobby />} />
         </Route>
 
-        <Route path="/login_test" element={<Login />} />
-
         <Route path="/country" element={<FlagFinder />} />
         <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
         <Route path="/ffguesses" element={<FlagFinderGuesses />} />
