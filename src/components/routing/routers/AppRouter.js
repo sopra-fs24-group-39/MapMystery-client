@@ -8,15 +8,13 @@ import Rankings from "../../views/Rankings";
 import Friends from "../../views/Friends";
 import GlobeGuesserLobby from "../../views/GlobeGuesserLobby";
 import Settings from "../../views/Settings";
-import Login from "../../ui/Login";
+import MapView from "../../views/MapView";
 import FlagFinder from "../../views/FlagFinder";
 import GlobeGuesser from "../../views/GlobeGuesser";
 import GlobeGuesserDistanceScreen from "../../views/GlobeGuesserDistanceScreen";
 import PrivateLobby from "../../views/PrivateLobby";
 import JoinPrivateLobby from "../../views/JoinPrivateLobby";
 import CreatePrivateLobby from "../../views/CreatePrivateLobby";
-import FlagFinderGuesses from "../../views/FlagFinderGuesses";
-import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
 
 
 /**
@@ -48,11 +46,9 @@ const AppRouter = () => {
           <Route path="/lobby" element={<GlobeGuesserLobby />} />
         </Route>
 
-        <Route path="/mapview" element={<MapsView/>} />
+        <Route path="/mapview" element={<MapView/>} />
 
         <Route path="/country" element={<FlagFinder />} />
-        <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
-        <Route path="/ffguesses" element={<FlagFinderGuesses />} />
 
         <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
 

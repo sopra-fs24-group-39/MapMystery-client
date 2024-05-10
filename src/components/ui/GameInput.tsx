@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/ui/GameInput.scss";
 import Button from "components/ui/Button";
 import PanoramaView from "../views/PanoramaView";
-import MapsView from "../views/MapsView";
+import MapsView from "../views/MapView";
 import { calculateDistance } from "../../helpers/distance";
 import { useNavigate } from "react-router-dom";
 
