@@ -73,6 +73,7 @@ const GlobeGuesser: React.FC = () => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
+      console.log("GlobeGuesser sending distance", headers);
       await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
 
     } catch (error) {
