@@ -12,7 +12,7 @@ const MapView = ({ onMarkerUpdate, panoramaCoords, markerCoords }) => {
         if (isLoaded && mapRef.current && !window.googleMapInitialized) {
             const map = new google.maps.Map(mapRef.current, {
                 center: panoramaCoords || { lat: 47.377076, lng: 8.544310 },
-                zoom: 8,
+                zoom: 5,
                 mapId: '4504f8b37365c3d0',
                 streetViewControl: false,
                 fullscreenControl: false,

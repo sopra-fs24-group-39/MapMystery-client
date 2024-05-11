@@ -1,0 +1,54 @@
+@import "../theme";
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
+.flag-scores {
+  width: 40vw;
+  height: 60vh;
+  background: $base-blue;
+  border: 10px solid #ffffff;
+  border-radius: 8px;
+  background-clip: padding-box;
+  margin-bottom: 2rem;
+  box-shadow:
+    1px 1px 0 $threeD-blue,
+    2px 2px 0 $threeD-blue,
+    3px 3px 0 $threeD-blue,
+    4px 4px 0 $threeD-blue,
+    5px 5px 0 $threeD-blue,
+    6px 6px 0 $threeD-blue,
+    7px 7px 0 $threeD-blue,
+    8px 8px 0 $threeD-blue,
+    9px 9px 0 $threeD-blue,
+    10px 10px 0 $threeD-blue;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flag-scores {
+  width: 60%;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .score-row {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+
+    &.even {
+      background-color: $dark-accent-blue;
+    }
+    &.odd {
+      background-color: $light-accent-blue;
+    }
+  }
+}

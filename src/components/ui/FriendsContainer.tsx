@@ -19,6 +19,11 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
 
   useEffect(() => {
     getFriends();
+      const intervalId = setInterval(() => {
+        getFriends();
+      }, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const getFriends = async () => {
@@ -28,7 +33,6 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
         'Authorization': `${token}`
       };
       const response = await api.get(`/friends/${localStorage.getItem("userId")}`, { headers });
-      console.log(response);
       if (response.data) {
             setFriends(response.data.map(friend => ({
               id: friend.id,
@@ -42,9 +46,8 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
             })));
           }
     } catch (error) {
-      console.error('Failed to fetch friends:', error);
+      handleError(error);
     }
-    console.log("Friends", friends);
   };
 
   async function handleDelete(username) {
@@ -74,6 +77,7 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
     } catch (error) {
           handleError(error);
     }
+    getFriends();
   }
 
   async function handleInvite(username: string) {

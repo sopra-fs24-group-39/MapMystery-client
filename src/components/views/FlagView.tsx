@@ -12,6 +12,7 @@ const FlagView = ({ countryCode, onFlagLoad }) => {
   return (
     <img
       src={flagUrl}
+      width="800px"
       alt={`Flag of ${countryCode}`}
       onLoad={handleLoad}
       onError={(e) => { e.target.src = 'default-flag-path'; }}

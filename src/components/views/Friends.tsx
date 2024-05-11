@@ -20,7 +20,7 @@ const Friends = () => {
     getFriendRequests();
     const intervalId = setInterval(() => {
       getFriendRequests();
-    }, 120000);
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -43,14 +43,12 @@ const Friends = () => {
   }
 
   const handleAddButton = () => {
-    console.log("Add button clicked");
     addFriend(searchValue);
     setSearchValue("");
   }
 
   async function addFriend(username: string) {
     if (username === "" || username === localStorage.getItem("username")) {
-      console.log("Invalid username", username === localStorage.getItem("username"));
       return;
     }
 
@@ -62,13 +60,11 @@ const Friends = () => {
       };
       const requestBody = JSON.stringify({ username });
       const response = await api.put(`/friends/${localStorage.getItem("userId")}`, requestBody, { headers });
-      console.log(response);
     } catch (error) {
-      console.error(error);
       if (error.response && error.response.status === 404) {
         alert("User not found");
       } else {
-        console.error(error);
+        handleError(error);
       }
     }
   }
@@ -83,7 +79,6 @@ const Friends = () => {
       if (response.data && response.data.friendrequests) {
         setFriendsNum(response.data.friendrequests.map(request => ({ name: request })));
       }
-      console.log(response);
     } catch (error) {
       handleError(error);
     }

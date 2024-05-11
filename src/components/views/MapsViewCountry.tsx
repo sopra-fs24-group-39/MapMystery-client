@@ -12,7 +12,7 @@ const MapViewCountry = ({ onCountryUpdate }) => {
         if (isLoaded && mapRef.current && !window.googleMapInitialized) {
             const map = new google.maps.Map(mapRef.current, {
                 center: { lat: 47.377076, lng: 8.544310 },
-                zoom: 8,
+                zoom: 2.1,
                 mapId: '4504f8b37365c3d0',
                 streetViewControl: false,
                 fullscreenControl: false,
@@ -46,28 +46,30 @@ const MapViewCountry = ({ onCountryUpdate }) => {
         });
 
         markerRef.current = newMarker;
-        console.log("Marker placed at: ", position);
     };
 
     const reverseGeocode = (position) => {
         geocoder.current.geocode({ location: position }, (results, status) => {
             if (status === google.maps.GeocoderStatus.OK) {
-                const country = results.find(result =>
+                const countryComponent = results.find(result =>
                     result.address_components.some(component =>
                         component.types.includes("country")
                     )
                 )?.address_components.find(component =>
                     component.types.includes("country")
-                )?.long_name || 'Unknown country';
+                );
 
-                onCountryUpdate(country);
-                console.log("Country found: ", country);
+                const countryName = countryComponent?.long_name || 'Unknown country';
+                const countryCode = countryComponent?.short_name || 'Unknown code';
+
+                onCountryUpdate(countryName, countryCode);
             } else {
                 console.error('Geocoder failed due to: ' + status);
-                onCountryUpdate('Unknown country');
+                onCountryUpdate('Unknown country', 'Unknown code');
             }
         });
     };
+
 
     return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
 };
