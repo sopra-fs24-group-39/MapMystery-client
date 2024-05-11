@@ -70,9 +70,8 @@ const GlobeGuesser: React.FC = () => {
       const requestBody = JSON.stringify({ "playerId": parseInt(userId, 10), "distance": distance, "timeDelta": timeDelta });
       console.log("GlobeGuesser sending distance", requestBody);
       const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Authorization': `${token}`,
+        'Content-Type': 'application/json'
       };
       console.log("GlobeGuesser sending distance", headers);
       await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
