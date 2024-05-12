@@ -18,23 +18,6 @@ import CreatePrivateLobby from "../../views/CreatePrivateLobby";
 import FlagFinderGuesses from "../../views/FlagFinderGuesses";
 import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
 
-
-/**
- * Main router of your application.
- * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
- * and another Router that matches the route "/game".
- * The main difference between these two routes is the following:
- * /login renders another component without any sub-route
- * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial
-
-         <Route path="/rankings" element={<Rankings />} />
-         <Route path="/friends" element={<Friends />} />
-         <Route path="/settings" element={<Settings />} />
-         <Route path="/globeguesser" element={<GlobeGuesser/>} />
-
- */
-
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -46,28 +29,20 @@ const AppRouter = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/globeguesser" element={<GlobeGuesser />} />
           <Route path="/lobby" element={<GlobeGuesserLobby />} />
-        </Route>
-
-        <Route path="/country" element={<FlagFinder />} />
-        <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
-        <Route path="/ffguesses" element={<FlagFinderGuesses />} />
-
-        <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
-
-        <Route path="/game/*" element={<GameGuard />}>
           <Route path="/game/*" element={<GameRouter base="/game"/>} />
+          <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
         </Route>
 
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Start/>} />
+          <Route path="/privateLobby" element={<PrivateLobby/>} />
+          <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
+          <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
+
+          <Route path="/country" element={<FlagFinder />} />
+          <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
+          <Route path="/ffguesses" element={<FlagFinderGuesses />} />
         </Route>
-
-        <Route path="/privateLobby" element={<PrivateLobby/>}>
-        </Route>
-
-        <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
-
-        <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
 
         <Route path="/" element={
           <Navigate to="/game" replace />
