@@ -20,36 +20,33 @@ import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <Routes>
+      <BrowserRouter>
+        <Routes>
 
-        <Route element={<GameGuard />}>
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/rankings" element={<Rankings />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/globeguesser" element={<GlobeGuesser />} />
-          <Route path="/lobby" element={<GlobeGuesserLobby />} />
-          <Route path="/game/*" element={<GameRouter base="/game"/>} />
-          <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
-        </Route>
+          <Route element={<GameGuard />}>
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/rankings" element={<Rankings />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/globeguesser" element={<GlobeGuesser />} />
+            <Route path="/lobby" element={<GlobeGuesserLobby />} />
+            <Route path="/game/*" element={<GameRouter base="/game"/>} />
+            <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
+          </Route>
 
-        <Route path="/login" element={<LoginGuard />}>
-          <Route path="/login" element={<Start/>} />
-          <Route path="/privateLobby" element={<PrivateLobby/>} />
-          <Route path="/joinPrivateLobby" element={<JoinPrivateLobby/>} />
-          <Route path="/createPrivateLobby" element={<CreatePrivateLobby/>} />
+          <Route element={<LoginGuard />}>
+            <Route path="/login" element={<Start />} />
+            <Route path="/privateLobby" element={<PrivateLobby />} />
+            <Route path="/joinPrivateLobby" element={<JoinPrivateLobby />} />
+            <Route path="/createPrivateLobby" element={<CreatePrivateLobby />} />
+            <Route path="/country" element={<FlagFinder />} />
+            <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
+            <Route path="/ffguesses" element={<FlagFinderGuesses />} />
+          </Route>
 
-          <Route path="/country" element={<FlagFinder />} />
-          <Route path="/ffconfiguration" element={<FlagFinderConfiguration />} />
-          <Route path="/ffguesses" element={<FlagFinderGuesses />} />
-        </Route>
+          <Route path="/" element={<Navigate to="/game" replace />} />
 
-        <Route path="/" element={
-          <Navigate to="/game" replace />
-        }/>
-
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
   );
 };
 
