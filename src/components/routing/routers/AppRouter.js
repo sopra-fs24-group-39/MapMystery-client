@@ -33,8 +33,7 @@ const AppRouter = () => {
             <Route path="/distance" element={<GlobeGuesserDistanceScreen />} />
           </Route>
 
-          <Route element={<LoginGuard />}>
-            <Route path="/login" element={<Start />} />
+          <Route element={<GameGuard />}>
             <Route path="/privateLobby" element={<PrivateLobby />} />
             <Route path="/joinPrivateLobby" element={<JoinPrivateLobby />} />
             <Route path="/createPrivateLobby" element={<CreatePrivateLobby />} />
@@ -43,6 +42,7 @@ const AppRouter = () => {
             <Route path="/ffguesses" element={<FlagFinderGuesses />} />
           </Route>
 
+          <Route path="/login" element={<Start />} />
           <Route path="/" element={<Navigate to="/game" replace />} />
 
         </Routes>
