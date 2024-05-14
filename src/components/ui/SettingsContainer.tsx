@@ -52,14 +52,26 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
         return <div>Content for Ranking Settings</div>;
       case 'Friend Settings':
         return <div>Content for Friend Settings</div>;
-      case 'Profile Picture Settings':
-        return <div>Content for Picture Settings</div>;
+      case 'Picture Settings':
+        return displayProfilePictureChapter();
       case 'Chat Settings':
         return <div>Content for Chat Settings</div>;
       default:
         return <div>Content for Account Settings</div>;
     }
   };
+  const displayProfilePictureChapter = () => {
+    return (
+        <div className={"center-container"}>
+          <div className="md-button">
+            <Button type={"login"} width={"md"} name={"Select Avatar"} onClick={doLogout}/>
+          </div>
+        </div>
+
+    );
+  };
+
+
 
   return (
     <div className="base-element-settings" style={containerStyle}>
