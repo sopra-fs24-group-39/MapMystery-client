@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BaseContainer from "components/ui/BaseContainer";
+import NotificationSquare from "components/ui/NotificationSquare";
 import "styles/views/Game.scss";
 import "styles/ui/DropDown.scss";
 import Button from "../ui/Button";
@@ -31,9 +32,9 @@ const Game = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [text, setText] = useState("Select your preferences and join a lobby");
   const [isInfo, setIsInfo] = useState(false);
-
   const [isRandomLobby, setIsRandomLobby] = useState("hidden");
   const [isLobbySelection, setIsLobbySelection] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   const handleInformationPopUp = () => {
     setIsInfo(!isInfo);
@@ -124,6 +125,7 @@ function prepareUserDTO(userData) {
 
 
   function handleMPlayer() {
+    addNotification("Multiplayer selected", "win");
     if (sp === "") {
       setSp("hidden");
       setMp("");
@@ -131,6 +133,7 @@ function prepareUserDTO(userData) {
   }
 
   function handleSPlayer() {
+    addNotification("Singleplayer selected");
     if (mp === "") {
       setSp("");
       setMp("hidden");
@@ -145,9 +148,26 @@ function prepareUserDTO(userData) {
     navigate("/privateLobby");
   }
 
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  }
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
+  }
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
       {showGameInformation(isInfo)}
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className={"center-container left-5"}>
         <Header/>
         <Logo width="40vh" height="40vh" className="logo" />

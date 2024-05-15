@@ -4,7 +4,7 @@ import "../../styles/ui/NotificationSqaure.scss";
 interface Notification {
     id: number;
     text: string;
-    type?: 'win' | 'error' | 'default'; // Optional type field
+    type?: 'win' | 'error' | 'default';
 }
 
 interface NotificationSquareProps {
@@ -40,8 +40,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, remov
             setIsRemoving(true);
             setTimeout(() => {
                 removeNotification(notification.id);
-            }, 500); // Match this duration with the animation duration
-        }, 5000);
+            }, 500);
+        }, 3000);
 
         return () => {
             if (timerRef.current !== null) {

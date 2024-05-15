@@ -23,17 +23,23 @@
 
 .default {
   background-color: $base-blue;
+  border-radius: 10px;
   color: white;
+  border: solid 3px white;
 }
 
 .win {
   background-color: $base-yellow;
+  border-radius: 10px;
   color: black;
+  border: solid 3px darken($base-yellow, 10%);
 }
 
 .error {
   background-color: #ff0000;
+  border-radius: 10px;
   color: white;
+  border: solid 3px darken(#ff0000, 10%);
 }
 
 @keyframes slideIn {
