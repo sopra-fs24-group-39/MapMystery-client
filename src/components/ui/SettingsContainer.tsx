@@ -56,14 +56,14 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
       case 'Friend Settings':
         return <div>Content for Friend Settings</div>;
       case 'Picture Settings':
-        return displayProfilePictureChapter();
+        return <div>Content for Picture Settings</div>;;
       case 'Chat Settings':
         return <div>Content for Chat Settings</div>;
       default:
         return <div>Content for Account Settings</div>;
     }
   };
-  const displayProfilePictureChapter = () => {
+/*  const displayProfilePictureChapter = () => {
     return (
         <div className={"center-container"}>
           <div className="lg-button">
@@ -85,12 +85,14 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
           </div>
       );
     }
-  }
+  }*/
 
 
   return (
     <div className="base-element-settings" style={containerStyle}>
+{/*
       {showProfilePictureSelection(isProfilePicture) && <ProfilePictureSelection onClose={toggleProfilePictureSelection}/>}
+*/}
       <div className="sidebar" style={sidebarStyle}>
         <div className="sidebar-top striped-background" style={sidebarTopStyle}>
           <div className="settings-chapter" onClick={() => changeContent('Account Settings')}>Account Settings</div>
