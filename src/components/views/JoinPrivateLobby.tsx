@@ -16,24 +16,26 @@ const JoinPrivateLobby = () => {
   const [error, setError] = useState(null);
 
   const callPrivateLobbyComponent = async () => {
-    const token = localStorage.getItem("token");
-    let parsedText = link.split("$");
-    const authKey = parsedText[0];
-    const lobbyID = parsedText[1];
-    const config = {
-      headers: {
-        Authorization: `${token}`
+    if(link !== "") {
+      const token = localStorage.getItem("token");
+      let parsedText = link.split("$");
+      const authKey = parsedText[0];
+      const lobbyID = parsedText[1];
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+      const id = localStorage.getItem("userId");
+      try {
+        const requestBody = JSON.stringify({id, lobbyID, authKey});
+        console.log(requestBody);
+        const response = await api.post("/Lobby/GameMode1", requestBody, config);
+        localStorage.setItem("lobby", lobbyID);
+        navigate("/lobby");
+      } catch (e) {
+        setError(e.response.data.message);
       }
-    };
-    const id = localStorage.getItem("userId");
-    try {
-      const requestBody = JSON.stringify({id, lobbyID, authKey});
-      console.log(requestBody);
-      const response = await api.post("/Lobby/GameMode1", requestBody, config);
-      localStorage.setItem("lobby", lobbyID);
-      navigate("/lobby");
-    } catch (e) {
-      setError(e.response.data.message);
     }
   }
 
@@ -41,15 +43,16 @@ const JoinPrivateLobby = () => {
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container left-5"}>
         <Header/>
-        <Logo width="400px" height="400px" className="logo" />
+        <Logo width="40vh" height="40vh" className="logo" />
         <div className={"text-container-sm"}>
           <p>Create or join a private game!</p>
         </div>
         <div>
           <div>
             <Input height={"50px"} width={"400px"} type={"text"} value={link} onChange={(l)=>(setLink(l))}></Input>
-            <div className={"pt-4"}>
-              <Button width={"lg"} name={"Join"} type={"regular"} onClick={callPrivateLobbyComponent}></Button>
+            <div className={"pt-4"}
+                 onClick={callPrivateLobbyComponent}>
+              <Button width={"lg"} name={"Join"} type={"regular"}></Button>
             </div>
             {error && <ErrorMsg text={error}></ErrorMsg>}
           </div>

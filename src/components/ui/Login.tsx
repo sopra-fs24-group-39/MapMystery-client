@@ -12,10 +12,10 @@ import ErrorMsg from "./ErrorMsg";
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
 
-  const [username, setUsername] = useState<string>(null);
-  const [userEmail, setUserEmail] = useState<string>(null);
-  const [password, setPassword] = useState<string>(null);
-  const [confPassword, setConfPassword] = useState<string>(null);
+  const [username, setUsername] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confPassword, setConfPassword] = useState<string>("");
   const [error, setError] = useState<string>(null);
 
   const navigate = useNavigate();

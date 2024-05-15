@@ -32,8 +32,21 @@ const Game = () => {
   const [text, setText] = useState("Select your preferences and join a lobby");
   const [isInfo, setIsInfo] = useState(false);
 
+  const [isRandomLobby, setIsRandomLobby] = useState("hidden");
+  const [isLobbySelection, setIsLobbySelection] = useState("");
+
   const handleInformationPopUp = () => {
     setIsInfo(!isInfo);
+  }
+
+  const handleRandomLobby = () => {
+    if(isLobbySelection === "") {
+      setIsRandomLobby("");
+      setIsLobbySelection("hidden");
+    } else {
+      setIsRandomLobby("hidden");
+      setIsLobbySelection("");
+    }
   }
 
   function populateBeforeAPICall() {
@@ -154,58 +167,70 @@ function prepareUserDTO(userData) {
             <br />
           </div>
         */}
-          <div onClick={handlePrivateSwitch}>
-            <Button
-              type={"regular"}
-              width={"lg"}
-              name={"Create or join a private Game"}
-            >
-            </Button>
-          </div>
-          <div className={"menu-mpsp-select mt-3"}>
-            <div className={"flex flex-row items-center"} onClick={handleMPlayer}>
-              <div className={"arrow-right " + mp}></div>
+          <div className={isLobbySelection}>
+            <div onClick={handlePrivateSwitch}>
               <Button
                 type={"regular"}
-                width={"md"}
-                name={"Multiplayer"}>
-              </Button>
-            </div>
-            <div className={"flex flex-row items-center"} onClick={handleSPlayer}>
-              <div className={"arrow-right " + sp}></div>
-              <Button
-                type={"regular"}
-                width={"md"}
-                name={"Singleplayer"}>
-              </Button>
-            </div>
-          </div>
-          <div className={"mt-3"}>
-            <DropDown
-              defaultValue={"Select Gamemode"}
-              altValues={["Globe Guesser", "Flag Finder"]}
-              onInfoClick={(gameMode) => {
-                handleInformationPopUp()
-              }}
-            />
-          </div>
-          <div className={"mt-3"}>
-            <Button
-              type={"regular"}
-              width={"lg"}
-              name={"Start!"}
-              onClick={populateBeforeAPICall}
-            >
-            </Button>
-            {timerActive && (
-              <Button
-                type={"login"}
                 width={"lg"}
-                name={"Cancel"}
-                onClick={cancelTimer}
+                name={"Play in a private lobby"}
               >
               </Button>
-              )}
+            </div>
+            <div className={"mt-3"} onClick={handleRandomLobby}>
+              <Button
+                type={"regular"}
+                width={"lg"}
+                name={"Join a random public game"}
+              >
+              </Button>
+            </div>
+          </div>
+          <div className={isRandomLobby}>
+            <div className={"menu-mpsp-select mt-3"}>
+              <div className={"flex flex-row items-center"} onClick={handleMPlayer}>
+                <div className={"arrow-right " + mp}></div>
+                <Button
+                  type={"regular"}
+                  width={"md"}
+                  name={"Multiplayer"}>
+                </Button>
+              </div>
+              <div className={"flex flex-row items-center"} onClick={handleSPlayer}>
+                <div className={"arrow-right " + sp}></div>
+                <Button
+                  type={"regular"}
+                  width={"md"}
+                  name={"Singleplayer"}>
+                </Button>
+              </div>
+            </div>
+            <div className={"mt-3"}>
+              <DropDown
+                defaultValue={"Select Gamemode"}
+                altValues={["Globe Guesser", "Flag Finder"]}
+                onInfoClick={(gameMode) => {
+                  handleInformationPopUp()
+                }}
+              />
+            </div>
+            <div className={"mt-3"}>
+              <Button
+                type={"regular"}
+                width={"lg"}
+                name={"Start!"}
+                onClick={populateBeforeAPICall}
+              >
+              </Button>
+              {timerActive && (
+                <Button
+                  type={"login"}
+                  width={"lg"}
+                  name={"Cancel"}
+                  onClick={cancelTimer}
+                >
+                </Button>
+                )}
+            </div>
           </div>
         </div>
       </div>

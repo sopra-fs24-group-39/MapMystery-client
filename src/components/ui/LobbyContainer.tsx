@@ -8,9 +8,7 @@ type BaseElementLobbyProps = {
 const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
   // Default players setup
   const defaultElements = {
-    "Player 1": 0,
-    "Player 2": 0,
-    "Player 3": 0
+    "Waiting for players...": 0,
   };
 
   // Use elements or default if elements is null or undefined
@@ -27,7 +25,7 @@ const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
       </div>
     ));
 
-  const style = { width: '800px', minHeight: '500px' };
+  const style = { width: '60vw', minHeight: '50vh' };
   return (
     <div className="base-element-lobby" style={style}>
       {sortedElements}

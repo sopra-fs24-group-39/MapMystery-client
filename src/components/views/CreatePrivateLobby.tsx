@@ -39,13 +39,13 @@ const CreatePrivateLobby = () => {
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container left-5"}>
         <Header/>
-        <Logo width="400px" height="400px" className="logo" />
+        <Logo width="40vh" height="40vh" className="logo" />
         <div className={"text-container-sm"}>
           <p>Create or join a private game!</p>
         </div>
         <div>
-          <div className={"center-container"}>
-            {notactive? <Button type={"regular"} name={"Get a code to share"} width={"lg"} onClick={callCreatePrivateLobby}></Button>:null}
+          <div className={"center-container"} onClick={callCreatePrivateLobby}>
+            {notactive? <Button type={"regular"} name={"Get a code to share"} width={"lg"}></Button>:null}
           </div>
           <div className={"text-container"}>
             <p>Share the code that you will see on the next page with your friends.</p>

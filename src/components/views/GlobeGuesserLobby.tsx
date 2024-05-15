@@ -42,17 +42,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     leaveLobby();
   }
 
-  function initializeLeaderboard() {
-    const defaultLeaderboard = JSON.stringify({
-      "Player 1": 0,
-      "Player 2": 0,
-      "Player 3": 0
-    });
-    if (localStorage.getItem("leaderboard") === null) {
-      localStorage.setItem("leaderboard", defaultLeaderboard);
-    }
-  }
-
   // not needed anymore but if removed  get a no underlying STOMP connection error
   const queryParams = new URLSearchParams(location.search);
   const distance = queryParams.get('distance');
@@ -138,10 +127,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       const userId = localStorage.getItem("userId");
       const lobbyId = localStorage.getItem("lobby");
       const token = localStorage.getItem("token");
-      localStorage.removeItem("round");
-      localStorage.removeItem("lobby");
-      localStorage.removeItem("leaderboard")
-      localStorage.removeItem("gamemode")
 
       //making the call to leave the lobby
       const headers = {
@@ -152,6 +137,13 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       navigate('/');
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
+    } finally {
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      navigate('/');
     }
   }
 
@@ -186,7 +178,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
               <Title text={"Globe Guesser"} size={"md"} />
             </>
           )}
-        {localStorage.getItem("authKey") !== null? <div className="final-scores-leave">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</div>:null}
+        {localStorage.getItem("authKey") !== null? <div className="text-container">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</div>:null}
         <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
         <div>
           <div onClick={leaveLobby}>
