@@ -4,6 +4,12 @@
   position: relative;
 }
 
+.button-container:hover {
+  .button-font {
+    text-decoration: underline;
+  }
+}
+
 .button-container:active {
   top: 2px;
   transform: translateX(2px);
@@ -110,6 +116,12 @@
 
 .login-button-container {
   position: relative;
+}
+
+.login-button-container:hover {
+  .login-button-font {
+    text-decoration: underline;
+  }
 }
 
 .login-button-container:active {
