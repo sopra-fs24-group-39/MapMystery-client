@@ -34,12 +34,6 @@ const Login = () => {
                  value={username}
                  onChange={(un) => (setUsername(un))}
           />
-          <label style={{fontWeight: 700}}>email:</label>
-          <Input height={"50px"} width={"auto"}
-                 type={"text"}
-                 value={userEmail}
-                 onChange={(em) => (setUserEmail(em))}
-          />
           <label style={{fontWeight: 700}}>password:</label>
           <Input height={"50px"} width={"auto"}
                  type={"password"}
@@ -59,7 +53,7 @@ const Login = () => {
           />
           <label style={{fontWeight: 700}}>email:</label>
           <Input height={"50px"} width={"auto"}
-                 type={"text"}
+                 type={"email"}
                  value={userEmail}
                  onChange={(em) => (setUserEmail(em))}
           />
