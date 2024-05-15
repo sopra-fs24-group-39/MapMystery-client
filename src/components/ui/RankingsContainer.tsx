@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../../styles/ui/RankingsContainer.scss";
+import { api} from "helpers/api";
 
-//mock data
+
 const players = [{'id': 1,
                   'name': 'StarlightSprinter',
                   'overall_points': 150,
@@ -63,7 +64,7 @@ const players = [{'id': 1,
                   'overall_points': 10,
                   'last30days_points': 99}];
 
-const friends = [
+/*const friends = [
   {'id': 2,
   'name': 'QuantumQuest',
   'overall_points': 140,
@@ -76,11 +77,41 @@ const friends = [
    'name': 'PixelProdigy',
    'overall_points': 20,
    'last30days_points': 67},
-];
+];*/
+
 
 const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) => {
-   const [sortedFriends, setSortedFriends] = useState(friends);
+   const [sortedFriends, setSortedFriends] = useState([]);
    const [sortedPlayers, setSortedPlayers] = useState(players);
+   const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const token = localStorage.getItem("token");
+                const config = {
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                };
+                const userId = localStorage.getItem("userId");
+                const response = await api.get(`/friends/${userId}`,config);
+                const fetchedFriends = response.data.map(friend => ({
+                    id: friend.id,
+                    name: friend.username, // Assuming the username needs to be mapped to name
+                    overall_points: friend.currentpoints,
+                    last30days_points: 0 // Setting last30days_points to 0 for every friend
+                    // Add other attributes if needed
+                }));
+                setFriends(fetchedFriends);
+                setSortedFriends([...fetchedFriends]); // Update sortedFriends after friends have been set
+            } catch (error) {
+                console.error('Failed to fetch friends:', error);
+            }
+        }
+        fetchData();
+    }, []);
+
 
    const [sortCriteria, setSortCriteria] = useState({
      friends: {
