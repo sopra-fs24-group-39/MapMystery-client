@@ -4,11 +4,13 @@
   position: relative;
 }
 
+/*
 .button-container:hover {
   .button-font {
     text-decoration: underline;
   }
 }
+*/
 
 .button-container:active {
   top: 2px;
@@ -41,6 +43,10 @@
     6px 6px 0 $secondary-color,
     7px 7px 0 $secondary-color;
   outline: 4px solid transparent;
+
+  &:hover {
+    border: solid 3px darken($shine-blue, 20%);
+  }
 }
 
 .button:active {
@@ -103,6 +109,10 @@
     6px 6px 0 $threeD-yellow,
     7px 7px 0 $threeD-yellow;
   outline: 4px solid transparent;
+
+  &:hover {
+    border: solid 1px $button-shine-yellow;
+  }
 }
 
 .login-button:active {
@@ -118,11 +128,14 @@
   position: relative;
 }
 
+
+/*
 .login-button-container:hover {
   .login-button-font {
     text-decoration: underline;
   }
 }
+*/
 
 .login-button-container:active {
   top: 2px;

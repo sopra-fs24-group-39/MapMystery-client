@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import NotificationSquare from "components/ui/NotificationSquare";
 import "styles/views/Game.scss";
 import "styles/ui/DropDown.scss";
 import Button from "../ui/Button";
@@ -11,13 +10,15 @@ import DropDown from "../ui/DropDown";
 import Timer from "../ui/Timer";
 import { api, handleError } from "helpers/api";
 import { useNavigate } from "react-router-dom";
-import GameInfo from "../ui/GameInfo";
+import GlobeGuesserInfo from "../ui/GlobeGuesserInfo";
+import FlagFinderInfo from "../ui/FlagFinderInfo";
+import NotificationSquare from "components/ui/NotificationSquare";
 
-const showGameInformation = (stat) => {
+const showGLobeGuesserInformation = (stat) => {
   if (stat) {
     return (
       <div className={"full-h-w z-20"} style={{position: "absolute"}}>
-        <GameInfo></GameInfo>
+        <GlobeGuesserInfo></GlobeGuesserInfo>
       </div>
     );
   }
@@ -35,9 +36,11 @@ const Game = () => {
   const [isRandomLobby, setIsRandomLobby] = useState("hidden");
   const [isLobbySelection, setIsLobbySelection] = useState("");
   const [notifications, setNotifications] = useState([]);
+  const [infoGameMode, setInfoGameMode] = useState("");
 
-  const handleInformationPopUp = () => {
-    setIsInfo(!isInfo);
+  const handleInformationPopUp = (gameMode) => {
+      setInfoGameMode(gameMode);
+      setIsInfo(!isInfo);
   }
 
   const handleRandomLobby = () => {
@@ -163,7 +166,12 @@ function prepareUserDTO(userData) {
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
-      {showGameInformation(isInfo)}
+      {isInfo && (
+        <div className={"full-h-w z-20"} style={{position: "absolute"}}>
+          {infoGameMode === "Globe Guesser" && <GlobeGuesserInfo />}
+          {infoGameMode === "Flag Finder" && <FlagFinderInfo />}
+        </div>
+      )}
       <NotificationSquare
         notifications={notifications}
         removeNotification={removeNotification}
@@ -229,7 +237,7 @@ function prepareUserDTO(userData) {
                 defaultValue={"Select Gamemode"}
                 altValues={["Globe Guesser", "Flag Finder"]}
                 onInfoClick={(gameMode) => {
-                  handleInformationPopUp()
+                  handleInformationPopUp(gameMode);
                 }}
               />
             </div>
