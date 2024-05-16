@@ -7,6 +7,7 @@ import { api } from "helpers/api";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
 import NotificationSquare from "components/ui/NotificationSquare";
+import "../../styles/views/CreatePrivateLobby.scss";
 
 const CreatePrivateLobby = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const CreatePrivateLobby = () => {
         removeNotification={removeNotification}
       />
       <div className={"center-container"}>
-        <Header/>
+        <Header />
         <Logo width="40vh" height="40vh" className="logo" />
         <div className={"text-container-sm"}>
           <p>Create or join a private game!</p>

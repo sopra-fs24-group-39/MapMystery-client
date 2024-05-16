@@ -37,7 +37,7 @@ const FlagFinderGuesses: React.FC = () => {
     if (currentRound === rounds+1) {
       timer = setTimeout(() => {
         handleLeaveGame();
-      }, 100000);
+      }, 10000);
     }
 
     return () => {
@@ -76,7 +76,7 @@ const FlagFinderGuesses: React.FC = () => {
               {result === '?' ? '?' : (
                 <>
                   <span>Result: {result[0] ? 'Correct' : 'False'}</span>
-                  <span>Your Guess: {result[1] ? result[1] : 'Unknown'}</span>
+                  <span>Your Guess: {result[1] ? result[1] : 'no submission'}</span>
                   <span>Correct Answer: { result[2]}</span>
                 </>
               )}

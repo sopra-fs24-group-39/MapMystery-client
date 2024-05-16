@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import { useBeforeUnload } from "helpers/useBeforeUnload";
 import "../../styles/ui/GlobeGuesserLobby.scss";
+import NotificationSquare from "components/ui/NotificationSquare";
 
 type GlobeGuesserLobbyProps = {
   lobbyId: string;
@@ -17,6 +18,8 @@ type GlobeGuesserLobbyProps = {
 
 const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   //const [receivedCoordinates, setReceivedCoordinates] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationTimeout, setNotificationTimeout] = useState(null);
   const [currentRound, setCurrentRound] = useState(() => {
     const storedRound = localStorage.getItem('round');
     return storedRound ? parseInt(storedRound, 10) : 0;
@@ -74,12 +77,12 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   //for handeling the messages. The server sends hash map but somehow not working only this did
   function handleLobbyUpdate(message) {
     let parsedMessage;
-    try {
-              parsedMessage = JSON.parse(message);
-    } catch (error) {
-              console.error('Error parsing lobby update message:', error);
-              return;
-    }
+     try {
+        parsedMessage = JSON.parse(message);
+     } catch (error) {
+       console.error('Error parsing lobby update message:', error);
+       return;
+     }
 
     let keys = Object.keys(parsedMessage);
     let latitude, longitude;
@@ -93,34 +96,29 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     }
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
-      console.log('(GlobeGuesserLobby) Lobby update with latitude:', latitude, 'and longitude:', longitude);
       navigate(`/globeguesser?ping=${longitude}&pong=${latitude}`);
     } else {
-      console.error('Invalid latitude or longitude values:', latitude, longitude);
+      addNotification("Error during sending the coordinates", "error");
     }
   }
 
-  //subscribing to chanel for coords
   async function setupSubscription2() {
-    console.log("(GlobeGuesserLobby) Subscribing2 ");
     let subscription = await webSocketService.subscribe2(lobbyId, handleLeaderBoardUpdate);
   }
-
-  //setupSubscription2();
 
   function handleLeaderBoardUpdate(message) {
     let parsedMessage;
     try {
       parsedMessage = JSON.parse(message);
-      console.log("(GlobeGuesserLobby) LeaderBoard update with message:", parsedMessage);
-      //setLeaderBoard(parsedMessage);
       localStorage.setItem("leaderboard", JSON.stringify(parsedMessage));
     } catch (error) {
       console.error('Error parsing leaderboard update message:', error);
+      addNotification("Player joined lobby", "win");
     }
   }
 
   async function leaveLobby() {
+    addNotification("Leaving lobby", "default");
     try {
       webSocketService.disconnect();
       //gettging the things needed to leave lobby
@@ -133,7 +131,8 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
         'Authorization': `${token}`
       };
 
-      await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      console.log(response.status);
       navigate('/');
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
@@ -148,24 +147,49 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   }
 
   useBeforeUnload("Leaving this page will reset the game", () => {
-    console.log("User is leaving the page or closing tab.");
     leaveLobby();
 
   });
 
   const handleCustomNavigate = async (url) => {
-    console.log("URL", url);
     try {
       await leaveLobby();
       navigate(url);
     } catch (error) {
       console.error("Error during navigation preparation: ", error);
+      addNotification("Error during leaving lobby", "error");
       navigate("/game")
     }
   };
 
+  const addNotification = (text, type) => {
+    if (!notificationTimeout) {
+      console.log("addNotification", text, type);
+      const id = Date.now();
+      setNotifications([{ id, text, type }]);
+      setNotificationTimeout(setTimeout(() => {
+        setNotifications([]);
+        setNotificationTimeout(null);
+      }, 5000));
+    }
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
+    if (notifications.length === 1) {
+      clearTimeout(notificationTimeout);
+      setNotificationTimeout(null);
+    }
+  }
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className={"center-container"}>
         <Header onNavigateClick={handleCustomNavigate} />
           {(parseInt(localStorage.getItem("round"), 10) === 5) ? (
