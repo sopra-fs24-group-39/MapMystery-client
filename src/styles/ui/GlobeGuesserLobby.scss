@@ -7,3 +7,24 @@
   color: $default-font-color;
   margin-bottom: 3rem;
 }
+
+.lobby-code {
+  font-size: 2rem;
+}
+
+.text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clipboard-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+}
+

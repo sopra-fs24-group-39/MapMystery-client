@@ -11,6 +11,7 @@ import { api, handleError } from "helpers/api";
 import { useBeforeUnload } from "helpers/useBeforeUnload";
 import "../../styles/ui/GlobeGuesserLobby.scss";
 import NotificationSquare from "components/ui/NotificationSquare";
+import ClipboardIcon from "./sources/copy.svg";
 
 type GlobeGuesserLobbyProps = {
   lobbyId: string;
@@ -162,6 +163,15 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     }
   };
 
+  const handleClipboardCopy = () => {
+    const lobbyCode = `${localStorage.getItem("authKey")}$${localStorage.getItem("lobby")}$`;
+    navigator.clipboard.writeText(lobbyCode).then(() => {
+      addNotification("Lobby code copied to clipboard", "default");
+    }).catch(err => {
+      console.error("Could not copy text: ", err);
+    });
+  };
+
   const addNotification = (text, type) => {
     if (!notificationTimeout) {
       console.log("addNotification", text, type);
@@ -202,7 +212,14 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
               <Title text={"Globe Guesser"} size={"md"} />
             </>
           )}
-        {localStorage.getItem("authKey") !== null? <div className="text-container">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</div>:null}
+        {localStorage.getItem("authKey") !== null ? (
+          <div className="text-container">
+            <span className="lobby-code">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</span>
+            <button onClick={handleClipboardCopy} className="clipboard-button">
+              <img src={ClipboardIcon} alt="Copy to Clipboard" />
+            </button>
+          </div>
+        ) : null}
         <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
         <div>
           <div onClick={leaveLobby}>
