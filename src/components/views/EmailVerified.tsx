@@ -21,7 +21,7 @@ const EmailVerified =()=> {
   }
 
   return(
-    <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
+    <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
         <Header/>
         <Logo width="300px" height="300px" className="logo" />
