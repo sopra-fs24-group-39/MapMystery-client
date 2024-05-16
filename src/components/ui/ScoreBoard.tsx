@@ -9,7 +9,7 @@ type ScoreBoardProps = {
   onTimeExpired?: () => void;
   currentRound: number;
   totalRounds: number;
-  initialTime?: number; // Optional initial time for the timer
+  initialTime?: number;
 };
 
 const Timer: React.FC<{ time: number; onTimeExpired?: () => void }> = ({ onTimeExpired, time }) => {

@@ -37,4 +37,15 @@
     height: 5rem;
     background-color: $light-accent-blue;
   }
+
+  .default-text {
+    text-align: center;
+    padding: 8px;
+    color: $base-yellow;
+    margin-top: 8rem;
+    height: 100%;
+    font-size: 3rem;
+    font-weight: bold;
+    -webkit-text-stroke: 1px black;
+  }
 }

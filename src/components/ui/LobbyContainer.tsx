@@ -13,9 +13,9 @@ const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
 
   // Use elements or default if elements is null or undefined
   const validElements = elements ?? defaultElements;
-  const hasElements = Object.keys(validElements).length > 0;
+  const isDefault = validElements === defaultElements;
 
-  if (!hasElements) return null;
+  if (Object.keys(validElements).length === 0) return null;
 
   const sortedElements = Object.entries(validElements)
     .sort((a, b) => b[1] - a[1])
@@ -28,7 +28,13 @@ const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
   const style = { width: '60vw', minHeight: '50vh' };
   return (
     <div className="base-element-lobby" style={style}>
-      {sortedElements}
+      {isDefault ? (
+        <div className="default-text">
+          Waiting for players, game will start automatically...
+        </div>
+      ) : (
+        sortedElements
+      )}
     </div>
   );
 };
