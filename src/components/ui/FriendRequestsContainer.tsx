@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/ui/FriendRequestsContainer.scss";
 import { api, handleError } from "helpers/api";
+import NotificationSquare from "components/ui/NotificationSquare";
 
 interface BaseElementFriendsProps {
   width?: string;
@@ -10,6 +11,7 @@ interface BaseElementFriendsProps {
 const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px', height = '500px' }) => {
   const [friends, setFriends] = useState([]);
   const style = { width, minHeight: height };
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     getFriendRequests();
@@ -49,8 +51,9 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
       };
       const requestBody = JSON.stringify({ username, accepted: true });
       const response = await api.put(`/friends/friendrequests/${localStorage.getItem("userId")}`, requestBody, { headers });
-      console.log(response);
+      addNotification("Friend request accepted", "win");
     }catch (error) {
+      addNotification("Error accepting friend request", "error");
       handleError(error);
     }
     getFriendRequests();
@@ -69,14 +72,32 @@ const BaseElementFriends: React.FC<BaseElementFriendsProps> = ({ width = '800px'
       };
       const requestBody = JSON.stringify({ username, accepted: false });
       const response = await api.put(`/friends/friendrequests/${localStorage.getItem("userId")}`, requestBody, { headers });
+      addNotification("Friend request declined", "win");
     }catch (error) {
+      addNotification("Error declining friend request", "error");
       handleError(error);
     }
     getFriendRequests();
   }
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  }
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
+  }
 
   return (
     <div className="base-element-friends-req" style={style}>
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       {friends.map((friend, index) => (
         <div key={index} className={`player-row ${index % 2 === 0 ? 'light-stripe' : 'dark-stripe'}`}>
           <div className="visible-details">

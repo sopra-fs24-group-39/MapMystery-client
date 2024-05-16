@@ -10,11 +10,13 @@ import BaseElementFriends2 from "components/ui/FriendRequestsContainer";
 import Button from "components/ui/Button";
 import RoundButton from "components/ui/NotificationIcon";
 import { api, handleError } from "helpers/api";
+import NotificationSquare from "components/ui/NotificationSquare";
 
 const Friends = () => {
   const [showFriends, setShowFriends] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [friendsNum, setFriendsNum] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     getFriendRequests();
@@ -48,7 +50,13 @@ const Friends = () => {
   }
 
   async function addFriend(username: string) {
-    if (username === "" || username === localStorage.getItem("username")) {
+    if (username === "") {
+      addNotification("Please enter a username", "error");
+      return;
+    }
+
+    if (username === localStorage.getItem("username")) {
+      addNotification("You can't add yourself", "error");
       return;
     }
 
@@ -60,11 +68,13 @@ const Friends = () => {
       };
       const requestBody = JSON.stringify({ username });
       const response = await api.put(`/friends/${localStorage.getItem("userId")}`, requestBody, { headers });
+      addNotification("Friend request sent", "win");
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        alert("User not found");
+        addNotification("User not found", "error");
       } else {
         handleError(error);
+        addNotification("Error adding friend", "error");
       }
     }
   }
@@ -84,8 +94,25 @@ const Friends = () => {
     }
   }
 
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  }
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
+  }
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-clip">
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className={"center-container"}>
         <Header/>
         <div className={"input-container"}>

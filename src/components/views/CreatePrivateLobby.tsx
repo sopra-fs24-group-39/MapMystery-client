@@ -6,14 +6,13 @@ import BackgroundImage from "./sources/background.png";
 import { api } from "helpers/api";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
-import ErrorMsg from "../ui/ErrorMsg";
+import NotificationSquare from "components/ui/NotificationSquare";
 
 const CreatePrivateLobby = () => {
   const navigate = useNavigate();
-
-  const [error, setError] = useState(null);
   const [code, setCode] = useState("");
   const [notactive, setNotActive] = useState(true);
+  const [notifications, setNotifications] = useState([]);
   const callCreatePrivateLobby = async () => {
     const token = localStorage.getItem("token");
     const config = {
@@ -28,16 +27,42 @@ const CreatePrivateLobby = () => {
 
       localStorage.setItem("authKey", response.data.authKey);
       localStorage.setItem("lobby", response.data.lobbyId);
+      navigate("/lobby");
     } catch (e) {
-      setError(e.response.data.message);
+      if (e.response) {
+        const statusCode = e.response.status;
+        if (statusCode === 409) {
+          addNotification("You already have a private lobby", "error");
+        } else {
+          addNotification("Error while creating private lobby:" , "error");
+        }
+      } else {
+        addNotification("Network error or server did not respond", "error");
     }
-    setNotActive(false);
-    navigate("/lobby");
+  }
+    {/*setNotActive(false);*/}
+  }
+
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  }
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
   }
 
   return(
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
-      <div className={"center-container left-5"}>
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
+      <div className={"center-container"}>
         <Header/>
         <Logo width="40vh" height="40vh" className="logo" />
         <div className={"text-container-sm"}>
@@ -45,11 +70,11 @@ const CreatePrivateLobby = () => {
         </div>
         <div>
           <div className={"center-container"} onClick={callCreatePrivateLobby}>
-            {notactive? <Button type={"regular"} name={"Get a code to share"} width={"lg"}></Button>:null}
+            {/*}{notactive? <Button type={"regular"} name={"Get a code to share"} width={"lg"}></Button>:null}*/}
+            <Button type={"regular"} name={"Get a code to share"} width={"lg"}></Button>
           </div>
           <div className={"text-container"}>
             <p>Share the code that you will see on the next page with your friends.</p>
-            {error && <ErrorMsg text={error}></ErrorMsg>}
           </div>
         </div>
       </div>
