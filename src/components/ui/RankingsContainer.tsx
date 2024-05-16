@@ -82,11 +82,11 @@ const players = [{'id': 1,
 
 const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) => {
    const [sortedFriends, setSortedFriends] = useState([]);
-   const [sortedPlayers, setSortedPlayers] = useState(players);
+   const [sortedPlayers, setSortedPlayers] = useState([]);
    const [friends, setFriends] = useState([]);
 
     useEffect(() => {
-        async function fetchData() {
+        async function fetchfriends() {
             try {
                 const token = localStorage.getItem("token");
                 const config = {
@@ -109,7 +109,27 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                 console.error('Failed to fetch friends:', error);
             }
         }
-        fetchData();
+        async function fetchPlayers() {
+            try {
+                const userId = localStorage.getItem("userId");
+                // Fetch players data using your API
+                const response = await api.get(`/users`);
+                const fetchedPlayers = response.data.map(player => ({
+                    id: player.id,
+                    name: player.username,
+                    overall_points: player.currentpoints,
+                    last30days_points: 0
+                    // Add other attributes if needed
+                }));
+                setSortedPlayers([...fetchedPlayers]); // Update sortedPlayers with fetched player data
+            } catch (error) {
+                console.error('Failed to fetch players:', error);
+            }
+        }
+
+
+        fetchfriends();
+        fetchPlayers();
     }, []);
 
 
