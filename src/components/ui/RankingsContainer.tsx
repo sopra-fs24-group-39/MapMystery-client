@@ -2,84 +2,6 @@ import React, {useEffect, useState} from 'react';
 import "../../styles/ui/RankingsContainer.scss";
 import { api} from "helpers/api";
 
-
-const players = [{'id': 1,
-                  'name': 'StarlightSprinter',
-                  'overall_points': 150,
-                  'last30days_points': 64},
-                 {'id': 2,
-                  'name': 'QuantumQuest',
-                  'overall_points': 140,
-                  'last30days_points': 67},
-                 {'id': 3,
-                  'name': 'EchoEnigma',
-                  'overall_points': 130,
-                  'last30days_points': 41},
-                 {'id': 4,
-                  'name': 'NebulaNavigator',
-                  'overall_points': 120,
-                  'last30days_points': 93},
-                 {'id': 5,
-                  'name': 'PixelPioneer',
-                  'overall_points': 110,
-                  'last30days_points': 24},
-                 {'id': 6,
-                  'name': 'CyberSorcerer',
-                  'overall_points': 100,
-                  'last30days_points': 55},
-                 {'id': 7,
-                  'name': 'MysticMerlin',
-                  'overall_points': 90,
-                  'last30days_points': 79},
-                 {'id': 8,
-                  'name': 'GalacticGuardian',
-                  'overall_points': 80,
-                  'last30days_points': 24},
-                 {'id': 9,
-                  'name': 'InfinityImpulse',
-                  'overall_points': 70,
-                  'last30days_points': 64},
-                 {'id': 10,
-                  'name': 'PhantomPhoenix',
-                  'overall_points': 60,
-                  'last30days_points': 45},
-                 {'id': 11,
-                  'name': 'QuantumQuirk',
-                  'overall_points': 50,
-                  'last30days_points': 41},
-                 {'id': 12,
-                  'name': 'SolarSpecter',
-                  'overall_points': 40,
-                  'last30days_points': 78},
-                 {'id': 13,
-                  'name': 'NebulaKnight',
-                  'overall_points': 30,
-                  'last30days_points': 91},
-                 {'id': 14,
-                  'name': 'PixelProdigy',
-                  'overall_points': 20,
-                  'last30days_points': 67},
-                 {'id': 15,
-                  'name': 'CyberCenturion',
-                  'overall_points': 10,
-                  'last30days_points': 99}];
-
-/*const friends = [
-  {'id': 2,
-  'name': 'QuantumQuest',
-  'overall_points': 140,
-  'last30days_points': 67},
-  {'id': 9,
-   'name': 'InfinityImpulse',
-   'overall_points': 70,
-   'last30days_points': 64},
-  {'id': 14,
-   'name': 'PixelProdigy',
-   'overall_points': 20,
-   'last30days_points': 67},
-];*/
-
-
 const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) => {
    const [sortedFriends, setSortedFriends] = useState([]);
    const [sortedPlayers, setSortedPlayers] = useState([]);
@@ -126,8 +48,6 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                 console.error('Failed to fetch players:', error);
             }
         }
-
-
         fetchfriends();
         fetchPlayers();
     }, []);
@@ -156,7 +76,6 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
         }
      }));
    };
-
 
    const style = { width, height, overflowY: 'auto' };
    const arrowStyle = { color: 'yellow' };
