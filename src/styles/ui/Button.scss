@@ -2,15 +2,12 @@
 
 .button-container {
   position: relative;
-}
-
-/*
-.button-container:hover {
-  .button-font {
-    text-decoration: underline;
+  &:hover {
+    .button {
+      border: solid 3px darken($shine-blue, 20%);
+    }
   }
 }
-*/
 
 .button-container:active {
   top: 2px;
@@ -43,10 +40,6 @@
     6px 6px 0 $secondary-color,
     7px 7px 0 $secondary-color;
   outline: 4px solid transparent;
-
-  &:hover {
-    border: solid 3px darken($shine-blue, 20%);
-  }
 }
 
 .button:active {
@@ -109,10 +102,6 @@
     6px 6px 0 $threeD-yellow,
     7px 7px 0 $threeD-yellow;
   outline: 4px solid transparent;
-
-  &:hover {
-    border: solid 1px $button-shine-yellow;
-  }
 }
 
 .login-button:active {
@@ -126,16 +115,12 @@
 
 .login-button-container {
   position: relative;
-}
-
-
-/*
-.login-button-container:hover {
-  .login-button-font {
-    text-decoration: underline;
+  &:hover {
+    .login-button {
+      border: solid 1px $button-shine-yellow;
+    }
   }
 }
-*/
 
 .login-button-container:active {
   top: 2px;
