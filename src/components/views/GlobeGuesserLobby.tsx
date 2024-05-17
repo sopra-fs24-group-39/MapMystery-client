@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import BaseContainer from "../ui/BaseContainer";
 import BackgroundImage from "./sources/background.png";
 import Header from "./Header";
@@ -21,26 +21,35 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   //const [receivedCoordinates, setReceivedCoordinates] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [notificationTimeout, setNotificationTimeout] = useState(null);
-  const [currentRound, setCurrentRound] = useState(() => {
-    const storedRound = localStorage.getItem('round');
-    return storedRound ? parseInt(storedRound, 10) : 0;
-  });
+  const navigationOccurred = useRef(false);
 
   //needed for the lobby screen to sy game starting soon
   const searchParams = new URLSearchParams(location.search);
   const gm = searchParams.get("gm");
   const sp = gm === "sp";
 
+  //fixing the rounds
+  const currentRound = parseInt(searchParams.get('currentRound'));
+  let currentFirstRound = 1;
+  {/*
+  if (!isNaN(currentRound) && currentRound > localStorage.getItem("round")) {
+    localStorage.setItem("round", currentRound);
+  } else {
+    let tempRound = parseInt(localStorage.getItem("round"));
+    localStorage.setItem("round", tempRound+1);
+  }
+  */}
+
   //const [leaderBoard, setLeaderBoard] = useState({});
   const navigate = useNavigate();
   var lobbyId = localStorage.getItem("lobby")
 
   useEffect(() => {
-    localStorage.setItem('round', currentRound);
-    localStorage.setItem('round', currentRound);
+    console.log('Initial currentRound:', currentRound);
+    handleRounds();
     setupSubscription1();
     setupSubscription2();
-    if (parseInt(localStorage.getItem("round")) === 5) {
+    if (parseInt(localStorage.getItem("roundies")) === 6) {
       console.log("Round is 5, starting timer...");
       const timer = setTimeout(handleTimerComplete, 10000);
 
@@ -50,6 +59,15 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
 
   const handleTimerComplete = () => {
     leaveLobby();
+  }
+
+  const handleRounds = () => {
+    if (localStorage.getItem("counter") !== null && localStorage.getItem("counter") === "starting round counter") {
+      const currentFirstRound = 1
+      localStorage.removeItem("counter");
+    } else {
+      const currentFirstRound = null;
+    }
   }
 
   // not needed anymore but if removed  get a no underlying STOMP connection error
@@ -70,19 +88,9 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     //localStorage.setItem("sub", true);
   }
 
-  //setupSubscription1();
-
-  const storedRound = localStorage.getItem('round');
-
-  if (storedRound === null) {
-    localStorage.setItem('round', 0);
-  } else {
-    const newRound = parseInt(storedRound, 10) + 1;
-    localStorage.setItem('round', newRound);
-  }
-
   //for handeling the messages. The server sends hash map but somehow not working only this did
   function handleLobbyUpdate(message) {
+     console.log('currentRound before navigation:', currentRound);
     let parsedMessage;
      try {
         parsedMessage = JSON.parse(message);
@@ -102,8 +110,17 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       }
     }
 
-    if (!isNaN(latitude) && !isNaN(longitude)) {
-      navigate(`/globeguesser?ping=${longitude}&pong=${latitude}`);
+    if (!isNaN(latitude) && !isNaN(longitude)  && !navigationOccurred.current) {
+      navigationOccurred.current = true;
+      if (searchParams.get('currentRound') !== null) {
+        console.log("currentRound navigation");
+        navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&currentRound=${localStorage.getItem("roundies")}`);
+      } else if(isNaN(currentRound)) {
+        console.log("FirstRound navigation");
+        navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&currentRound=${currentFirstRound}`);
+      } else {
+        console.log("both nan navigation");
+      }
     } else {
       addNotification("Error during sending the coordinates", "error");
     }
@@ -125,7 +142,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   }
 
   async function leaveLobby() {
-    addNotification("Leaving lobby", "default");
     try {
       webSocketService.disconnect();
       //gettging the things needed to leave lobby
@@ -161,6 +177,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       localStorage.removeItem("gamemode")
       localStorage.removeItem("authKey");
       localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
       navigate('/');
     }
   }
@@ -192,7 +209,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
 
   const addNotification = (text, type) => {
     if (!notificationTimeout) {
-      console.log("addNotification", text, type);
       const id = Date.now();
       setNotifications([{ id, text, type }]);
       setNotificationTimeout(setTimeout(() => {
@@ -220,7 +236,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       />
       <div className={"center-container"}>
         <Header onNavigateClick={handleCustomNavigate} />
-          {(parseInt(localStorage.getItem("round"), 10) === 5) ? (
+          {(parseInt(localStorage.getItem("roundies")) === 6) ? (
             <>
               <Title text={"Final Scores"} size={"md"} />
               <div className="final-scores-leave">To play another round, leave the game.</div>

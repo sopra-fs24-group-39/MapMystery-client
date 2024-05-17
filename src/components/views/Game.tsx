@@ -94,11 +94,13 @@ const Game = () => {
       if (playerMS === "Multiplayer") {
         var lobbyId = await join_lobby(user)
         localStorage.setItem("lobby", lobbyId)
+        localStorage.setItem("counter", "starting round counter")
         navigate("/lobby");
         setTimerActive(false);
       } else if (playerMS === "Singleplayer") {
         var lobbyId = await join_single_lobby(user)
         localStorage.setItem("lobby", lobbyId)
+        localStorage.setItem("counter", "starting round counter")
         localStorage.setItem("Singleplayer", true)
         navigate("/lobby?gm=sp");
         setTimerActive(false);

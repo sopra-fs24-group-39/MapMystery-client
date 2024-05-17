@@ -14,6 +14,7 @@ const GlobeGuesser: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const lat = queryParams.get('pong');
   const long = queryParams.get('ping');
+  const currentRound = queryParams.get('currentRound');
   const [distance, setDistance] = useState<number | null>(null);
   const navigate = useNavigate();
   const [timer, setTimer] = useState(0);
@@ -47,7 +48,7 @@ const GlobeGuesser: React.FC = () => {
   //navigation in the game
   const handleNavigate = (coords) => {
     const { lat1, lng1, lat2, lng2 } = coords;
-    const url = `/distance?lat1=${lat1}&lng1=${lng1}&lat2=${lat2}&lng2=${lng2}`;
+    const url = `/distance?lat1=${lat1}&lng1=${lng1}&lat2=${lat2}&lng2=${lng2}&currentRound=${currentRound}`;
     navigate(url);
   };
 
@@ -91,6 +92,9 @@ const GlobeGuesser: React.FC = () => {
       localStorage.removeItem("lobby");
       localStorage.removeItem("leaderboard")
       localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
 
       //making the call to leave the lobby
       const headers = {
@@ -124,7 +128,7 @@ const GlobeGuesser: React.FC = () => {
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
         <Header onNavigateClick={handleCustomNavigate} />
-        <ScoreBoard  onTimeExpired={onTimeExpired} currentRound={parseInt(localStorage.getItem("round"), 10) + 1} totalRounds={5} />
+        <ScoreBoard  onTimeExpired={onTimeExpired} currentRound={currentRound} totalRounds={5} />
         <GameInput lat={lat} long={long} onDistanceCalculated={handleDistance} onNavigate={handleNavigate} />
       </div>
     </BaseContainer>
