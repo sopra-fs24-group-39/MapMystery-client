@@ -6,18 +6,16 @@ import { stringToColor } from "helpers/colorHash.js";
 interface ChatBoxProps {
   className: string;
   onClose: () => void;
+  messages: Array<{ name: string, message: string }>;
+  onSendMessage: (message: string) => void;
+  isConnected: boolean; // Add isConnected prop
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ className, onClose }) => {
-  const [messages, setMessages] = useState([
-    { name: "Testuser123", message: "Hello!" },
-    { name: "username34", message: "Hi there!" },
-    { name: "thisisauser", message: "should we play globeguesser?" },
-    { name: "Testuser123", message: "sure" },
-  ]);
+const ChatBox: React.FC<ChatBoxProps> = ({ className, onClose, messages, onSendMessage, isConnected }) => {
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -27,7 +25,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ className, onClose }) => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
-      setMessages([...messages, { name: "You", message: newMessage }]);
+      onSendMessage(newMessage);
       setNewMessage("");
     }
   };
@@ -47,21 +45,30 @@ const ChatBox: React.FC<ChatBoxProps> = ({ className, onClose }) => {
       <div className="chat-box-messages">
         {messages.map((msg, index) => (
           <div key={index}>
-            <strong style={{ color: stringToColor(msg.name) }}>{msg.name}:</strong> {msg.message}
+            <strong style={{ color: stringToColor(msg.name) }}>
+              {msg.name === username ? "You" : msg.name}:
+            </strong> {msg.message}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
       <div className="chat-box-input">
-        <input
-          ref={inputRef}
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Type a message"
-        />
-        <button onClick={handleSendMessage}>Send</button>
+        {!isConnected ? (
+          <div>Connecting to chat...</div>
+        ) : (
+          <>
+            <input
+              ref={inputRef}
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type a message"
+              disabled={!isConnected}
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </>
+        )}
       </div>
     </div>
   );
