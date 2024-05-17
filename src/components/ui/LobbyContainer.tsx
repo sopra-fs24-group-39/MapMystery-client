@@ -3,17 +3,22 @@ import "../../styles/ui/LobbyContainer.scss";
 
 type BaseElementLobbyProps = {
   elements?: Record<string, number> | null;
+  sp?: boolean;
 };
 
-const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
+const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements, sp }) => {
   // Default players setup
   const defaultElements = {
     "Waiting for players...": 0,
   };
 
+  const defaultElements2 = {
+    "Game is starting soon": 0,
+  };
+
   // Use elements or default if elements is null or undefined
-  const validElements = elements ?? defaultElements;
-  const isDefault = validElements === defaultElements;
+  const validElements = elements ?? (sp ? defaultElements2 : defaultElements);
+  const isDefault = validElements === defaultElements || validElements === defaultElements2;
 
   if (Object.keys(validElements).length === 0) return null;
 
@@ -30,7 +35,7 @@ const BaseElementLobby: React.FC<BaseElementLobbyProps> = ({ elements }) => {
     <div className="base-element-lobby" style={style}>
       {isDefault ? (
         <div className="default-text">
-          Waiting for players, game will start automatically...
+          {sp ? "Game is starting soon..." : "Waiting for players, game will start automatically..."}
         </div>
       ) : (
         sortedElements

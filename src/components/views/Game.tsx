@@ -71,54 +71,79 @@ const Game = () => {
     setText("");
   }
 
-async function onTimeUp() {
+  async function onTimeUp() {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     console.log(userId)
     console.log(token)
 
-     if (localStorage.getItem("gamemode") === "Flag Finder") {
-       navigate("/ffconfiguration");
-       return;
-     }
+    if (localStorage.getItem("gamemode") === "Flag Finder") {
+      navigate("/ffconfiguration");
+      return;
+    }
 
     try {
-        const config = {
-            headers: {
-                Authorization: `${token}`
-            }
-        };
-        var user = await api.get(`/users/${userId}`, config);
-        user = user.data
-        console.log(user)
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+      var user = await api.get(`/users/${userId}`, config);
+      user = user.data
+
+      if (playerMS === "Multiplayer") {
         var lobbyId = await join_lobby(user)
         localStorage.setItem("lobby", lobbyId)
-        console.log(`(Game.tsx) set lobby id in local storage ${localStorage.getItem("lobby")}`)
         navigate("/lobby");
         setTimerActive(false);
+      } else if (playerMS === "Singleplayer") {
+        var lobbyId = await join_single_lobby(user)
+        localStorage.setItem("lobby", lobbyId)
+        localStorage.setItem("Singleplayer", true)
+        navigate("/lobby?gm=sp");
+        setTimerActive(false);
+      } else {
+        addNotification("Gamemode not select", "error");
+        return;
+      }
     } catch (error) {
-        console.error('Failed to fetch user:', error);
+        addNotification("Player not found", "error");
     }
-}
-
-async function join_lobby(userData){
-  const token = localStorage.getItem("token");
-  const userDTO = prepareUserDTO(userData);
-  console.log(userDTO)
-  const config = {
-    headers: {
-      Authorization: `${token}`
-    }
-  };
-  try {
-    const response = await api.post('/Lobby/GameMode1', userDTO, config);
-    var lobbyId =  response.data.lobbyId
-    console.log("LobbyId:", lobbyId)
-    return lobbyId
-  } catch (error) {
-    console.error('Failed to join lobby:', error.response.data);
   }
-}
+
+  async function join_lobby(userData){
+    const token = localStorage.getItem("token");
+    const userDTO = prepareUserDTO(userData);
+    const config = {
+      headers: {
+        Authorization: `${token}`
+      }
+    };
+    try {
+      const response = await api.post('/Lobby/GameMode1', userDTO, config);
+      var lobbyId =  response.data.lobbyId
+      return lobbyId
+    } catch (error) {
+      addNotification("Failed to join lobby", "error");
+    }
+  }
+
+  async function join_single_lobby(userData) {
+    const token = localStorage.getItem("token");
+    const userDTO = prepareUserDTO(userData);
+    const config = {
+      headers: {
+        Authorization: `${token}`
+      }
+    };
+    try {
+      const response = await api.post('/Lobby/GameMode3', userDTO, config);
+      var lobbyId =  response.data.lobbyId
+      return lobbyId
+    } catch (error) {
+      addNotification("Failed to join Singleplayer lobby", "error");
+    }
+  }
 
 function prepareUserDTO(userData) {
     return {

@@ -25,6 +25,12 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     const storedRound = localStorage.getItem('round');
     return storedRound ? parseInt(storedRound, 10) : 0;
   });
+
+  //needed for the lobby screen to sy game starting soon
+  const searchParams = new URLSearchParams(location.search);
+  const gm = searchParams.get("gm");
+  const sp = gm === "sp";
+
   //const [leaderBoard, setLeaderBoard] = useState({});
   const navigate = useNavigate();
   var lobbyId = localStorage.getItem("lobby")
@@ -126,15 +132,26 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       const userId = localStorage.getItem("userId");
       const lobbyId = localStorage.getItem("lobby");
       const token = localStorage.getItem("token");
+      const singlePlayer = localStorage.getItem("Singleplayer");
 
       //making the call to leave the lobby
       const headers = {
         'Authorization': `${token}`
       };
 
+      {/* This is if we would implement a leave lobby for gamemode 3
+      if (singlePlayer === "true") {
+        const response = await api.delete(`/Lobby/GameMode3/${lobbyId}`, { headers });
+        navigate('/');
+      } else {
+        const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+        navigate('/');
+      }
+      */}
+
       const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
-      console.log(response.status);
       navigate('/');
+
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
     } finally {
@@ -143,6 +160,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       localStorage.removeItem("leaderboard")
       localStorage.removeItem("gamemode")
       localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
       navigate('/');
     }
   }
@@ -220,7 +238,7 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
             </button>
           </div>
         ) : null}
-        <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
+        <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} sp={sp}/>
         <div>
           <div onClick={leaveLobby}>
             <Button width={"md"} type={"regular"} name={"Leave Game"} />
