@@ -1,0 +1,199 @@
+@import "../theme";
+
+.podium-container {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.podium {
+  position: absolute;
+  top: 30rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+
+.first-rectangle {
+  background-color: $base-yellow;
+  width: 30rem;
+  height: 25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  box-shadow:
+      1px 1px 0 $number-one,
+      2px 2px 0 $number-one,
+      3px 3px 0 $number-one,
+      4px 4px 0 $number-one,
+      5px 5px 0 $number-one,
+      6px 6px 0 $number-one,
+      7px 7px 0 $number-one,
+      8px 8px 0 $number-one,
+      9px 9px 0 $number-one,
+      10px 10px 0 $number-one,
+      11px 11px 0 $number-one,
+      12px 12px 0 $number-one,
+      13px 13px 0 $number-one,
+      14px 14px 0 $number-one,
+      15px 15px 0 $number-one,
+      16px 16px 0 $number-one,
+      17px 17px 0 $number-one,
+      18px 18px 0 $number-one,
+      19px 19px 0 $number-one,
+      20px 20px 0 $number-one,
+      21px 21px 0 $number-one,
+      22px 22px 0 $number-one,
+      23px 23px 0 $number-one,
+      24px 24px 0 $number-one,
+      25px 25px 0 $number-one,
+      26px 26px 0 $number-one,
+      27px 27px 0 $number-one,
+      28px 28px 0 $number-one,
+      29px 29px 0 $number-one,
+      30px 30px 0 $number-one,
+      31px 31px 0 $number-one,
+      32px 32px 0 $number-one,
+      33px 33px 0 $number-one,
+      34px 34px 0 $number-one,
+      35px 35px 0 $number-one,
+      36px 36px 0 $number-one,
+      37px 37px 0 $number-one,
+      38px 38px 0 $number-one,
+      39px 39px 0 $number-one,
+      40px 40px 0 $number-one;
+}
+
+
+.second-rectangle {
+  background-color: $base-blue;
+  width: 25rem;
+  height: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  //margin-left: 1rem;
+}
+
+.third-rectangle {
+  background-color: $base-blue;
+  width: 23rem;
+  height: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  //margin-left: 1rem;
+  box-shadow:
+        1px 1px 0 $number-two,
+        2px 2px 0 $number-two,
+        3px 3px 0 $number-two,
+        4px 4px 0 $number-two,
+        5px 5px 0 $number-two,
+        6px 6px 0 $number-two,
+        7px 7px 0 $number-two,
+        8px 8px 0 $number-two,
+        9px 9px 0 $number-two,
+        10px 10px 0 $number-two,
+        11px 11px 0 $number-two,
+        12px 12px 0 $number-two,
+        13px 13px 0 $number-two,
+        14px 14px 0 $number-two,
+        15px 15px 0 $number-two,
+        16px 16px 0 $number-two,
+        17px 17px 0 $number-two,
+        18px 18px 0 $number-two,
+        19px 19px 0 $number-two,
+        20px 20px 0 $number-two,
+        21px 21px 0 $number-two,
+        22px 22px 0 $number-two,
+        23px 23px 0 $number-two,
+        24px 24px 0 $number-two,
+        25px 25px 0 $number-two,
+        26px 26px 0 $number-two,
+        27px 27px 0 $number-two,
+        28px 28px 0 $number-two,
+        29px 29px 0 $number-two,
+        30px 30px 0 $number-two,
+        31px 31px 0 $number-two,
+        32px 32px 0 $number-two,
+        33px 33px 0 $number-two,
+        34px 34px 0 $number-two,
+        35px 35px 0 $number-two,
+        36px 36px 0 $number-two,
+        37px 37px 0 $number-two,
+        38px 38px 0 $number-two,
+        39px 39px 0 $number-two,
+        40px 40px 0 $number-two;
+}
+
+.rank-one {
+  font-size: 12rem;
+  font-weight: bold;
+  color: $number-one;
+  margin-bottom: 1rem;
+}
+
+.rank-two {
+  font-size: 8rem;
+  font-weight: bold;
+  color: $number-two;
+  margin-bottom: 1rem;
+}
+
+.rank-three {
+  font-size: 6rem;
+  font-weight: bold;
+  color: $number-three;
+  margin-bottom: 1rem;
+}
+
+.details-one {
+  text-align: center;
+  color: $number-one;
+  font-weight: bold;
+  font-size: 4rem;
+}
+
+.details-two {
+  text-align: center;
+  color: $number-two;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.details-three {
+  text-align: center;
+  color: $number-two;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.first-name {
+  text-align: center;
+  font-size: 6rem;
+  font-weight: bold;
+  color: white;
+}
+
+.second-name {
+  text-align: center;
+  font-size: 5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.third-name {
+  text-align: center;
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+}
