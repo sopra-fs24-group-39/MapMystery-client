@@ -12,9 +12,9 @@ class WebSocketService {
     this.client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {
-        console.log('STOMP Debug: ' + str);
+        //console.log('STOMP Debug: ' + str);
       },
-      reconnectDelay: 5000,
+      reconnectDelay: 2000,
       onConnect: () => {
         console.log('WebSocket connected');
         this.connected = true;
@@ -38,7 +38,7 @@ class WebSocketService {
     //console.log(`(WS) storage lobby id: ${lobbyId}`);
 
     if (!this.client || !this.connected) {
-      console.log("Client is not connected or not initialized.");
+      //console.log("Client is not connected or not initialized.");
       await this.waitForConnection();
     }
 
@@ -59,7 +59,7 @@ class WebSocketService {
     //console.log(`(WS) storage lobby id: ${lobbyId}`);
 
     if (!this.client || !this.connected) {
-      console.log("Client is not connected or not initialized.");
+      //console.log("Client is not connected or not initialized.");
       await this.waitForConnection();
     }
 
@@ -73,6 +73,20 @@ class WebSocketService {
       return subscription;
     }
   }
+
+async subscribeChat(onMessageReceived) {
+    await this.waitForConnection();
+    if (this.client && this.connected) {
+      const subscription = this.client.subscribe('/topic/public', (message) => {
+        onMessageReceived(message.body);
+      });
+
+      return subscription;
+    } else {
+      console.error("STOMP connection not established.");
+    }
+  }
+
 
   async waitForConnection() {
     while (!this.connected) {

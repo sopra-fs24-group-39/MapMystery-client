@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import GlobeGuesserInfo from "../ui/GlobeGuesserInfo";
 import FlagFinderInfo from "../ui/FlagFinderInfo";
 import NotificationSquare from "components/ui/NotificationSquare";
+import ChatButton from "../ui/ChatButton";
+import { webSocketService } from "components/views/WebSocketService";
 
 const showGLobeGuesserInformation = (stat) => {
   if (stat) {
@@ -60,7 +62,7 @@ const Game = () => {
       console.log("No game mode selected");
       return;
     }
-
+    webSocketService.disconnect();
     setGameMode(selectedGameMode);
     if (mp === "hidden") {
       setPlayerMS("Singleplayer");
@@ -191,6 +193,10 @@ function prepareUserDTO(userData) {
     );
   }
 
+  const handleChatButtonClick = () => {
+      console.log("Button clicked");
+  };
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
       {isInfo && (
@@ -206,6 +212,14 @@ function prepareUserDTO(userData) {
       <div className={"center-container left-5"}>
         <Header/>
         <Logo width="40vh" height="40vh" className="logo" />
+
+        <ChatButton
+          width="large"
+          onClick={handleChatButtonClick}
+          icon="Chat"
+          notificationCount={3}
+        />
+
         <div className="text-container-sm">
            <p className={text}>{text !== "hidden" ? text : "Select your preferences and join a lobby"}</p>
            <p className={"text-info"}>For more information on the game modes click the information icon in the game mode selection</p>
