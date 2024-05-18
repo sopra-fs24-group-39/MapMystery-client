@@ -104,7 +104,7 @@ const ChatButton: React.FC<ChatButtonProps> = ({ width, onClick, icon, notificat
       <button className="chat-btton" onClick={handleButtonClick}>
         <Icon className="chat-icon" />
         {notificationCount >= 0 && (
-          <span className="notification-circle">{parseInt(unreadCount)/2}</span>
+          <span className="notification-circle">{parseInt(unreadCount)}</span>
         )}
       </button>
       {isChatOpen && (
