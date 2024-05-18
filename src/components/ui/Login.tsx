@@ -12,10 +12,10 @@ import ErrorMsg from "./ErrorMsg";
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
 
-  const [username, setUsername] = useState<string>(null);
-  const [userEmail, setUserEmail] = useState<string>(null);
-  const [password, setPassword] = useState<string>(null);
-  const [confPassword, setConfPassword] = useState<string>(null);
+  const [username, setUsername] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confPassword, setConfPassword] = useState<string>("");
   const [error, setError] = useState<string>(null);
 
   const navigate = useNavigate();
@@ -33,12 +33,6 @@ const Login = () => {
                  type={"text"}
                  value={username}
                  onChange={(un) => (setUsername(un))}
-          />
-          <label style={{fontWeight: 700}}>email:</label>
-          <Input height={"50px"} width={"auto"}
-                 type={"text"}
-                 value={userEmail}
-                 onChange={(em) => (setUserEmail(em))}
           />
           <label style={{fontWeight: 700}}>password:</label>
           <Input height={"50px"} width={"auto"}
@@ -59,7 +53,7 @@ const Login = () => {
           />
           <label style={{fontWeight: 700}}>email:</label>
           <Input height={"50px"} width={"auto"}
-                 type={"text"}
+                 type={"email"}
                  value={userEmail}
                  onChange={(em) => (setUserEmail(em))}
           />
@@ -144,7 +138,7 @@ const Login = () => {
 
   return (
       <div className={"center-container login-background"}>
-        <div className={"container-containe overflow-scroll"}>
+        <div className={"container-containe"}>
           <BaseElement width={"77vw"} height={"55vh"}>
             <div className={"flex flex-row justify-end"}>
               <Link to={"/"}>X</Link>

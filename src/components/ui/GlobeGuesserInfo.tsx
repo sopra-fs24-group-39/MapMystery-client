@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Title from "./Title";
 import "../../styles/index.scss";
 
-const GameInfo = () => {
+const GlobeGuesserInfo = () => {
   return(
     <div className={"center-container login-background"}>
       <div className={"container-container"}>
@@ -13,10 +13,9 @@ const GameInfo = () => {
             <Link to={"/"}>X</Link>
           </div>
           <div>
-            <Title text={"Game Information"} size={"md"}></Title>
+            <Title text={"Game Information"} size={"sm"}></Title>
             <div className={"text-containe"}>
-              <h1>Gamemodes</h1>
-              <h3>Geo Genius:</h3>
+              <p className={"text-3xl font-bold"}>GlobeGuesser:</p>
               <p>Guess the location of an arbitrary google maps streetview image.
                 Select a position on the map,
                 submit your guess, see how close you were and how you stack up
@@ -31,4 +30,4 @@ const GameInfo = () => {
   );
 }
 
-export default GameInfo;
+export default GlobeGuesserInfo;

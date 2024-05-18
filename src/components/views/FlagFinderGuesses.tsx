@@ -32,12 +32,41 @@ const FlagFinderGuesses: React.FC = () => {
     navigate('/game');
   };
 
+  useEffect(() => {
+    let timer;
+    if (currentRound === rounds+1) {
+      timer = setTimeout(() => {
+        handleLeaveGame();
+      }, 10000);
+    }
+
+    return () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+    };
+  }, [currentRound, rounds, handleNextRound]);
+
+  const countCorrectGuesses = () => {
+    return results.reduce((acc, result) => {
+      if (result !== '?' && result[0]) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  };
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
         <Header />
         {resultRound === rounds ? (
-          <Title text="Final Scores" className="site-title" size="md" />
+          <div>
+            <Title text="Final Scores" className="site-title" size="md" />
+            <div className="score-summary">
+              {`You got ${countCorrectGuesses()} out of ${rounds} correct!`}
+            </div>
+          </div>
         ) : (
           <Title text="Your Guesses" className="site-title" size="md" />
         )}
@@ -47,7 +76,7 @@ const FlagFinderGuesses: React.FC = () => {
               {result === '?' ? '?' : (
                 <>
                   <span>Result: {result[0] ? 'Correct' : 'False'}</span>
-                  <span>Your Guess: {result[1] ? result[1] : 'Unknown'}</span>
+                  <span>Your Guess: {result[1] ? result[1] : 'no submission'}</span>
                   <span>Correct Answer: { result[2]}</span>
                 </>
               )}

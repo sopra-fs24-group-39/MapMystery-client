@@ -16,6 +16,7 @@ const GlobeGuesserDistanceScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const [roundSetter, setRoundSetter] = useState(false);
 
   const coords1 = {
     lat: parseFloat(searchParams.get('lat1')),
@@ -27,7 +28,31 @@ const GlobeGuesserDistanceScreen = () => {
     lng: parseFloat(searchParams.get('lng2'))
   };
 
+  const currentRoundSt = searchParams.get('currentRound');
+  const currentRound = parseInt(currentRoundSt) + 1;
+  localStorage.setItem("roundies", currentRound);
+
+  const handleRounds = () => {
+    if (!roundSetter) {
+      setRoundSetter(true);
+    } else {
+      return;
+    }
+    if (localStorage.getItem("distanceround") === null) {
+        localStorage.setItem("distanceround", 1);
+    } else if (currentRound === "Nan"){
+        let constRound = parseInt(localStorage.getItem("distanceround"));
+        localStorage.setItem("distanceround", constRound + 1);
+    }else if (currentRound <= localStorage.getItem("distanceround")) {
+        let constRound = parseInt(localStorage.getItem("distanceround"));
+        localStorage.setItem("distanceround", constRound + 1);
+    } else {
+        localStorage.setItem("distanceround", currentRound);
+    }
+  }
+
   useEffect(() => {
+    //handleRounds();
     const checkAndSubscribe = async () => {
       if (!webSocketService.connected) {
         console.log("(Dist)WebSocket is not connected. Attempting to connect...");
@@ -54,7 +79,7 @@ const GlobeGuesserDistanceScreen = () => {
       console.log("(Distance) LeaderBoard update with message:", parsedMessage);
       //setLeaderBoard(parsedMessage);
       localStorage.setItem("leaderboard", JSON.stringify(parsedMessage));
-      navigate("/lobby");
+      navigate(`/lobby?currentRound=${currentRound}`);
     } catch (error) {
       console.error('Error parsing leaderboard update message:', error);
     }
@@ -75,6 +100,9 @@ const GlobeGuesserDistanceScreen = () => {
       localStorage.removeItem("lobby");
       localStorage.removeItem("leaderboard")
       localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
 
       //making the call to leave the lobby
       const headers = {

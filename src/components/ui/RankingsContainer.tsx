@@ -1,86 +1,57 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../../styles/ui/RankingsContainer.scss";
-
-//mock data
-const players = [{'id': 1,
-                  'name': 'StarlightSprinter',
-                  'overall_points': 150,
-                  'last30days_points': 64},
-                 {'id': 2,
-                  'name': 'QuantumQuest',
-                  'overall_points': 140,
-                  'last30days_points': 67},
-                 {'id': 3,
-                  'name': 'EchoEnigma',
-                  'overall_points': 130,
-                  'last30days_points': 41},
-                 {'id': 4,
-                  'name': 'NebulaNavigator',
-                  'overall_points': 120,
-                  'last30days_points': 93},
-                 {'id': 5,
-                  'name': 'PixelPioneer',
-                  'overall_points': 110,
-                  'last30days_points': 24},
-                 {'id': 6,
-                  'name': 'CyberSorcerer',
-                  'overall_points': 100,
-                  'last30days_points': 55},
-                 {'id': 7,
-                  'name': 'MysticMerlin',
-                  'overall_points': 90,
-                  'last30days_points': 79},
-                 {'id': 8,
-                  'name': 'GalacticGuardian',
-                  'overall_points': 80,
-                  'last30days_points': 24},
-                 {'id': 9,
-                  'name': 'InfinityImpulse',
-                  'overall_points': 70,
-                  'last30days_points': 64},
-                 {'id': 10,
-                  'name': 'PhantomPhoenix',
-                  'overall_points': 60,
-                  'last30days_points': 45},
-                 {'id': 11,
-                  'name': 'QuantumQuirk',
-                  'overall_points': 50,
-                  'last30days_points': 41},
-                 {'id': 12,
-                  'name': 'SolarSpecter',
-                  'overall_points': 40,
-                  'last30days_points': 78},
-                 {'id': 13,
-                  'name': 'NebulaKnight',
-                  'overall_points': 30,
-                  'last30days_points': 91},
-                 {'id': 14,
-                  'name': 'PixelProdigy',
-                  'overall_points': 20,
-                  'last30days_points': 67},
-                 {'id': 15,
-                  'name': 'CyberCenturion',
-                  'overall_points': 10,
-                  'last30days_points': 99}];
-
-const friends = [
-  {'id': 2,
-  'name': 'QuantumQuest',
-  'overall_points': 140,
-  'last30days_points': 67},
-  {'id': 9,
-   'name': 'InfinityImpulse',
-   'overall_points': 70,
-   'last30days_points': 64},
-  {'id': 14,
-   'name': 'PixelProdigy',
-   'overall_points': 20,
-   'last30days_points': 67},
-];
+import { api} from "helpers/api";
 
 const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) => {
-   const [sortedFriends, setSortedFriends] = useState(friends);
-   const [sortedPlayers, setSortedPlayers] = useState(players);
+   const [sortedFriends, setSortedFriends] = useState([]);
+   const [sortedPlayers, setSortedPlayers] = useState([]);
+   const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        async function fetchfriends() {
+            try {
+                const token = localStorage.getItem("token");
+                const config = {
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                };
+                const userId = localStorage.getItem("userId");
+                const response = await api.get(`/friends/${userId}`,config);
+                const fetchedFriends = response.data.map(friend => ({
+                    id: friend.id,
+                    name: friend.username, // Assuming the username needs to be mapped to name
+                    overall_points: friend.currentpoints,
+                    last30days_points: 0 // Setting last30days_points to 0 for every friend
+                    // Add other attributes if needed
+                }));
+                setFriends(fetchedFriends);
+                setSortedFriends([...fetchedFriends]); // Update sortedFriends after friends have been set
+            } catch (error) {
+                console.error('Failed to fetch friends:', error);
+            }
+        }
+        async function fetchPlayers() {
+            try {
+                const userId = localStorage.getItem("userId");
+                // Fetch players data using your API
+                const response = await api.get(`/users`);
+                const fetchedPlayers = response.data.map(player => ({
+                    id: player.id,
+                    name: player.username,
+                    overall_points: player.currentpoints,
+                    last30days_points: 0
+                    // Add other attributes if needed
+                }));
+                setSortedPlayers([...fetchedPlayers]); // Update sortedPlayers with fetched player data
+            } catch (error) {
+                console.error('Failed to fetch players:', error);
+            }
+        }
+        fetchfriends();
+        fetchPlayers();
+    }, []);
+
 
    const [sortCriteria, setSortCriteria] = useState({
      friends: {
@@ -105,7 +76,6 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
         }
      }));
    };
-
 
    const style = { width, height, overflowY: 'auto' };
    const arrowStyle = { color: 'yellow' };
