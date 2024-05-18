@@ -16,7 +16,8 @@ const GlobeGuesserInfo = () => {
             <Title text={"Game Information"} size={"sm"}></Title>
             <div className={"text-containe"}>
               <p className={"text-3xl font-bold"}>GlobeGuesser:</p>
-              <p>Guess the location of an arbitrary google maps streetview image.
+              <p>This Gamemode is for three players only.
+                How it works: Guess the location of an arbitrary google maps streetview image.
                 Select a position on the map,
                 submit your guess, see how close you were and how you stack up
                 to your opponents. This gamemode is available for multiplayer only.

@@ -77,6 +77,9 @@ const CreatePrivateLobby = () => {
           <div className={"text-container"}>
             <p>Share the code that you will see on the next page with your friends.</p>
           </div>
+          <div className={"w-auto flex flex-row justify-center"}>
+            <a className={"text mt-4"} href={"/privateLobby"}>Back</a>
+          </div>
         </div>
       </div>
     </BaseContainer>

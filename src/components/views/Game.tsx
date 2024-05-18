@@ -276,6 +276,9 @@ function prepareUserDTO(userData) {
                 onClick={populateBeforeAPICall}
               >
               </Button>
+              <div className={"flex flex-row justify-center"}>
+                <a className={"text mt-4"} href={"/game"}>Back</a>
+              </div>
               {timerActive && (
                 <Button
                   type={"login"}
