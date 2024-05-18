@@ -25,6 +25,7 @@ const Start = () => {
   const [isPlayButton, setIsPlayButton] = useState(1);
 
   const handleClick = () => {
+    localStorage.clear();
     setIsLogin(!isLogin);
     setIsPlayButton(-1*isPlayButton);
   }
@@ -34,9 +35,9 @@ const Start = () => {
       {showLoginForm(isLogin)}
       <div className={"center-container"}>
         <Header/>
-        <Logo width="400px" height="400px" className="logo" />
+        <Logo width="40vh" height="40vh" className="logo" />
         <div className="text-container">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Explore the world from the comfort of your home</p>
         </div>
         <div className={"start-buttons-container"}
              style={{zIndex: isPlayButton }}

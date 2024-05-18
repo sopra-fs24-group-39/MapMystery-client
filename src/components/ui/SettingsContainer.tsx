@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import "../../styles/ui/SettingsContainer.scss";
 import Button from "components/ui/Button";
 import { useNavigate } from 'react-router-dom';
+import { api } from "helpers/api";
+import GameInfo from "./GameInfo";
+import ProfilePictureSelection from "./ProfilePictureSelection"
 
 type BaseElementSettingsProps = {
   width?: string;
@@ -11,11 +14,25 @@ type BaseElementSettingsProps = {
 const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800px', height = '500px' }) => {
   const [selectedContent, setSelectedContent] = useState('default');
   const navigate = useNavigate(); // Correctly placed within the component body
+  const [isProfilePicture, setIsProfilePicture ] = useState(false);
 
-  const doLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    navigate('/login'); // Use navigate to redirect after logout
+  const doLogout = async () => {
+    const userId = localStorage.getItem("userId");
+    const status = "OFFLINE";
+    const token = localStorage.getItem("token");
+    try {
+      const requestBody = JSON.stringify({status});
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+        const response = await api.put("/users/" + userId, requestBody, config);
+    } catch (e) {
+    } finally {
+      localStorage.clear();
+      navigate('/login'); // Use navigate to redirect after logout
+    }
   };
 
   const containerStyle = { width, minHeight: height };
@@ -38,17 +55,44 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
         return <div>Content for Ranking Settings</div>;
       case 'Friend Settings':
         return <div>Content for Friend Settings</div>;
-      case 'Profile Picture Settings':
-        return <div>Content for Picture Settings</div>;
+      case 'Picture Settings':
+        return <div>Content for Picture Settings</div>;;
       case 'Chat Settings':
         return <div>Content for Chat Settings</div>;
       default:
         return <div>Content for Account Settings</div>;
     }
   };
+/*  const displayProfilePictureChapter = () => {
+    return (
+        <div className={"center-container"}>
+          <div className="lg-button">
+            <Button type={"login"} width={"lg"} name={"Change Profile Picture"} onClick={toggleProfilePictureSelection}/>
+          </div>
+        </div>
+
+    );
+  };
+  const toggleProfilePictureSelection = ()=>{
+    setIsProfilePicture(!isProfilePicture)
+  }
+
+  const showProfilePictureSelection = (isProfilePicture) => {
+    if (isProfilePicture) {
+      return (
+          <div className={"full-h-w z-20"} style={{position: "absolute"}}>
+            <ProfilePictureSelection></ProfilePictureSelection>
+          </div>
+      );
+    }
+  }*/
+
 
   return (
     <div className="base-element-settings" style={containerStyle}>
+{/*
+      {showProfilePictureSelection(isProfilePicture) && <ProfilePictureSelection onClose={toggleProfilePictureSelection}/>}
+*/}
       <div className="sidebar" style={sidebarStyle}>
         <div className="sidebar-top striped-background" style={sidebarTopStyle}>
           <div className="settings-chapter" onClick={() => changeContent('Account Settings')}>Account Settings</div>

@@ -2,6 +2,11 @@
 
 .button-container {
   position: relative;
+  &:hover {
+    .button {
+      border: solid 3px darken($shine-blue, 20%);
+    }
+  }
 }
 
 .button-container:active {
@@ -110,6 +115,11 @@
 
 .login-button-container {
   position: relative;
+  &:hover {
+    .login-button {
+      border: solid 1px $button-shine-yellow;
+    }
+  }
 }
 
 .login-button-container:active {
@@ -176,5 +186,6 @@
   height: 46px;
   width: 100px;
   position: relative;
+
 }
 

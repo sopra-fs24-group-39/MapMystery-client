@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import BaseContainer from "../ui/BaseContainer";
 import BackgroundImage from "./sources/background.png";
 import Header from "./Header";
@@ -8,6 +8,10 @@ import Button from "../ui/Button";
 import { webSocketService } from './WebSocketService';
 import { useNavigate, useLocation } from "react-router-dom";
 import { api, handleError } from "helpers/api";
+import { useBeforeUnload } from "helpers/useBeforeUnload";
+import "../../styles/ui/GlobeGuesserLobby.scss";
+import NotificationSquare from "components/ui/NotificationSquare";
+import ClipboardIcon from "./sources/copy.svg";
 
 type GlobeGuesserLobbyProps = {
   lobbyId: string;
@@ -15,30 +19,54 @@ type GlobeGuesserLobbyProps = {
 
 const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
   //const [receivedCoordinates, setReceivedCoordinates] = useState(false);
-  const [currentRound, setCurrentRound] = useState(() => {
-    const storedRound = localStorage.getItem('round');
-    return storedRound ? parseInt(storedRound, 10) : 0;
-  });
+  const [notifications, setNotifications] = useState([]);
+  const [notificationTimeout, setNotificationTimeout] = useState(null);
+  const navigationOccurred = useRef(false);
+
+  //needed for the lobby screen to sy game starting soon
+  const searchParams = new URLSearchParams(location.search);
+  const gm = searchParams.get("gm");
+  const sp = gm === "sp";
+
+  //fixing the rounds
+  const currentRound = parseInt(searchParams.get('currentRound'));
+  let currentFirstRound = 1;
+  {/*
+  if (!isNaN(currentRound) && currentRound > localStorage.getItem("round")) {
+    localStorage.setItem("round", currentRound);
+  } else {
+    let tempRound = parseInt(localStorage.getItem("round"));
+    localStorage.setItem("round", tempRound+1);
+  }
+  */}
+
   //const [leaderBoard, setLeaderBoard] = useState({});
   const navigate = useNavigate();
   var lobbyId = localStorage.getItem("lobby")
-  console.log(`${lobbyId} and ${localStorage.getItem("lobby")} in Lobby`)
 
   useEffect(() => {
-    localStorage.setItem('round', currentRound);
-    localStorage.setItem('round', currentRound);
+    console.log('Initial currentRound:', currentRound);
+    handleRounds();
     setupSubscription1();
     setupSubscription2();
+    if (parseInt(localStorage.getItem("roundies")) === 6) {
+      console.log("Round is 5, starting timer...");
+      const timer = setTimeout(handleTimerComplete, 10000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
-  function initializeLeaderboard() {
-    const defaultLeaderboard = JSON.stringify({
-      "Player 1": 0,
-      "Player 2": 0,
-      "Player 3": 0
-    });
-    if (localStorage.getItem("leaderboard") === null) {
-      localStorage.setItem("leaderboard", defaultLeaderboard);
+  const handleTimerComplete = () => {
+    leaveLobby();
+  }
+
+  const handleRounds = () => {
+    if (localStorage.getItem("counter") !== null && localStorage.getItem("counter") === "starting round counter") {
+      const currentFirstRound = 1
+      localStorage.removeItem("counter");
+    } else {
+      const currentFirstRound = null;
     }
   }
 
@@ -60,26 +88,16 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
     //localStorage.setItem("sub", true);
   }
 
-  //setupSubscription1();
-
-  const storedRound = localStorage.getItem('round');
-
-  if (storedRound === null) {
-    localStorage.setItem('round', 0);
-  } else {
-    const newRound = parseInt(storedRound, 10) + 1;
-    localStorage.setItem('round', newRound);
-  }
-
   //for handeling the messages. The server sends hash map but somehow not working only this did
   function handleLobbyUpdate(message) {
+     console.log('currentRound before navigation:', currentRound);
     let parsedMessage;
-    try {
-              parsedMessage = JSON.parse(message);
-    } catch (error) {
-              console.error('Error parsing lobby update message:', error);
-              return;
-    }
+     try {
+        parsedMessage = JSON.parse(message);
+     } catch (error) {
+       console.error('Error parsing lobby update message:', error);
+       return;
+     }
 
     let keys = Object.keys(parsedMessage);
     let latitude, longitude;
@@ -92,68 +110,154 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       }
     }
 
-    if (!isNaN(latitude) && !isNaN(longitude)) {
-      console.log('(GlobeGuesserLobby) Lobby update with latitude:', latitude, 'and longitude:', longitude);
-      navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&round=${(currentRound + 1)%5}`);
+    if (!isNaN(latitude) && !isNaN(longitude)  && !navigationOccurred.current) {
+      navigationOccurred.current = true;
+      if (searchParams.get('currentRound') !== null) {
+        console.log("currentRound navigation");
+        navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&currentRound=${localStorage.getItem("roundies")}`);
+      } else if(isNaN(currentRound)) {
+        console.log("FirstRound navigation");
+        navigate(`/globeguesser?ping=${longitude}&pong=${latitude}&currentRound=${currentFirstRound}`);
+      } else {
+        console.log("both nan navigation");
+      }
     } else {
-      console.error('Invalid latitude or longitude values:', latitude, longitude);
+      addNotification("Error during sending the coordinates", "error");
     }
   }
 
-  //subscribing to chanel for coords
   async function setupSubscription2() {
-    console.log("(GlobeGuesserLobby) Subscribing2 ");
     let subscription = await webSocketService.subscribe2(lobbyId, handleLeaderBoardUpdate);
-    localStorage.setItem("sub2", true);
   }
-
-  //setupSubscription2();
 
   function handleLeaderBoardUpdate(message) {
     let parsedMessage;
     try {
       parsedMessage = JSON.parse(message);
-      console.log("(GlobeGuesserLobby) LeaderBoard update with message:", parsedMessage);
-      //setLeaderBoard(parsedMessage);
       localStorage.setItem("leaderboard", JSON.stringify(parsedMessage));
     } catch (error) {
       console.error('Error parsing leaderboard update message:', error);
+      addNotification("Player joined lobby", "win");
     }
   }
 
-  function leaveLobby() {
-    webSocketService.disconnect();
-    navigate('/');
+  async function leaveLobby() {
+    try {
+      webSocketService.disconnect();
+      //gettging the things needed to leave lobby
+      const userId = localStorage.getItem("userId");
+      const lobbyId = localStorage.getItem("lobby");
+      const token = localStorage.getItem("token");
+      const singlePlayer = localStorage.getItem("Singleplayer");
+
+      //making the call to leave the lobby
+      const headers = {
+        'Authorization': `${token}`
+      };
+
+      {/* This is if we would implement a leave lobby for gamemode 3
+      if (singlePlayer === "true") {
+        const response = await api.delete(`/Lobby/GameMode3/${lobbyId}`, { headers });
+        navigate('/');
+      } else {
+        const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+        navigate('/');
+      }
+      */}
+
+      const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      navigate('/');
+
+    } catch (error) {
+      console.error(`Failed to leave lobby: ${handleError(error)}`);
+    } finally {
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
+      navigate('/');
+    }
   }
 
-  async function skipFirst() {
-    try {
-          const userId = localStorage.getItem("userId");
-          const token = localStorage.getItem("token");
-          const requestBody = JSON.stringify({ "id": userId, "score": 100000000000 });
-          console.log(`(GlobeGuesserLobby) score to /Lobby/GameMode1/${lobbyId} with ${requestBody}`);
-          const headers = {
-            'Authorization': `${token}`
-          };
-          await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
+  useBeforeUnload("Leaving this page will reset the game", () => {
+    leaveLobby();
 
-        } catch (error) {
-          console.error(`Failed to update score: ${handleError(error)}`);
-        }
+  });
+
+  const handleCustomNavigate = async (url) => {
+    try {
+      await leaveLobby();
+      navigate(url);
+    } catch (error) {
+      console.error("Error during navigation preparation: ", error);
+      addNotification("Error during leaving lobby", "error");
+      navigate("/game")
+    }
+  };
+
+  const handleClipboardCopy = () => {
+    const lobbyCode = `${localStorage.getItem("authKey")}$${localStorage.getItem("lobby")}$`;
+    navigator.clipboard.writeText(lobbyCode).then(() => {
+      addNotification("Lobby code copied to clipboard", "default");
+    }).catch(err => {
+      console.error("Could not copy text: ", err);
+    });
+  };
+
+  const addNotification = (text, type) => {
+    if (!notificationTimeout) {
+      const id = Date.now();
+      setNotifications([{ id, text, type }]);
+      setNotificationTimeout(setTimeout(() => {
+        setNotifications([]);
+        setNotificationTimeout(null);
+      }, 5000));
+    }
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
+    if (notifications.length === 1) {
+      clearTimeout(notificationTimeout);
+      setNotificationTimeout(null);
+    }
   }
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className={"center-container"}>
-        <Header />
-        <Title text={"Globe Guesser"} size={"md"} />
-        <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} />
+        <Header onNavigateClick={handleCustomNavigate} />
+          {(parseInt(localStorage.getItem("roundies")) === 6) ? (
+            <>
+              <Title text={"Final Scores"} size={"md"} />
+              <div className="final-scores-leave">To play another round, leave the game.</div>
+            </>
+          ) : (
+            <>
+              <Title text={"Globe Guesser"} size={"md"} />
+            </>
+          )}
+        {localStorage.getItem("authKey") !== null ? (
+          <div className="text-container">
+            <span className="lobby-code">Lobby Code: {localStorage.getItem("authKey")}${localStorage.getItem("lobby")}$</span>
+            <button onClick={handleClipboardCopy} className="clipboard-button">
+              <img src={ClipboardIcon} alt="Copy to Clipboard" />
+            </button>
+          </div>
+        ) : null}
+        <BaseElementLobby elements={JSON.parse(localStorage.getItem("leaderboard"))} sp={sp}/>
         <div>
           <div onClick={leaveLobby}>
             <Button width={"md"} type={"regular"} name={"Leave Game"} />
-          </div>
-          <div onClick={skipFirst}>
-            <Button width={"md"} type={"regular"} name={"skip"} />
           </div>
         </div>
       </div>

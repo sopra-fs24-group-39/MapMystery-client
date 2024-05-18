@@ -7,19 +7,12 @@
   justify-content: center;
   height: 100%;
 }
-
-
-.text-container {
-  text-align: center;
-  margin-top: 2em;
-  margin-bottom: 3em;
-  font-size: $default-font-size;
-  color: $default-font-color;
-  max-width: 50em;
+.bottom-center-container {
+  position: relative;
 }
 
 .main-body{
-    overflow: hidden;
+    //overflow: hidden;
 }
 
 .full-h-w {

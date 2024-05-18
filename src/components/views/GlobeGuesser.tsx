@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import Header from "components/views/Header";
 import GameInput from "components/ui/GameInput";
@@ -7,58 +7,129 @@ import BackgroundImage from "./sources/background.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { webSocketService } from './WebSocketService';
 import { api, handleError } from "helpers/api";
+import { useBeforeUnload } from "helpers/useBeforeUnload";
 
 const GlobeGuesser: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const lat = queryParams.get('pong');
   const long = queryParams.get('ping');
-  const round = parseInt(queryParams.get('round') || "0", 10);
+  const currentRound = queryParams.get('currentRound');
   const [distance, setDistance] = useState<number | null>(null);
-  const [timerTime, setTimerTime] = useState(120);
   const navigate = useNavigate();
+  const [timer, setTimer] = useState(0);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [timeDelta, setTimeDelta] = useState(0);
 
-  const handleDistance = (calculatedDistance: number) => {
-    setDistance(calculatedDistance);
-    console.log("(GlobeGuesser) Distance from GameInput:", calculatedDistance);
-    if (webSocketService.connected) {
-      const lobbyId = localStorage.getItem("lobby");
-      distanceSender(calculatedDistance, lobbyId);
-      console.log("(GlobeGuesser) Distance sent via WebSocket: " + calculatedDistance)
-    } else {
-      console.error("No connection (GlobeGuesser)");
-    }
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimer(prevTime => prevTime + 1);
+    }, 1000);
+    setTimerId(id);
+
+    return () => {
+      if (timerId) clearInterval(timerId);
+    };
+  }, []);
+
+  const handleDistance = async (calculatedDistance: number) => {
+      setDistance(calculatedDistance);
+      setTimeDelta(timer/2);
+      console.log("(GlobeGuesser) Distance from GameInput:", calculatedDistance);
+      console.log("(GlobeGuesser) Time from GameInput:", timeDelta);
+      if (webSocketService.connected) {
+        const lobbyId = localStorage.getItem("lobby");
+        return distanceSender(calculatedDistance, timeDelta, lobbyId);
+      } else {
+        return Promise.reject(new Error("No connection (GlobeGuesser)"));
+      }
   }
 
-  async function distanceSender(distance, lobbyId) {
+  //navigation in the game
+  const handleNavigate = (coords) => {
+    const { lat1, lng1, lat2, lng2 } = coords;
+    const url = `/distance?lat1=${lat1}&lng1=${lng1}&lat2=${lat2}&lng2=${lng2}&currentRound=${currentRound}`;
+    navigate(url);
+  };
+
+  const handleCustomNavigate = async (url) => {
+    console.log("URL", url);
+      try {
+          await leaveLobby();
+          navigate(url);
+      } catch (error) {
+          console.error("Error during navigation preparation: ", error);
+          navigate("/game")
+      }
+  };
+
+
+  async function distanceSender(distance: number, timeDelta: number, lobbyId: string) {
     try {
       const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
-      const requestBody = JSON.stringify({ "id": userId, "score": distance });
-      console.log(`(GlobeGuesserLobby) score to /Lobby/GameMode1/${lobbyId} with ${requestBody}`);
+      const requestBody = JSON.stringify({ "playerId": parseInt(userId, 10), "distance": distance, "timeDelta": timeDelta });
+      console.log("GlobeGuesser sending distance", requestBody);
       const headers = {
         'Authorization': `${token}`
       };
       await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
-      navigate("/lobby");
 
     } catch (error) {
       console.error(`Failed to update score: ${handleError(error)}`);
     }
   }
 
+  async function leaveLobby() {
+    console.log("Leaving lobby");
+    try {
+      webSocketService.disconnect();
+      //gettging the things needed to leave lobby
+      const userId = localStorage.getItem("userId");
+      const lobbyId = localStorage.getItem("lobby");
+      const token = localStorage.getItem("token");
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
+
+      //making the call to leave the lobby
+      const headers = {
+        'Authorization': `${token}`
+      };
+
+      await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
+      navigate('/');
+    } catch (error) {
+      console.error(`Failed to leave lobby: ${handleError(error)}`);
+    }
+  }
+
+  useBeforeUnload("Leaving this page will reset the game", () => {
+    console.log("User is leaving the page or closing tab.");
+    leaveLobby();
+  });
+
 //when the timer is expired send default large distance
-const onTimeExpired = () => {
-  console.log("Timer expired, sending default distance");
-  handleDistance(100000000000000);
-};
+  const onTimeExpired = () => {
+    handleDistance(20037508);
+    handleNavigate({
+      lat1: lat,
+      lng1: long,
+      lat2: -10000000000,
+      lng2: -10000000000
+    });
+  };
 
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body">
       <div className={"center-container"}>
-        <Header />
-        <ScoreBoard timerTime={timerTime} onTimeExpired={onTimeExpired} currentRound={round} totalRounds={5} />
-        <GameInput lat={lat} long={long} onDistanceCalculated={handleDistance} />
+        <Header onNavigateClick={handleCustomNavigate} />
+        <ScoreBoard  onTimeExpired={onTimeExpired} currentRound={currentRound} totalRounds={5} />
+        <GameInput lat={lat} long={long} onDistanceCalculated={handleDistance} onNavigate={handleNavigate} />
       </div>
     </BaseContainer>
   );

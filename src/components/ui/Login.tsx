@@ -7,13 +7,15 @@ import Button from "./Button";
 import {useNavigate, Link} from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
+import ErrorMsg from "./ErrorMsg";
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
 
-  const [username, setUsername] = useState<string>(null);
-  const [userEmail, setUserEmail] = useState<string>(null);
-  const [password, setPassword] = useState<string>(null);
+  const [username, setUsername] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confPassword, setConfPassword] = useState<string>("");
   const [error, setError] = useState<string>(null);
 
   const navigate = useNavigate();
@@ -32,12 +34,6 @@ const Login = () => {
                  value={username}
                  onChange={(un) => (setUsername(un))}
           />
-          <label style={{fontWeight: 700}}>email:</label>
-          <Input height={"50px"} width={"auto"}
-                 type={"text"}
-                 value={userEmail}
-                 onChange={(em) => (setUserEmail(em))}
-          />
           <label style={{fontWeight: 700}}>password:</label>
           <Input height={"50px"} width={"auto"}
                  type={"password"}
@@ -57,7 +53,7 @@ const Login = () => {
           />
           <label style={{fontWeight: 700}}>email:</label>
           <Input height={"50px"} width={"auto"}
-                 type={"text"}
+                 type={"email"}
                  value={userEmail}
                  onChange={(em) => (setUserEmail(em))}
           />
@@ -70,8 +66,8 @@ const Login = () => {
           <label style={{fontWeight: 700}}>confirm password:</label>
           <Input height={"50px"} width={"auto"}
                  type={"password"}
-                 value={password}
-                 onChange={(p) => (setPassword(p))}
+                 value={confPassword}
+                 onChange={(cp) => (setConfPassword(cp))}
           />
         </>
       );
@@ -87,26 +83,32 @@ const Login = () => {
   }
 
   const doRegister = async () => {
-    try {
-      const requestBody = JSON.stringify({ username, userEmail, password });
-      const response1 = await api.post("/users", requestBody);
-      // Get the returned user and update a new object.
-      const response2 = await api.put("/users/login", requestBody);
-      const user = new User(response2.data.user);
-      const token = response2.data.token;
+    if (confPassword === password) {
+      try {
+        const requestBody = JSON.stringify({ username, userEmail, password });
+        const response1 = await api.post("/users", requestBody);
+        // Get the returned user and update a new object.
+        const response2 = await api.put("/users/login", requestBody);
+        const user = new User(response2.data.user);
+        const token = response2.data.token;
 
-      // Store the token into the local storage.
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", user.id);
+        // Store the token into the local storage.
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("username", user.username);
 
-      console.log(localStorage.getItem("token"))
-      console.log(localStorage.getItem("userId"))
+        console.log(localStorage.getItem("token"))
+        console.log(localStorage.getItem("userId"))
+        console.log(localStorage.getItem("username"))
 
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      navigate("/game");
-    } catch (error) {
-      setError(error);
+        // Login successfully worked --> navigate to the route /game in the GameRouter
+        navigate("/game");
+      } catch (e) {
+        setError(e.response.data.message);
+      }
+    } else {
+      setError("Passwords do not match");
     }
   }
 
@@ -121,21 +123,26 @@ const Login = () => {
       // Store the token into the local storage.
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id);
+      localStorage.setItem("username", user.username);
 
       console.log(localStorage.getItem("token"))
       console.log(localStorage.getItem("userId"))
+      console.log(localStorage.getItem("username"))
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
-    } catch (error) {
-      setError(error);
+    } catch (e) {
+      setError(e.response.data.message);
     }
   }
 
   return (
       <div className={"center-container login-background"}>
-        <div className={"container-container"}>
-          <BaseElement width={750} height={570}>
+        <div className={"container-containe"}>
+          <BaseElement width={"77vw"} height={"55vh"}>
+            <div className={"flex flex-row justify-end"}>
+              <Link to={"/"}>X</Link>
+            </div>
             <div className={""}>
               <Title text="Welcome back!" className="site-title" size={"md"}></Title>
             </div>
@@ -154,8 +161,7 @@ const Login = () => {
             <div>
               <a className="register-login-link" style={{fontWeight: 700}} onClick={loginRegistryHandler}> {!isRegister && ("Don't have an account yet? Register")} {isRegister && ("Already got an account! Login")}</a>
             </div>
-            <Link to={"/"}>Close</Link>
-            {error ? <p>{error.message}</p> : null}
+            {error && <ErrorMsg text={error}></ErrorMsg>}
           </BaseElement>
         </div>
       </div>
