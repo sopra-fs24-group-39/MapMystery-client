@@ -22,7 +22,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                     id: friend.id,
                     name: friend.username, // Assuming the username needs to be mapped to name
                     overall_points: friend.currentpoints,
-                    last30days_points: 0 // Setting last30days_points to 0 for every friend
+                    last30days_points: friend.pointsthismonth// Setting last30days_points to 0 for every friend
                     // Add other attributes if needed
                 }));
                 setFriends(fetchedFriends);
@@ -40,7 +40,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                     id: player.id,
                     name: player.username,
                     overall_points: player.currentpoints,
-                    last30days_points: 0
+                    last30days_points: player.pointsthismonth
                     // Add other attributes if needed
                 }));
                 setSortedPlayers([...fetchedPlayers]); // Update sortedPlayers with fetched player data
@@ -93,7 +93,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                </span>
              </button>
              <button className="overall_button" onClick={() => sortData(sortedFriends, setSortedFriends, 'friends', 'last30days_points')}>
-               Last 30 Days
+               This Month
                <span style={arrowStyle}>
                  {sortCriteria.friends.last30days_points.direction === 'down' ? '▼' : '▲'}
                </span>
@@ -121,7 +121,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                </span>
              </button>
              <button className="overall_button" onClick={() => sortData(sortedPlayers, setSortedPlayers, 'global', 'last30days_points')}>
-               Last 30 Days
+               This Month
                <span style={arrowStyle}>
                  {sortCriteria.global.last30days_points.direction === 'down' ? '▼' : '▲'}
                </span>
