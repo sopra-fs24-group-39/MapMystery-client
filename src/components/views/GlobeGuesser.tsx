@@ -34,7 +34,7 @@ const GlobeGuesser: React.FC = () => {
 
   const handleDistance = async (calculatedDistance: number) => {
       setDistance(calculatedDistance);
-      setTimeDelta(timer/2);
+      setTimeDelta(timer);
       console.log("(GlobeGuesser) Distance from GameInput:", calculatedDistance);
       console.log("(GlobeGuesser) Time from GameInput:", timeDelta);
       if (webSocketService.connected) {
@@ -71,8 +71,10 @@ const GlobeGuesser: React.FC = () => {
       const requestBody = JSON.stringify({ "playerId": parseInt(userId, 10), "distance": distance, "timeDelta": timeDelta });
       console.log("GlobeGuesser sending distance", requestBody);
       const headers = {
-        'Authorization': `${token}`
+        'Authorization': `${token}`,
+        'Content-Type': 'application/json'
       };
+      console.log("GlobeGuesser sending distance", headers);
       await api.put(`/Lobby/GameMode1/${lobbyId}`, requestBody, { headers });
 
     } catch (error) {
