@@ -55,6 +55,9 @@ const JoinPrivateLobby = () => {
               <Button width={"lg"} name={"Join"} type={"regular"}></Button>
             </div>
             {error && <ErrorMsg text={error}></ErrorMsg>}
+            <div className={"w-auto flex flex-row justify-center"}>
+              <a className={"text mt-4"} href={"/privateLobby"}>Back</a>
+            </div>
           </div>
         </div>
       </div>

@@ -33,6 +33,7 @@ const PrivateLobby = () => {
             <Button width={"lg"} name={"Join a private lobby"} type={"regular"}></Button>
           </div>
         </div>
+        <a className={"text mt-8"} href={"/game"}>Back</a>
       </div>
     </BaseContainer>
   );

@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/ui/GameInput.scss";
 import Button from "components/ui/Button";
 import FlagView from "../views/FlagView";
 import MapViewCountry from "../views/MapsViewCountry";
-import { calculateDistance } from "../../helpers/distance";
-import { useNavigate } from "react-router-dom";
-import { api, handleError } from "helpers/api";
-
 
 const GameInputFlagFinder: React.FC<{
-  onCountryUpdate: (country: string) => void,
+  onCountryUpdate: (country: string, code: string) => void,
   onSubmit: () => void,
-  code: string
-}> = ({ onCountryUpdate, onSubmit, code }) => {
-  const navigate = useNavigate();
+  code: string,
+  currentName: string
+}> = ({ onCountryUpdate, onSubmit, code, currentName }) => {
   const [yellowStyle] = useState({
     width: '70%',
     height: '80%',
@@ -47,7 +43,7 @@ const GameInputFlagFinder: React.FC<{
         <MapViewCountry onCountryUpdate={onCountryUpdate} />
       </div>
       <div className="rectangle blue-rectangle" style={blueStyle}>
-        <FlagView countryCode={code} onFlagLoad={handleFlagLoad}/>
+        <FlagView countryCode={code} onFlagLoad={handleFlagLoad} />
       </div>
       <div className="submit-button">
         <Button type={"login"} width={"lg"} name={"Submit Guess"} onClick={onSubmit}></Button>

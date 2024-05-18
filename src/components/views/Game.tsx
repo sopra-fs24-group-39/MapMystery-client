@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import GlobeGuesserInfo from "../ui/GlobeGuesserInfo";
 import FlagFinderInfo from "../ui/FlagFinderInfo";
 import NotificationSquare from "components/ui/NotificationSquare";
+import ChatButton from "../ui/ChatButton";
+import { webSocketService } from "components/views/WebSocketService";
 
 const showGLobeGuesserInformation = (stat) => {
   if (stat) {
@@ -60,7 +62,7 @@ const Game = () => {
       console.log("No game mode selected");
       return;
     }
-
+    webSocketService.disconnect();
     setGameMode(selectedGameMode);
     if (mp === "hidden") {
       setPlayerMS("Singleplayer");
@@ -71,54 +73,81 @@ const Game = () => {
     setText("");
   }
 
-async function onTimeUp() {
+  async function onTimeUp() {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     console.log(userId)
     console.log(token)
 
-     if (localStorage.getItem("gamemode") === "Flag Finder") {
-       navigate("/ffconfiguration");
-       return;
-     }
+    if (localStorage.getItem("gamemode") === "Flag Finder") {
+      navigate("/ffconfiguration");
+      return;
+    }
 
     try {
-        const config = {
-            headers: {
-                Authorization: `${token}`
-            }
-        };
-        var user = await api.get(`/users/${userId}`, config);
-        user = user.data
-        console.log(user)
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+      var user = await api.get(`/users/${userId}`, config);
+      user = user.data
+
+      if (playerMS === "Multiplayer") {
         var lobbyId = await join_lobby(user)
         localStorage.setItem("lobby", lobbyId)
-        console.log(`(Game.tsx) set lobby id in local storage ${localStorage.getItem("lobby")}`)
+        localStorage.setItem("counter", "starting round counter")
         navigate("/lobby");
         setTimerActive(false);
+      } else if (playerMS === "Singleplayer") {
+        var lobbyId = await join_single_lobby(user)
+        localStorage.setItem("lobby", lobbyId)
+        localStorage.setItem("counter", "starting round counter")
+        localStorage.setItem("Singleplayer", true)
+        navigate("/lobby?gm=sp");
+        setTimerActive(false);
+      } else {
+        addNotification("Gamemode not select", "error");
+        return;
+      }
     } catch (error) {
-        console.error('Failed to fetch user:', error);
+        addNotification("Player not found", "error");
     }
-}
-
-async function join_lobby(userData){
-  const token = localStorage.getItem("token");
-  const userDTO = prepareUserDTO(userData);
-  console.log(userDTO)
-  const config = {
-    headers: {
-      Authorization: `${token}`
-    }
-  };
-  try {
-    const response = await api.post('/Lobby/GameMode1', userDTO, config);
-    var lobbyId =  response.data.lobbyId
-    console.log("LobbyId:", lobbyId)
-    return lobbyId
-  } catch (error) {
-    console.error('Failed to join lobby:', error.response.data);
   }
-}
+
+  async function join_lobby(userData){
+    const token = localStorage.getItem("token");
+    const userDTO = prepareUserDTO(userData);
+    const config = {
+      headers: {
+        Authorization: `${token}`
+      }
+    };
+    try {
+      const response = await api.post('/Lobby/GameMode1', userDTO, config);
+      var lobbyId =  response.data.lobbyId
+      return lobbyId
+    } catch (error) {
+      addNotification("Failed to join lobby", "error");
+    }
+  }
+
+  async function join_single_lobby(userData) {
+    const token = localStorage.getItem("token");
+    const userDTO = prepareUserDTO(userData);
+    const config = {
+      headers: {
+        Authorization: `${token}`
+      }
+    };
+    try {
+      const response = await api.post('/Lobby/GameMode3', userDTO, config);
+      var lobbyId =  response.data.lobbyId
+      return lobbyId
+    } catch (error) {
+      addNotification("Failed to join Singleplayer lobby", "error");
+    }
+  }
 
 function prepareUserDTO(userData) {
     return {
@@ -164,6 +193,10 @@ function prepareUserDTO(userData) {
     );
   }
 
+  const handleChatButtonClick = () => {
+      console.log("Button clicked");
+  };
+
   return (
     <BaseContainer backgroundImage={BackgroundImage} className="main-body overflow-scroll">
       {isInfo && (
@@ -179,6 +212,14 @@ function prepareUserDTO(userData) {
       <div className={"center-container left-5"}>
         <Header/>
         <Logo width="40vh" height="40vh" className="logo" />
+
+        <ChatButton
+          width="large"
+          onClick={handleChatButtonClick}
+          icon="Chat"
+          notificationCount={3}
+        />
+
         <div className="text-container-sm">
            <p className={text}>{text !== "hidden" ? text : "Select your preferences and join a lobby"}</p>
            <p className={"text-info"}>For more information on the game modes click the information icon in the game mode selection</p>
@@ -249,6 +290,9 @@ function prepareUserDTO(userData) {
                 onClick={populateBeforeAPICall}
               >
               </Button>
+              <div className={"flex flex-row justify-center"}>
+                <a className={"text mt-4"} href={"/game"}>Back</a>
+              </div>
               {timerActive && (
                 <Button
                   type={"login"}

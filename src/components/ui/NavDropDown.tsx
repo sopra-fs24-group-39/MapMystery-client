@@ -47,8 +47,8 @@ const NavDropDown = () => {
   }
 
   return(
-    <div className={"dropdown p-4 rounded-md"}>
-      <Button type={"login"} width={"md"} name={"Log out"} onClick={logout} />
+    <div className={"dropdown p-4 rounded-md"} onClick={logout}>
+      <Button type={"login"} width={"md"} name={"Log out"} />
     </div>
   );
 }

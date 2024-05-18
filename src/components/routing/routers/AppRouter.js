@@ -17,6 +17,7 @@ import JoinPrivateLobby from "../../views/JoinPrivateLobby";
 import CreatePrivateLobby from "../../views/CreatePrivateLobby";
 import FlagFinderGuesses from "../../views/FlagFinderGuesses";
 import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
+import EmailVerified from "../../views/EmailVerified";
 
 const AppRouter = () => {
   return (
@@ -42,6 +43,7 @@ const AppRouter = () => {
             <Route path="/ffguesses" element={<FlagFinderGuesses />} />
           </Route>
 
+          <Route path="/verify-account" element={<EmailVerified />} />
           <Route path="/login" element={<Start />} />
           <Route path="/" element={<Navigate to="/game" replace />} />
 
