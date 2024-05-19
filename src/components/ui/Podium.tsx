@@ -17,22 +17,132 @@ const Podium: React.FC<PodiumProps> = ({ first, second, third }) => {
   const [displayStage, setDisplayStage] = useState(0);
 
   useEffect(() => {
-    const intervals = [2000, 3000, 3000, 3000, 2000]; // [2617, 2325, 3036, 1667, 2000]; for song
+    const intervals = [2000, 3000, 3000, 3000, 2000];
     let totalTime = 0;
+    const timeouts: NodeJS.Timeout[] = [];
 
     intervals.forEach((interval, index) => {
       totalTime += interval;
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setDisplayStage(index + 1);
       }, totalTime);
+      timeouts.push(timeout);
     });
 
-    setTimeout(() => {
+    const finalTimeout = setTimeout(() => {
       setDisplayStage(5);
     }, totalTime + 3000);
+    timeouts.push(finalTimeout);
 
-    return () => clearTimeout(); // Cleanup timeout if component unmounts
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
   }, []);
+
+  useEffect(() => {
+    if (displayStage < 3) return;
+
+    const NUM_CONFETTI = 400;
+    const COLORS = ['#0000e7', '#dbdb00', '#ed1c24', '#00ebeb'];
+
+    let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, w: number, h: number, confetti: Confetti[], xpos: number;
+    const duration = 20000;
+    let progress = 0;
+
+    const resizeWindow = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    };
+
+    const range = (a: number, b: number) => (b - a) * Math.random() + a;
+
+    const drawCircle = (x: number, y: number, width: number, height: number, style: string, deg: number) => {
+      const rotDeg = deg * Math.PI / 180;
+      context.beginPath();
+      context.save();
+      context.translate(x + width, y + height);
+      context.rotate(rotDeg);
+      context.fillStyle = style;
+      context.fillRect(-width, -height, width, height);
+      context.restore();
+    };
+
+    class Confetti {
+      style: string;
+      deg: number;
+      r: number;
+      width: number;
+      height: number;
+      opacity: number;
+      dop: number;
+      x: number;
+      y: number;
+      xmax: number;
+      ymax: number;
+      vx: number;
+      vy: number;
+
+      constructor() {
+        this.style = COLORS[~~range(0, 4)];
+        this.deg = range(10, 120);
+        this.r = ~~range(4, 10);
+        this.width = 2 * this.r;
+        this.height = this.r / 2;
+        this.replace();
+      }
+
+      replace() {
+        this.opacity = 0;
+        this.dop = 1;
+        this.x = range(0, w - this.width);
+        this.y = range(-(h - this.width), -this.width);
+        this.xmax = w - this.r;
+        this.ymax = h - this.r;
+        this.vx = 0;
+        this.vy = 1.1 * this.r + range(-1, 1);
+      }
+
+      draw() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.y > this.ymax) {
+          this.replace();
+        }
+        if (!(0 < this.x < this.xmax)) {
+          this.x = (this.x + this.xmax) % this.xmax;
+        }
+        drawCircle(~~this.x, ~~this.y, this.width, this.height, this.style, this.deg);
+      }
+    }
+
+    const startConfetti = () => {
+      confetti = new Array(NUM_CONFETTI).fill(null).map(() => new Confetti());
+      step();
+    };
+
+    const step = () => {
+      requestAnimationFrame(step);
+      context.clearRect(0, 0, w, h);
+      confetti.forEach(c => c.draw());
+      progress += 20;
+    };
+
+    document.addEventListener('mousemove', (e) => {
+      xpos = e.pageX / w;
+    });
+
+    window.addEventListener('resize', resizeWindow, false);
+
+    canvas = document.getElementById('world') as HTMLCanvasElement;
+    context = canvas.getContext('2d')!;
+    resizeWindow();
+    startConfetti();
+
+    return () => {
+      window.removeEventListener('resize', resizeWindow);
+      document.removeEventListener('mousemove', () => { });
+    };
+  }, [displayStage]);
 
   return (
     <div className="podium-container">
@@ -70,6 +180,7 @@ const Podium: React.FC<PodiumProps> = ({ first, second, third }) => {
           </div>
         </div>
       </div>
+      <canvas id="world"></canvas>
     </div>
   );
 };

@@ -49,8 +49,8 @@ const FinalScore = () => {
   }, []);
 
   const first = leaderboard[0] || { name: 'Player 1', points: 0 };
-  const second = leaderboard[1] || { name: '', points: 0 };
-  const third = leaderboard[2] || { name: '', points: 0 };
+  const second = leaderboard[1] || { name: 'Player 2', points: 0 };
+  const third = leaderboard[2] || { name: 'Player 3', points: 0 };
 
   ///////////////////////////////////////////// LEAVING LOBBY /////////////////////////////////////////////
   async function leaveLobby() {
