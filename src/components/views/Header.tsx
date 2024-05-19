@@ -81,9 +81,6 @@ const Header = ({ onNavigateClick }) => {
           <li className="menu-link nav-option" onClick={() => handleNavigation("/settings")}>
             Settings
           </li>
-           <li className="menu-link nav-option" onClick={() => handleNavigation("/podium")}>
-             Podium
-           </li>
         </ul>
         <div className="nav-icon" onClick={expandAvatar}>
           <MinidenticonImg username={username} saturation={saturation} lightness={lightness} width="45" height="45" />
