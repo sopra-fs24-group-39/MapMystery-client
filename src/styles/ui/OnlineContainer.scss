@@ -1,0 +1,46 @@
+.online-players-container {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.online-players-box {
+  background-color: white;
+  border: 2px solid black;
+  padding: 10px;
+  position: relative;
+}
+
+.online-players-button {
+  font-family: monospace;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  border: 1px solid #000;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+}
+
+.player-box {
+  padding: 8px 16px;
+  margin: 2px 0;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: center;
+}
+
+.player-box:hover {
+  background-color: #f0f0f0;
+}

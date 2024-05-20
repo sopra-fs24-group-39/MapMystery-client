@@ -166,8 +166,6 @@ const GlobeGuesserLobby: React.FC<GlobeGuesserLobbyProps> = ({ lobbyId }) => {
       */}
 
       const response = await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
-      navigate('/');
-
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
     } finally {

@@ -79,7 +79,11 @@ const GlobeGuesserDistanceScreen = () => {
       console.log("(Distance) LeaderBoard update with message:", parsedMessage);
       //setLeaderBoard(parsedMessage);
       localStorage.setItem("leaderboard", JSON.stringify(parsedMessage));
-      navigate(`/lobby?currentRound=${currentRound}`);
+      if (localStorage.getItem("roundies") === "6" && localStorage.getItem("Singleplayer") !== "true") {
+        navigate("/podium");
+      } else {
+        navigate(`/lobby?currentRound=${currentRound}`);
+      }
     } catch (error) {
       console.error('Error parsing leaderboard update message:', error);
     }
@@ -90,19 +94,13 @@ const GlobeGuesserDistanceScreen = () => {
   }
 
   async function leaveLobby() {
+    console.log("Leaving lobby");
     try {
       webSocketService.disconnect();
       //gettging the things needed to leave lobby
       const userId = localStorage.getItem("userId");
       const lobbyId = localStorage.getItem("lobby");
       const token = localStorage.getItem("token");
-      localStorage.removeItem("round");
-      localStorage.removeItem("lobby");
-      localStorage.removeItem("leaderboard")
-      localStorage.removeItem("gamemode")
-      localStorage.removeItem("authKey");
-      localStorage.removeItem("Singleplayer");
-      localStorage.removeItem("roundies");
 
       //making the call to leave the lobby
       const headers = {
@@ -110,9 +108,17 @@ const GlobeGuesserDistanceScreen = () => {
       };
 
       await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
-      navigate('/');
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
+    } finally {
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
+      navigate('/');
     }
   }
 

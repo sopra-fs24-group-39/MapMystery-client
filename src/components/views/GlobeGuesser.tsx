@@ -90,13 +90,6 @@ const GlobeGuesser: React.FC = () => {
       const userId = localStorage.getItem("userId");
       const lobbyId = localStorage.getItem("lobby");
       const token = localStorage.getItem("token");
-      localStorage.removeItem("round");
-      localStorage.removeItem("lobby");
-      localStorage.removeItem("leaderboard")
-      localStorage.removeItem("gamemode")
-      localStorage.removeItem("authKey");
-      localStorage.removeItem("Singleplayer");
-      localStorage.removeItem("roundies");
 
       //making the call to leave the lobby
       const headers = {
@@ -104,9 +97,17 @@ const GlobeGuesser: React.FC = () => {
       };
 
       await api.delete(`/Lobby/GameMode1/${lobbyId}/${userId}`, { headers });
-      navigate('/');
     } catch (error) {
       console.error(`Failed to leave lobby: ${handleError(error)}`);
+    } finally {
+      localStorage.removeItem("round");
+      localStorage.removeItem("lobby");
+      localStorage.removeItem("leaderboard")
+      localStorage.removeItem("gamemode")
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("Singleplayer");
+      localStorage.removeItem("roundies");
+      navigate('/');
     }
   }
 

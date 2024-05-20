@@ -5,13 +5,15 @@ interface TabSelectorProps {
   width: string;
   height: string;
   options: string[];
+  onChange: (option: string) => void;
 }
 
-const TabSelector: React.FC<TabSelectorProps> = ({ width, height, options }) => {
+const TabSelector: React.FC<TabSelectorProps> = ({ width, height, options, onChange }) => {
   const [selectedOption, setSelectedOption] = React.useState(options[0]);
 
   const handleSelection = (option: string) => {
     setSelectedOption(option);
+    onChange(option);
   };
 
   return (

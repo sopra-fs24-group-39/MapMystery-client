@@ -18,11 +18,13 @@ import CreatePrivateLobby from "../../views/CreatePrivateLobby";
 import FlagFinderGuesses from "../../views/FlagFinderGuesses";
 import FlagFinderConfiguration from "../../views/FlagFinderConfiguration";
 import EmailVerified from "../../views/EmailVerified";
+import FinalScore from "../../views/FinalScore";
 
 const AppRouter = () => {
   return (
       <BrowserRouter>
         <Routes>
+          <Route path="/podium" element={<FinalScore />} />
 
           <Route element={<GameGuard />}>
             <Route path="/friends" element={<Friends />} />
