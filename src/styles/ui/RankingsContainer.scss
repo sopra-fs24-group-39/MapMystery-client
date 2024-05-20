@@ -60,7 +60,7 @@
 
 button {
 
-  }
+}
 
 .player-row {
   height: 3rem;
@@ -90,7 +90,7 @@ button {
 }
 
 .highlighted-row {
-  background-color: $yellow-strips;
+  background-color: $base-yellow !important;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -122,4 +122,3 @@ button {
   font-weight: bold;
   text-align: center;
 }
-
