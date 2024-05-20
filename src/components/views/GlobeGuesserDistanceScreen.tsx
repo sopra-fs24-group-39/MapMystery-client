@@ -79,7 +79,7 @@ const GlobeGuesserDistanceScreen = () => {
       console.log("(Distance) LeaderBoard update with message:", parsedMessage);
       //setLeaderBoard(parsedMessage);
       localStorage.setItem("leaderboard", JSON.stringify(parsedMessage));
-      if (localStorage.getItem("roundies") === "6" && localStorage.getItem("Singleplayer") !== true) {
+      if (localStorage.getItem("roundies") === "6" && localStorage.getItem("Singleplayer") !== "true") {
         navigate("/podium");
       } else {
         navigate(`/lobby?currentRound=${currentRound}`);
