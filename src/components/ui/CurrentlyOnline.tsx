@@ -12,7 +12,11 @@ const CurrentlyOnline = () => {
     };
     try {
       const requestBody = JSON.stringify({id});
-      const response = await api.put("/active-users", requestBody, {headers});
+      const response = await api.get("/active-users", {
+        headers: headers,
+        params: { userId: id } // Pass the id as a query parameter
+      });
+      setPlayers(response.data.Users);
       setPlayers(response.data.Users);
     }
     catch (e) {
