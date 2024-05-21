@@ -2,6 +2,9 @@
 
 .button-container {
   position: relative;
+  display: inline-block;
+  cursor: pointer;
+
   &:hover {
     .button {
       border: solid 3px darken($shine-blue, 20%);
@@ -52,6 +55,7 @@
 }
 
 .button-shine {
+  pointer-events: none;
   z-index: 3;
   position: absolute;
   top: 3px;
@@ -67,6 +71,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  pointer-events: none;
 }
 
 .button-font {
@@ -136,6 +141,7 @@
 }
 
 .login-button-shine {
+  pointer-events: none;
   z-index: 3;
   position: absolute;
   top: 3px;
@@ -148,6 +154,7 @@
 }
 
 .login-button-font {
+  cursor: pointer;
   top: 0;
   left: auto;
   position: absolute;
@@ -156,8 +163,8 @@
   font-size: $button-font-size;
   font-weight: bold;
   color: $scale;
-  text-stroke-width: 3px; /* Adjust the stroke width as needed */
-  text-stroke-color: black; /* Stroke color */
+  text-stroke-width: 3px;
+  text-stroke-color: black;
 }
 
 // auto button properties
