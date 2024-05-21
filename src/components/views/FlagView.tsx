@@ -10,13 +10,15 @@ const FlagView = ({ countryCode, onFlagLoad }) => {
   };
 
   return (
-    <img
-      src={flagUrl}
-      width="800px"
-      alt={`Flag of ${countryCode}`}
-      onLoad={handleLoad}
-      onError={(e) => { e.target.src = 'default-flag-path'; }}
-    />
+    <div style={{ border: '15px solid #82CBE2', borderRadius: '10px', overflow: 'hidden'}}>
+      <img
+        src={flagUrl}
+        alt={`Flag of ${countryCode}`}
+        onLoad={handleLoad}
+        onError={(e) => { e.target.src = 'default-flag-path'; }}
+        style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+      />
+    </div>
   );
 };
 
