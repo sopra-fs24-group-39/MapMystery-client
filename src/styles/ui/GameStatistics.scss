@@ -1,0 +1,34 @@
+@import "../theme";
+
+.gamestats {
+  padding: 2rem;
+  flex-direction: column;
+  display: flex;
+}
+
+.gamestats-gamemode {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: $base-yellow;
+}
+
+.gamestats-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.gamestats-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.gamestats-label {
+  font-weight: bold;
+}
+
+.gamestats-value {
+  font-weight: normal;
+}

@@ -32,10 +32,18 @@ const GlobeGuesserDistance: React.FC<GlobeGuesserDistanceProps> = ({ coords1, co
     }
   }, [coords1, coords2]);
 
+  const formatDistance = (distance: number) => {
+    if (distance >= 1000000) {
+      const kilometers = (distance / 1000).toFixed(0);
+      return `${kilometers.replace(/\B(?=(\d{3})+(?!\d))/g, "'")} kilometers`;
+    } else {
+      return `${distance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")} meters`;
+    }
+  };
   return (
     <div>
       {distance !== null ? (
-        <p className="distance-text">Distance: {distance} meters!</p>
+        <p className="distance-text">Distance: {formatDistance(distance)}!</p>
       ) : (
         !displayCoords2 && <p className="distance-text">No coords submitted.</p>
       )}
