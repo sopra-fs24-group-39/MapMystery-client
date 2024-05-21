@@ -15,6 +15,7 @@ import FlagFinderInfo from "../ui/FlagFinderInfo";
 import NotificationSquare from "components/ui/NotificationSquare";
 import ChatButton from "../ui/ChatButton";
 import { webSocketService } from "components/views/WebSocketService";
+import CurrentlyOnline from "../ui/CurrentlyOnline";
 
 const showGLobeGuesserInformation = (stat) => {
   if (stat) {
@@ -39,6 +40,10 @@ const Game = () => {
   const [isLobbySelection, setIsLobbySelection] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [infoGameMode, setInfoGameMode] = useState("");
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const handleInformationPopUp = (gameMode) => {
       setInfoGameMode(gameMode);
@@ -111,7 +116,42 @@ const Game = () => {
         return;
       }
     } catch (error) {
-        addNotification("Player not found", "error");
+      addNotification("Player not found", "error");
+    }
+  }
+
+  const getUserInfo = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    try {
+      const response = await api.get(`/users/${userId}`, {
+        headers: {
+          Authorization: `${token}`
+        }
+      });
+    } catch (error) {
+      console.log("logging user out due to old token");
+      logout();
+    }
+  };
+
+  const logout = async () => {
+    const userId = localStorage.getItem("userId");
+    const status = "OFFLINE";
+    const token = localStorage.getItem("token");
+    try {
+      const requestBody = JSON.stringify({ status });
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+      const response = await api.put("/users/" + userId, requestBody, config);
+    } catch (e) {
+
+    } finally {
+      localStorage.clear();
+      navigate("/login");
     }
   }
 
@@ -212,7 +252,7 @@ function prepareUserDTO(userData) {
       <div className={"center-container left-5"}>
         <Header/>
         <Logo width="40vh" height="40vh" className="logo" />
-
+        <CurrentlyOnline />
         <ChatButton
           width="large"
           onClick={handleChatButtonClick}
