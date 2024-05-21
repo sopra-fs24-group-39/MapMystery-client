@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import "../../styles/ui/SettingsContainer.scss";
+import React, { useState, useEffect } from 'react';
+import "../../styles/ui/AccountSettings.scss";
 import Button from "components/ui/Button";
 import { useNavigate } from 'react-router-dom';
-import { api } from "helpers/api";
-import GameInfo from "./GameInfo";
-import ProfilePictureSelection from "./ProfilePictureSelection"
+import { api, handleError } from "helpers/api";
+import NotificationSquare from "components/ui/NotificationSquare";
+import AccountSettings from "./AccountSettings";
+import GameStatistics from "./GameStatistics";
+import RankingSettings from "./RankingSettings";
+import FriendSettings from "./FriendSettings";
+import PictureSettings from "./PictureSettings";
 
 type BaseElementSettingsProps = {
   width?: string;
@@ -13,94 +17,126 @@ type BaseElementSettingsProps = {
 
 const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800px', height = '500px' }) => {
   const [selectedContent, setSelectedContent] = useState('default');
-  const navigate = useNavigate(); // Correctly placed within the component body
-  const [isProfilePicture, setIsProfilePicture ] = useState(false);
-
-  const doLogout = async () => {
-    const userId = localStorage.getItem("userId");
-    const status = "OFFLINE";
-    const token = localStorage.getItem("token");
-    try {
-      const requestBody = JSON.stringify({status});
-      const config = {
-        headers: {
-          Authorization: `${token}`
-        }
-      };
-        const response = await api.put("/users/" + userId, requestBody, config);
-    } catch (e) {
-    } finally {
-      localStorage.clear();
-      navigate('/login'); // Use navigate to redirect after logout
-    }
-  };
-
+  const [isRankingEnabled, setIsRankingEnabled] = useState("");
+  const [isRequestsEnabled, setIsRequestsEnabled] = useState("");
+  const navigate = useNavigate();
+  const [isProfilePicture, setIsProfilePicture] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
   const containerStyle = { width, minHeight: height };
   const sidebarStyle = { width: '35%', height: height };
   const mainContentStyle = { width: '65%', height: height };
   const sidebarBottomStyle = { width: '100%', height: '17%' };
   const sidebarTopStyle = { width: '100%', height: '83%' };
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const getUserInfo = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    try {
+      const response = await api.get(`/users/${userId}`, {
+        headers: {
+          Authorization: `${token}`
+        }
+      });
+      const {
+        username,
+        userEmail,
+        creationdate,
+        currentpoints,
+        pointsthismonth,
+        featured_in_rankings,
+        friendrequests,
+        friends,
+        verified
+      } = response.data;
+      setUserInfo({ username, userEmail, creationdate, verified, currentpoints, pointsthismonth });
+    } catch (error) {
+      addNotification("Error getting user info", "error");
+    }
+  };
+
+  const doLogout = async () => {
+    const userId = localStorage.getItem("userId");
+    const status = "OFFLINE";
+    const token = localStorage.getItem("token");
+    try {
+      const requestBody = JSON.stringify({ status });
+      const config = {
+        headers: {
+          Authorization: `${token}`
+        }
+      };
+      const response = await api.put("/users/" + userId, requestBody, config);
+    } catch (e) {
+    } finally {
+      localStorage.clear();
+      navigate('/login');
+    }
+  };
+
   const changeContent = (content: string) => {
     setSelectedContent(content);
+  };
+
+  const handleToggleRankingChange = (isEnabled: boolean) => {
+    setIsRankingEnabled(isEnabled);
+  };
+
+  const handleToggleRequestsChange = (isEnabled: boolean) => {
+    setIsRankingEnabled(isEnabled);
   };
 
   const renderContent = () => {
     switch (selectedContent) {
       case 'Account Settings':
-        return <div>Content for Account Settings</div>;
-      case 'Personal Information':
-        return <div>Content for Personal Information</div>;
+        return <AccountSettings userInfo={userInfo} onSave={handleSave} />;
+      case 'Game Statistics':
+        return <GameStatistics currentpoints={userInfo.currentpoints} pointsthismonth={userInfo.pointsthismonth} />;
       case 'Ranking Settings':
-        return <div>Content for Ranking Settings</div>;
+        return <RankingSettings onToggleChange={handleToggleRankingChange} isToggled={isRankingEnabled} />;
       case 'Friend Settings':
-        return <div>Content for Friend Settings</div>;
+        return <FriendSettings onToggleChange={handleToggleRankingChange} isToggled={isRankingEnabled} />;
       case 'Picture Settings':
-        return <div>Content for Picture Settings</div>;;
-      case 'Chat Settings':
-        return <div>Content for Chat Settings</div>;
+        return <PictureSettings username={userInfo.username} />;
       default:
-        return <div>Content for Account Settings</div>;
+        return <AccountSettings userInfo={userInfo} onSave={handleSave} />;
     }
   };
-/*  const displayProfilePictureChapter = () => {
-    return (
-        <div className={"center-container"}>
-          <div className="lg-button">
-            <Button type={"login"} width={"lg"} name={"Change Profile Picture"} onClick={toggleProfilePictureSelection}/>
-          </div>
-        </div>
 
+  const handleSave = (updatedInfo) => {
+    setUserInfo({ ...userInfo, ...updatedInfo });
+  };
+
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
     );
   };
-  const toggleProfilePictureSelection = ()=>{
-    setIsProfilePicture(!isProfilePicture)
-  }
-
-  const showProfilePictureSelection = (isProfilePicture) => {
-    if (isProfilePicture) {
-      return (
-          <div className={"full-h-w z-20"} style={{position: "absolute"}}>
-            <ProfilePictureSelection></ProfilePictureSelection>
-          </div>
-      );
-    }
-  }*/
-
 
   return (
     <div className="base-element-settings" style={containerStyle}>
-{/*
-      {showProfilePictureSelection(isProfilePicture) && <ProfilePictureSelection onClose={toggleProfilePictureSelection}/>}
-*/}
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className="sidebar" style={sidebarStyle}>
         <div className="sidebar-top striped-background" style={sidebarTopStyle}>
           <div className="settings-chapter" onClick={() => changeContent('Account Settings')}>Account Settings</div>
-          <div className="settings-chapter" onClick={() => changeContent('Personal Information')}>Personal Information</div>
+          <div className="settings-chapter" onClick={() => changeContent('Game Statistics')}>Game Statistics</div>
           <div className="settings-chapter" onClick={() => changeContent('Ranking Settings')}>Ranking Settings</div>
           <div className="settings-chapter" onClick={() => changeContent('Friend Settings')}>Friend Settings</div>
           <div className="settings-chapter" onClick={() => changeContent('Picture Settings')}>Picture Settings</div>
-          <div className="settings-chapter" onClick={() => changeContent('Chat Settings')}>Chat Settings</div>
         </div>
         <div className="sidebar-bottom" style={sidebarBottomStyle}>
           <Button type={"login"} width={"md"} name={"Log out"} onClick={doLogout} />

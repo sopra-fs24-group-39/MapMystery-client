@@ -68,15 +68,11 @@
 .settings-chapter{
   font-size: 2.1rem;
   margin-left: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   font-weight: bold;
   color: $base-yellow;
   &:hover{
     cursor: pointer;
-    text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+    -webkit-text-stroke: 1px black;
   }
 }
