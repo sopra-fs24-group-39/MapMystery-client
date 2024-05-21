@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { api, handleError } from "../../helpers/api";
-import "../../styles/ui/OnlineContainer.scss";
+import "../../styles/ui/CurrentlyOnline.scss";
 
 const CurrentlyOnline = () => {
   const [players, setPlayers] = useState([]);
@@ -39,7 +39,7 @@ const CurrentlyOnline = () => {
           {players.length} players <span className="player-status online">Online</span>
         </button>
         {isDropdownVisible && players.length > 0 && (
-          <div className="dropdown">
+          <div className="dropdown-online">
             {players.map((player, index) => (
               <div key={index} className="player-box">
                 {player}

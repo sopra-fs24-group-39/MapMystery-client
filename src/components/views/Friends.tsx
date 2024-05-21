@@ -94,6 +94,11 @@ const Friends = () => {
     }
   }
 
+  const handleLinkButton = () => {
+    console.log("handleLinkButton");
+    addNotification("Feature is currently being developed", "error");
+  }
+
   const addNotification = (text, type) => {
     setNotifications(prevNotifications => [
       ...prevNotifications,
@@ -132,7 +137,8 @@ const Friends = () => {
           <Button
             type={"regular"}
             width={"md"}
-            name={"Create Link"}>
+            name={"Create Link"}
+            onClick={handleLinkButton}>
           </Button>
           {showFriends ?
             <RoundButton

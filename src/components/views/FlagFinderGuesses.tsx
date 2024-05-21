@@ -11,6 +11,8 @@ import Button from "components/ui/Button";
 import Title from "components/ui/Title";
 import "../../styles/views/FlagFinderGuesses.scss";
 import RoundAndTimeSelection from "components/ui/Configurator";
+import { ReactComponent as CorrectIcon } from "./sources/correct.svg";
+import { ReactComponent as WrongIcon } from "./sources/wrong.svg";
 
 const FlagFinderGuesses: React.FC = () => {
   const navigate = useNavigate();
@@ -75,7 +77,7 @@ const FlagFinderGuesses: React.FC = () => {
             <div key={index} className={`score-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
               {result === '?' ? '?' : (
                 <>
-                  <span>Result: {result[0] ? 'Correct' : 'False'}</span>
+                  <span>{result[0] ? <CorrectIcon /> : <WrongIcon />}</span>
                   <span>Your Guess: {result[1] ? result[1] : 'no submission'}</span>
                   <span>Correct Answer: { result[2]}</span>
                 </>
