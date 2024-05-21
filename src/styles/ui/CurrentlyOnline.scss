@@ -2,8 +2,9 @@
   height: auto;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: end;
+  top: 5rem;
+  position: absolute;
+  left: 108rem;
 }
 
 .online-players-box {
@@ -21,26 +22,24 @@
   padding: 0;
 }
 
-.dropdown {
+.dropdown-online {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
   border: 1px solid #000;
   background-color: #fff;
   position: absolute;
-  z-index: 1000;
+  margin-right: 0rem;
+  right: 0;
+  z-index: 1;
   width: 100%;
+  cursor: auto;
 }
 
 .player-box {
   padding: 8px 16px;
-  margin: 2px 0;
   border: 1px solid #ddd;
   background-color: #f9f9f9;
-  cursor: pointer;
+  cursor: auto;
   text-align: center;
-}
-
-.player-box:hover {
-  background-color: #f0f0f0;
 }

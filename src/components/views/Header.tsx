@@ -5,7 +5,7 @@ import "../../styles/views/Header.scss";
 import Logo from "components/pictures/Logo";
 import MinidenticonImg from "components/pictures/ProfilePicture";
 import NavDropDown from "../ui/NavDropDown";
-import CurrentlyOnline from "../ui/CurrentlyOnline";
+
 
 const Header = ({ onNavigateClick }) => {
   const [navDropDown, setNavDropDown] = useState("hidden");
@@ -89,7 +89,6 @@ const Header = ({ onNavigateClick }) => {
       {hasToken && <div className={navDropDown + " w-screen absolute flex flex-row justify-end"} onClick={expandAvatar}>
         <NavDropDown></NavDropDown>
       </div>}
-      {hasToken && <CurrentlyOnline/>}
     </div>
   );
 };
