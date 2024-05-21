@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/ui/PictureSettings.scss";
 import MinidenticonImg from "components/pictures/ProfilePicture";
+import profilepicture1 from "./sources/profilepicture1.webp";
+import profilepicture2 from "./sources/profilepicture2.webp";
+import profilepicture3 from "./sources/profilepicture3.webp";
 
 interface PictureSettingsProps {
   username: string;
@@ -63,20 +66,37 @@ const PictureSettings: React.FC<PictureSettingsProps> = ({ username = "", pictur
             className="minidenticon-img"
           />
         </div>
-        { isEditing && <div className="options-settings-container">
-          <div
-            className={`color-circle red ${selectedColor === 'red' ? 'selected' : ''}`}
-            onClick={() => handleColorClick('red')}
-          />
-          <div
-            className={`color-circle green ${selectedColor === 'green' ? 'selected' : ''}`}
-            onClick={() => handleColorClick('green')}
-          />
-          <div
-            className={`color-circle blue ${selectedColor === 'blue' ? 'selected' : ''}`}
-            onClick={() => handleColorClick('blue')}
-          />
-        </div>}
+        {isEditing && (
+          <div className="options-settings-container">
+            <div
+              className={`photo-container ${selectedColor === 'red' ? 'selected' : ''}`}
+              onClick={() => handleColorClick('red')}
+            >
+              <div
+                className="photo-circle1"
+                style={{ backgroundImage: `url(${profilepicture1})` }}
+              />
+            </div>
+            <div
+              className={`photo-container ${selectedColor === 'green' ? 'selected' : ''}`}
+              onClick={() => handleColorClick('green')}
+            >
+              <div
+                className="photo-circle"
+                style={{ backgroundImage: `url(${profilepicture2})` }}
+              />
+            </div>
+            <div
+              className={`photo-container ${selectedColor === 'blue' ? 'selected' : ''}`}
+              onClick={() => handleColorClick('blue')}
+            >
+              <div
+                className="photo-circle"
+                style={{ backgroundImage: `url(${profilepicture3})` }}
+              />
+            </div>
+          </div>
+        )}
         {!isEditing && (
           <div className="edit-button-picture" onClick={() => setIsEditing(true)}>
             Edit
