@@ -101,7 +101,7 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
       case 'Friend Settings':
         return <FriendSettings onToggleChange={handleToggleRankingChange} isToggled={isRankingEnabled} />;
       case 'Picture Settings':
-        return <PictureSettings username={userInfo.username} />;
+        return <PictureSettings username={userInfo.username} picturenumber={localStorage.getItem("profilepicture")} />;
       default:
         return <AccountSettings userInfo={userInfo} onSave={handleSave} />;
     }

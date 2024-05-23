@@ -11,28 +11,138 @@ type AccountSettingsProps = {
 
 const AccountSettings: React.FC<AccountSettingsProps> = ({ userInfo, onSave }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [currentUserInfo, setCurrentUserInfo] = useState({ username: userInfo.username, userEmail: userInfo.userEmail });
-  const [editedUserInfo, setEditedUserInfo] = useState({ username: userInfo.username, userEmail: userInfo.userEmail });
+  const [notifications, setNotifications] = useState([]);
+  const [currentUserInfo, setCurrentUserInfo] = useState({
+    username: userInfo.username,
+    userEmail: userInfo.userEmail,
+    password: '',
+    confirmPassword: ''
+  });
+  const [editedUserInfo, setEditedUserInfo] = useState({
+    username: userInfo.username,
+    userEmail: userInfo.userEmail,
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Initialize states with the userInfo prop
-    setCurrentUserInfo({ username: userInfo.username, userEmail: userInfo.userEmail });
-    setEditedUserInfo({ username: userInfo.username, userEmail: userInfo.userEmail });
+    setCurrentUserInfo({
+      username: userInfo.username,
+      userEmail: userInfo.userEmail,
+      password: '',
+      confirmPassword: ''
+    });
+    setEditedUserInfo({
+      username: userInfo.username,
+      userEmail: userInfo.userEmail,
+      password: '',
+      confirmPassword: ''
+    });
   }, [userInfo]);
 
-  const handleSave = () => {
-    setCurrentUserInfo(editedUserInfo);
-    onSave(editedUserInfo);
-    setIsEditing(false);
+  const handleSave = async () => {
+    if (editedUserInfo.password !== editedUserInfo.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    const settingsToUpdate = [
+      { key: 'username', value: editedUserInfo.username },
+      { key: 'userEmail', value: editedUserInfo.userEmail }
+    ];
+
+    if (editedUserInfo.password !== '') {
+      settingsToUpdate.push({ key: 'password', value: editedUserInfo.password });
+    }
+
+    try {
+      for (const setting of settingsToUpdate) {
+        if (setting.value !== currentUserInfo[setting.key]) {
+          await api.put(`/settings/${userId}`,
+            { [setting.key]: setting.value },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        }
+      }
+
+      setCurrentUserInfo(editedUserInfo);
+      setIsEditing(false);
+      setError('');
+      addNotification("Settings updated", "win");
+      onSave(editedUserInfo);
+    } catch (error: any) {
+      handleError(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage.includes('email')) {
+          addNotification('The email address is already used', 'error');
+        } else if (errorMessage.includes('username')) {
+          addNotification('The username is not available', 'error');
+        } else {
+          addNotification("Username or email already in use", "error");
+        }
+      } else {
+        addNotification("Error updating settings", "error");
+      }
+    }
   };
 
   const handleCancel = () => {
-    setEditedUserInfo({ username: currentUserInfo.username, userEmail: currentUserInfo.userEmail });
+    setEditedUserInfo({
+      username: currentUserInfo.username,
+      userEmail: currentUserInfo.userEmail,
+      password: '',
+      confirmPassword: ''
+    });
     setIsEditing(false);
+    setError('');
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedUserInfo({ ...editedUserInfo, password: e.target.value });
+    if (e.target.value !== editedUserInfo.confirmPassword) {
+      setError('Passwords do not match');
+    } else {
+      setError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedUserInfo({ ...editedUserInfo, confirmPassword: e.target.value });
+    if (e.target.value !== editedUserInfo.password) {
+      setError('Passwords do not match');
+    } else {
+      setError('');
+    }
+  };
+
+  const addNotification = (text, type) => {
+    setNotifications(prevNotifications => [
+      ...prevNotifications,
+      { id: Date.now(), text, type }
+    ]);
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.filter(notification => notification.id !== id)
+    );
   };
 
   return (
     <div className="account-settings">
+      <NotificationSquare
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <h2 className="account-title">Account Settings</h2>
       <div className="settings-item">
         <label>Username:</label>
@@ -55,23 +165,23 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ userInfo, onSave }) =
       <div className="settings-item">
         <label>Password:</label>
         <input
-          type={isEditing ? "text" : "password"}
-          value={"thisisapassword"}
+          type="password"
+          value={isEditing ? editedUserInfo.password : "thisisapassword"}
+          readOnly={!isEditing}
           disabled={!isEditing}
-          onChange={(e) => setEditedUserInfo({ ...editedUserInfo, username: e.target.value })}
+          onChange={handlePasswordChange}
         />
       </div>
-      {isEditing ? (
+      {isEditing && (
         <div className="settings-item">
-          <label>Password:</label>
+          <label>Confirm Password:</label>
           <input
-            type="text"
-            value={"thisisapassword"}
-            disabled={!isEditing}
-            onChange={(e) => setEditedUserInfo({ ...editedUserInfo, username: e.target.value })}
+            type="password"
+            value={editedUserInfo.confirmPassword}
+            onChange={handleConfirmPasswordChange}
           />
         </div>
-      ) : null}
+      )}
       <div className="settings-item">
         <label>Verified:</label>
         <span>{userInfo.verified ? 'Yes' : 'No'}</span>
@@ -80,18 +190,17 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ userInfo, onSave }) =
         <label>Account creation date:</label>
         <span>{userInfo.creationdate}</span>
       </div>
+      {error && <div className="error-message">{error}</div>}
       <div className="settings-item">
         {isEditing ? (
-          <>
-            <div className="account-button-container">
-              <div className="save-button-accountsettings" onClick={handleSave}>
-                Save
-              </div>
-              <div className="cancel-button-accountsettings" onClick={handleCancel}>
-                Cancel
-              </div>
+          <div className="account-button-container">
+            <div className="save-button-accountsettings" onClick={handleSave}>
+              Save
             </div>
-          </>
+            <div className="cancel-button-accountsettings" onClick={handleCancel}>
+              Cancel
+            </div>
+          </div>
         ) : (
           <div className="edit-button-accountsettings" onClick={() => setIsEditing(true)}>
             Edit
