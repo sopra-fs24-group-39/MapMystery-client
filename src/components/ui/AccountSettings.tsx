@@ -71,7 +71,6 @@ const handleSave = async () => {
           }
         );
 
-        // Assuming the response contains the new token in response.data.token
         const newToken = response.data.token;
         if (newToken) {
           localStorage.setItem("token", newToken);
