@@ -14,34 +14,32 @@ const RankingSettings: React.FC<RankingSettingsProps> = ({ onToggleChange, isTog
   const handleToggle = async () => {
     onToggleChange(!isToggled);
 
-    console.log(isToggled);
-
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     try {
       await api.put(`/settings/${userId}`,
-        { featured_in_rankings: isToggled },
+        { featured_in_rankings: !isToggled },
         {
           headers: {
             Authorization: `${token}`,
           },
         }
       );
-      addNotification("Friend request settings updated", "win");
+      addNotification("Ranking settings updated", "win");
     } catch (error) {
-      addNotification("Error updating friend request settings", "error");
+      addNotification("Error updating ranking settings", "error");
       handleError(error);
     }
   };
 
-  const addNotification = (text, type) => {
+  const addNotification = (text: string, type: string) => {
     setNotifications(prevNotifications => [
       ...prevNotifications,
       { id: Date.now(), text, type }
     ]);
   };
 
-  const removeNotification = (id) => {
+  const removeNotification = (id: number) => {
     setNotifications(prevNotifications =>
       prevNotifications.filter(notification => notification.id !== id)
     );
@@ -53,11 +51,11 @@ const RankingSettings: React.FC<RankingSettingsProps> = ({ onToggleChange, isTog
         notifications={notifications}
         removeNotification={removeNotification}
       />
-      <h2 className="ranking-settings-title" >Ranking Settings</h2>
+      <h2 className="ranking-settings-title">Ranking Settings</h2>
       <div className="toggle-container">
         <span>Enable Ranking</span>
         <div className="toggle-switch" onClick={handleToggle}>
-          <input type="checkbox" checked={isToggled} readOnly />
+          <input type="checkbox" checked={!isToggled} readOnly />
           <span className="slider round"></span>
         </div>
         <span>Disable Ranking</span>

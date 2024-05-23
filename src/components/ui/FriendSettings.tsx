@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../styles/ui/FriendSettings.scss";
 import NotificationSquare from "components/ui/NotificationSquare";
 import { api, handleError } from "helpers/api";
@@ -9,13 +9,17 @@ type FriendSettingsProps = {
 };
 
 const FriendSettings: React.FC<FriendSettingsProps> = ({ onToggleChange, isToggled }) => {
+  const [toggleState, setToggleState] = useState(isToggled);
   const [notifications, setNotifications] = useState([]);
 
-  const handleToggle = async () => {
-    const newToggleState = !isToggled;
-    onToggleChange(newToggleState);
+  useEffect(() => {
+    setToggleState(isToggled);
+  }, [isToggled]);
 
-    console.log(newToggleState);
+  const handleToggle = async () => {
+    const newToggleState = !toggleState;
+    setToggleState(newToggleState);
+    onToggleChange(newToggleState);
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
@@ -35,7 +39,7 @@ const FriendSettings: React.FC<FriendSettingsProps> = ({ onToggleChange, isToggl
     }
   };
 
-  const addNotification = (text, type) => {
+  const addNotification = (text: string, type: string) => {
     setNotifications(prevNotifications => [
       ...prevNotifications,
       { id: Date.now(), text, type }
@@ -58,7 +62,7 @@ const FriendSettings: React.FC<FriendSettingsProps> = ({ onToggleChange, isToggl
       <div className="toggle-container-friends">
         <span>Enable friend requests</span>
         <div className="toggle-switch-friends" onClick={handleToggle}>
-          <input type="checkbox" checked={isToggled} readOnly />
+          <input type="checkbox" checked={!toggleState} readOnly />
           <span className="slider round"></span>
         </div>
         <span>Disable friend requests</span>

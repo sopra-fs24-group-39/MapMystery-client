@@ -62,6 +62,7 @@ const handleSave = async () => {
   try {
     for (const setting of settingsToUpdate) {
       if (setting.value !== currentUserInfo[setting.key]) {
+
         const response = await api.put(`/settings/${userId}`,
           { [setting.key]: setting.value },
           {
@@ -74,6 +75,9 @@ const handleSave = async () => {
         const newToken = response.data.token;
         if (newToken) {
           localStorage.setItem("token", newToken);
+        }
+        if (setting.key === 'username') {
+          localStorage.setItem("username", setting.value);
         }
       }
     }
