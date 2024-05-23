@@ -41,70 +41,76 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ userInfo, onSave }) =
     });
   }, [userInfo]);
 
-  const handleSave = async () => {
-    if (editedUserInfo.password !== editedUserInfo.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
+const handleSave = async () => {
+  if (editedUserInfo.password !== editedUserInfo.confirmPassword) {
+    setError('Passwords do not match');
+    return;
+  }
 
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
-    const settingsToUpdate = [
-      { key: 'username', value: editedUserInfo.username },
-      { key: 'userEmail', value: editedUserInfo.userEmail }
-    ];
+  const settingsToUpdate = [
+    { key: 'username', value: editedUserInfo.username },
+    { key: 'userEmail', value: editedUserInfo.userEmail }
+  ];
 
-    if (editedUserInfo.password !== '') {
-      settingsToUpdate.push({ key: 'password', value: editedUserInfo.password });
-    }
+  if (editedUserInfo.password !== '') {
+    settingsToUpdate.push({ key: 'password', value: editedUserInfo.password });
+  }
 
-    try {
-      for (const setting of settingsToUpdate) {
-        if (setting.value !== currentUserInfo[setting.key]) {
-          await api.put(`/settings/${userId}`,
-            { [setting.key]: setting.value },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+  try {
+    for (const setting of settingsToUpdate) {
+      if (setting.value !== currentUserInfo[setting.key]) {
+        const response = await api.put(`/settings/${userId}`,
+          { [setting.key]: setting.value },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const newToken = response.data.token;
+        if (newToken) {
+          localStorage.setItem("token", newToken);
         }
       }
-
-      setCurrentUserInfo(editedUserInfo);
-      setIsEditing(false);
-      setError('');
-      addNotification("Settings updated", "win");
-      onSave(editedUserInfo);
-    } catch (error: any) {
-      handleError(error);
-      if (error.response && error.response.data && error.response.data.message) {
-        const errorMessage = error.response.data.message;
-        if (errorMessage.includes('email')) {
-          addNotification('The email address is already used', 'error');
-        } else if (errorMessage.includes('username')) {
-          addNotification('The username is not available', 'error');
-        } else {
-          addNotification("Username or email already in use", "error");
-        }
-      } else {
-        addNotification("Error updating settings", "error");
-      }
     }
-  };
 
-  const handleCancel = () => {
-    setEditedUserInfo({
-      username: currentUserInfo.username,
-      userEmail: currentUserInfo.userEmail,
-      password: '',
-      confirmPassword: ''
-    });
+    setCurrentUserInfo(editedUserInfo);
     setIsEditing(false);
     setError('');
-  };
+    addNotification("Settings updated", "win");
+    onSave(editedUserInfo);
+  } catch (error) {
+    handleError(error);
+    if (error.response && error.response.data && error.response.data.message) {
+      const errorMessage = error.response.data.message;
+      if (errorMessage.includes('email')) {
+        addNotification('The email address is already used', 'error');
+      } else if (errorMessage.includes('username')) {
+        addNotification('The username is not available', 'error');
+      } else {
+        addNotification("Username or email already in use", "error");
+      }
+    } else {
+      addNotification("Error updating settings", "error");
+    }
+  }
+};
+
+const handleCancel = () => {
+  setEditedUserInfo({
+    username: currentUserInfo.username,
+    userEmail: currentUserInfo.userEmail,
+    password: '',
+    confirmPassword: ''
+  });
+  setIsEditing(false);
+  setError('');
+};
+
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedUserInfo({ ...editedUserInfo, password: e.target.value });
