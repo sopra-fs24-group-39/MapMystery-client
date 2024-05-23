@@ -4,6 +4,7 @@
   padding: 2rem;
   flex-direction: column;
   display: flex;
+  height: 65vh;
 
   .settings-item {
     margin-bottom: 1rem;
@@ -38,8 +39,6 @@
     text-align: center;
     line-height: 3rem;
     border-radius: 0.5rem;
-    margin-top: 13rem;
-    margin-left: 40rem;
     color: black;
     font-weight: bold;
     font-size: 1.25rem;
@@ -61,7 +60,6 @@
 
 .account-button-container{
   display: flex;
-  margin-left: 28.5rem;
 }
 
 .save-button-accountsettings{

@@ -59,10 +59,56 @@ component to play another round.
 
 It all boils down to a simple user walkthrough. Roughly illustrating as follows:
 
-
+![Illustration](https://github.com/sopra-fs24-group-39/MapMystery-client/blob/main/public/ReadmeImages/Components.png)
 
 ## Launch & Deployment
+
+***Prerequisits***
+- Node js with node package manager
+
+***Installation in local environment:***
+
+Clone from git
+
+`git clone git@github.com:sopra-fs24-group-39/MapMystery-client.git`
+
+Install packages
+
+`npm i minidenticons`
+
+`npm i sockjs`
+
+Run in local environment
+
+`npm run dev`
+
 ## Illustrations
+
+How the game works:
+1. Login or create a new account
+2. Select the desired game mode that you want to play
+
+![Game Menu screen](https://github.com/sopra-fs24-group-39/MapMystery-client/blob/main/public/ReadmeImages/GameMenu.png)
+
+3. The Geo Guesser game looks like this
+
+![Geo Guesser Game](https://github.com/sopra-fs24-group-39/MapMystery-client/blob/main/public/ReadmeImages/GeoGuesserGame.png)
+
+4. After submitting a guess
+
+![Geo Guesser Guess](https://github.com/sopra-fs24-group-39/MapMystery-client/blob/main/public/ReadmeImages/GeoGuesserGuess.png)
+
+5. You will automatically be redirected to the ranking screen
 ## Roadmap
+
+The top 2-3 features that new developers who want to contribute to your project could add.
 ## Authors and acknowledgment
+
+Add all committers...
 ## License
+
+MIT License
+
+Copyright (c) 2024 sopra-fs24-group-39
+
+[More Info](https://github.com/sopra-fs24-group-39/MapMystery-client/blob/main/LICENCE)
