@@ -22,7 +22,7 @@ export const GoogleMapsProvider: React.FC<GoogleMapsProviderProps> = ({ children
     useEffect(() => {
         if (!document.querySelector(`script[src^="https://maps.googleapis.com/maps/api/js"]`)) {
             const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCulQbj2J2o73qi_k7CIerQ-2NA5ExC7Lw&callback`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCSCKEJZ9BWDpA2lul7Crnjw_J2afXfr9s&callback`;
             script.async = true;
             script.defer = true;
 
