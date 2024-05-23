@@ -12,15 +12,16 @@ const FriendSettings: React.FC<FriendSettingsProps> = ({ onToggleChange, isToggl
   const [notifications, setNotifications] = useState([]);
 
   const handleToggle = async () => {
-    onToggleChange(!isToggled);
+    const newToggleState = !isToggled;
+    onToggleChange(newToggleState);
 
-    console.log(isToggled);
+    console.log(newToggleState);
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     try {
       await api.put(`/settings/${userId}`,
-        { accept_friendrequests: isToggled },
+        { accept_friendrequests: newToggleState },
         {
           headers: {
             Authorization: `${token}`,
@@ -54,9 +55,9 @@ const FriendSettings: React.FC<FriendSettingsProps> = ({ onToggleChange, isToggl
         removeNotification={removeNotification}
       />
       <h2 className="friend-settings-title">Friend Settings</h2>
-      <div className="toggle-container">
+      <div className="toggle-container-friends">
         <span>Enable friend requests</span>
-        <div className="toggle-switch" onClick={handleToggle}>
+        <div className="toggle-switch-friends" onClick={handleToggle}>
           <input type="checkbox" checked={isToggled} readOnly />
           <span className="slider round"></span>
         </div>

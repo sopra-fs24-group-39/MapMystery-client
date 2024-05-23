@@ -5,7 +5,7 @@
   flex-direction: column;
   display: flex;
 
-  .toggle-container {
+  .toggle-container-friends {
     display: flex;
     align-items: center;
     margin-top: 20px;
@@ -14,7 +14,7 @@
       margin: 0 10px;
     }
 
-    .toggle-switch {
+    .toggle-switch-friends {
       position: relative;
       display: inline-block;
       width: 80px;
