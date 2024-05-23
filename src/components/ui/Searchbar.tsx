@@ -19,6 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ height, width, value, onChange, o
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
+        maxLength={50}
       />
       <button type="submit">
         <SearchIcon />

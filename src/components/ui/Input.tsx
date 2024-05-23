@@ -10,6 +10,7 @@ const Input = (props) => {
              placeholder=""
              value={props.value}
              onChange={(e) => props.onChange(e.target.value)}
+             maxLength={75}
       />
     </div>
   );

@@ -62,6 +62,7 @@ const handleSave = async () => {
   try {
     for (const setting of settingsToUpdate) {
       if (setting.value !== currentUserInfo[setting.key]) {
+
         const response = await api.put(`/settings/${userId}`,
           { [setting.key]: setting.value },
           {
@@ -74,6 +75,9 @@ const handleSave = async () => {
         const newToken = response.data.token;
         if (newToken) {
           localStorage.setItem("token", newToken);
+        }
+        if (setting.key === 'username') {
+          localStorage.setItem("username", setting.value);
         }
       }
     }
@@ -157,6 +161,7 @@ const handleCancel = () => {
           value={editedUserInfo.username}
           disabled={!isEditing}
           onChange={(e) => setEditedUserInfo({ ...editedUserInfo, username: e.target.value })}
+          maxLength={50}
         />
       </div>
       <div className="settings-item">
@@ -166,6 +171,7 @@ const handleCancel = () => {
           value={editedUserInfo.userEmail}
           disabled={!isEditing}
           onChange={(e) => setEditedUserInfo({ ...editedUserInfo, userEmail: e.target.value })}
+          maxLength={50}
         />
       </div>
       <div className="settings-item">
@@ -176,6 +182,7 @@ const handleCancel = () => {
           readOnly={!isEditing}
           disabled={!isEditing}
           onChange={handlePasswordChange}
+          maxLength={50}
         />
       </div>
       {isEditing && (
@@ -185,6 +192,7 @@ const handleCancel = () => {
             type="password"
             value={editedUserInfo.confirmPassword}
             onChange={handleConfirmPasswordChange}
+            maxLength={50}
           />
         </div>
       )}
@@ -197,7 +205,7 @@ const handleCancel = () => {
         <span>{userInfo.creationdate}</span>
       </div>
       {error && <div className="error-message">{error}</div>}
-      <div className="settings-item">
+      <div className="settings-item h-full justify-end">
         {isEditing ? (
           <div className="account-button-container">
             <div className="save-button-accountsettings" onClick={handleSave}>

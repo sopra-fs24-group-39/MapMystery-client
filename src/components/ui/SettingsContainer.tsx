@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../../styles/ui/AccountSettings.scss";
 import Button from "components/ui/Button";
 import { useNavigate } from 'react-router-dom';
-import { api, handleError } from "helpers/api";
+import { api } from "helpers/api";
 import NotificationSquare from "components/ui/NotificationSquare";
 import AccountSettings from "./AccountSettings";
 import GameStatistics from "./GameStatistics";
@@ -17,10 +17,9 @@ type BaseElementSettingsProps = {
 
 const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800px', height = '500px' }) => {
   const [selectedContent, setSelectedContent] = useState('default');
-  const [isRankingEnabled, setIsRankingEnabled] = useState("");
-  const [isRequestsEnabled, setIsRequestsEnabled] = useState("");
+  const [isRankingEnabled, setIsRankingEnabled] = useState(false);
+  const [isRequestsEnabled, setIsRequestsEnabled] = useState(false);
   const navigate = useNavigate();
-  const [isProfilePicture, setIsProfilePicture] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const containerStyle = { width, minHeight: height };
@@ -49,11 +48,12 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
         currentpoints,
         pointsthismonth,
         featured_in_rankings,
-        friendrequests,
-        friends,
+        accept_friendrequests,
         verified
       } = response.data;
-      setUserInfo({ username, userEmail, creationdate, verified, currentpoints, pointsthismonth });
+      setUserInfo({ username, userEmail, creationdate, verified, currentpoints, pointsthismonth, accept_friendrequests, featured_in_rankings });
+      setIsRankingEnabled(featured_in_rankings);
+      setIsRequestsEnabled(accept_friendrequests);
     } catch (error) {
       addNotification("Error getting user info", "error");
     }
@@ -70,8 +70,9 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
           Authorization: `${token}`
         }
       };
-      const response = await api.put("/users/" + userId, requestBody, config);
+      await api.put("/users/" + userId, requestBody, config);
     } catch (e) {
+      // handle error
     } finally {
       localStorage.clear();
       navigate('/login');

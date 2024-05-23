@@ -65,6 +65,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ className, onClose, messages, onSendM
               onKeyPress={handleKeyPress}
               placeholder="Type a message"
               disabled={!isConnected}
+              maxLength={200}
             />
             <button onClick={handleSendMessage}>Send</button>
           </>

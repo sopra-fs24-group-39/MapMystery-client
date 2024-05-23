@@ -49,6 +49,8 @@ const AppRouter = () => {
           <Route path="/login" element={<Start />} />
           <Route path="/" element={<Navigate to="/game" replace />} />
 
+          <Route path={"*"} element={<Navigate to={"/"} />} />
+
         </Routes>
       </BrowserRouter>
   );
