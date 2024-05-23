@@ -86,8 +86,8 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
     setIsRankingEnabled(isEnabled);
   };
 
-  const handleToggleRequestsChange = (isEnabled: boolean) => {
-    setIsRankingEnabled(isEnabled);
+  const handleToggleRequestsChange = (isEnabled2: boolean) => {
+    setIsRequestsEnabled(isEnabled2);
   };
 
   const renderContent = () => {
@@ -99,9 +99,9 @@ const BaseElementSettings: React.FC<BaseElementSettingsProps> = ({ width = '800p
       case 'Ranking Settings':
         return <RankingSettings onToggleChange={handleToggleRankingChange} isToggled={isRankingEnabled} />;
       case 'Friend Settings':
-        return <FriendSettings onToggleChange={handleToggleRankingChange} isToggled={isRankingEnabled} />;
+        return <FriendSettings onToggleChange={handleToggleRequestsChange} isToggled={isRequestsEnabled} />;
       case 'Picture Settings':
-        return <PictureSettings username={userInfo.username} />;
+        return <PictureSettings username={userInfo.username} picturenumber={localStorage.getItem("profilepicture")} />;
       default:
         return <AccountSettings userInfo={userInfo} onSave={handleSave} />;
     }

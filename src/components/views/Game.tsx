@@ -129,6 +129,8 @@ const Game = () => {
           Authorization: `${token}`
         }
       });
+      const profilePictureNumber = response.data.profilepicture;
+      localStorage.setItem("profilepicture", profilePictureNumber);
     } catch (error) {
       console.log("logging user out due to old token");
       logout();

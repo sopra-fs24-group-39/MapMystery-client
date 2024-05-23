@@ -7,7 +7,6 @@
   flex-direction: column;
 
   .circle {
-    margin-top: 1rem;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -50,7 +49,7 @@
   }
 }
 
-.save-button-picture{
+.save-button-picture {
   align-self: flex-end;
   cursor: pointer;
   width: 9rem;
@@ -66,13 +65,13 @@
   font-size: 1.25rem;
   border: 2px solid black;
 
-  &:hover{
-      border: 2px solid white;
-      background: #45a049;
-    }
+  &:hover {
+    border: 2px solid white;
+    background: #45a049;
+  }
 }
 
-.cancel-button-picture{
+.cancel-button-picture {
   align-self: flex-end;
   cursor: pointer;
   width: 9rem;
@@ -88,38 +87,60 @@
   border: 2px solid black;
   margin-right: 28.5rem;
 
-  &:hover{
+  &:hover {
     border: 2px solid white;
     background: #e53935;
   }
 }
 
 .options-settings-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
 
-    .color-circle {
-      width: 8rem;
-      height: 8rem;
-      border-radius: 50%;
-      margin: 0 0.5rem;
-      cursor: pointer;
+.photo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 9rem;
+  height: 9rem;
+  background-color: #f0f0f000;
+  border-radius: 50%;
+  margin: 0.5rem;
+}
 
-      &.selected {
-        border: 2px solid black;
-      }
-    }
+.photo-circle {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
 
-    .red {
-      background-color: red;
-    }
+.photo-circle1 {
+  width: 9.5rem;
+  height: 9.5rem;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
 
-    .green {
-      background-color: green;
-    }
+.photo-container.selected {
+  background-color: $base-yellow;
+}
 
-    .blue {
-      background-color: blue;
-    }
-  }
+.selected-profile-picture{
+ z-index: 2;
+ width: 15rem;
+ height: 15rem;
+ border-radius: 50%;
+ background-size: cover;
+ background-position: center;
+ background-repeat: no-repeat;
+ cursor: pointer;
+}
