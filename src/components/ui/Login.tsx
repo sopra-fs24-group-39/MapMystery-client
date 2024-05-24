@@ -90,7 +90,12 @@ const Login = () => {
       return;
     }
 
-    if (confPassword === password) {
+    if (password.length === "") {
+      setError("Password can not be empty");
+      return;
+    }
+
+    if (confPassword === password && password !== "") {
       try {
         const requestBody = JSON.stringify({ username, userEmail, password });
         const response1 = await api.post("/users", requestBody);
@@ -119,7 +124,7 @@ const Login = () => {
         }
       }
     } else {
-      setError("Passwords do not match");
+      setError("Passwords either don't match or are empty");
     }
   };
 
