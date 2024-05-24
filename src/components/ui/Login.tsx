@@ -83,10 +83,18 @@ const Login = () => {
   }
 
   const doRegister = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(userEmail)) {
+      setError("Invalid email format");
+      return;
+    }
+
     if (confPassword === password) {
       try {
         const requestBody = JSON.stringify({ username, userEmail, password });
         const response1 = await api.post("/users", requestBody);
+
         // Get the returned user and update a new object.
         const response2 = await api.put("/users/login", requestBody);
         const user = new User(response2.data.user);
@@ -97,44 +105,55 @@ const Login = () => {
         localStorage.setItem("userId", user.id);
         localStorage.setItem("username", user.username);
 
-        console.log(localStorage.getItem("token"))
-        console.log(localStorage.getItem("userId"))
-        console.log(localStorage.getItem("username"))
-
+        console.log(localStorage.getItem("token"));
+        console.log(localStorage.getItem("userId"));
+        console.log(localStorage.getItem("username"));
 
         // Login successfully worked --> navigate to the route /game in the GameRouter
         navigate("/game");
       } catch (e) {
-        setError(e.response.data.message);
+        if (e.response && e.response.status === 409) {
+          setError("Username or email already in use");
+        } else {
+          setError(e.response?.data?.message || "An unexpected error occurred");
+        }
       }
     } else {
       setError("Passwords do not match");
     }
-  }
+  };
 
-  const doLogin = async () => {
-    try {
-      const requestBody = JSON.stringify({ username, userEmail, password });
-      const response = await api.put("/users/login", requestBody);
-      // Get the returned user and update a new object.
-      const user = new User(response.data.user);
-      const token = response.data.token;
 
-      // Store the token into the local storage.
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", user.id);
-      localStorage.setItem("username", user.username);
 
-      console.log(localStorage.getItem("token"))
-      console.log(localStorage.getItem("userId"))
-      console.log(localStorage.getItem("username"))
+const doLogin = async () => {
+  try {
+    const requestBody = JSON.stringify({ username, userEmail, password });
+    const response = await api.put("/users/login", requestBody);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      navigate("/game");
-    } catch (e) {
-      setError(e.response.data.message);
+    // Get the returned user and update a new object.
+    const user = new User(response.data.user);
+    const token = response.data.token;
+
+    // Store the token into the local storage.
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", user.id);
+    localStorage.setItem("username", user.username);
+
+    console.log(localStorage.getItem("token"));
+    console.log(localStorage.getItem("userId"));
+    console.log(localStorage.getItem("username"));
+
+    // Login successfully worked --> navigate to the route /game in the GameRouter
+    navigate("/game");
+  } catch (e) {
+    if (e.response && e.response.status === 400) {
+      setError("Username or password is wrong");
+    } else {
+      setError(e.response?.data?.message || "An unexpected error occurred");
     }
   }
+};
+
 
   return (
       <div className={"center-container login-background"}>

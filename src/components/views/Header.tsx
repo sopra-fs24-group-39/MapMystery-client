@@ -113,11 +113,11 @@ const Header = ({ onNavigateClick }) => {
 
   const renderProfilePicture = () => {
     switch(profilePicture) {
-      case "1":
+      case "1" || 1:
         return <img src={profilepicture1} alt="Profile" width="45" height="45" />;
-      case "2":
+      case "2" || 2:
         return <img src={profilepicture2} alt="Profile" width="45" height="45" />;
-      case "3":
+      case "3" || 3:
         return <img src={profilepicture3} alt="Profile" width="45" height="45" />;
       default:
         return <MinidenticonImg username={username} saturation={saturation} lightness={lightness} width="45" height="45" />;

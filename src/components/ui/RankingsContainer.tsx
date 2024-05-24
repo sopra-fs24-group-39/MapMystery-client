@@ -20,7 +20,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
                 };
                 const userId = localStorage.getItem("userId");
 
-                const friendsResponse = await api.get(`/friends/${userId}`, config);
+                const friendsResponse = await api.get(`/rankings/${userId}`, config);
                 const fetchedFriends = friendsResponse.data.map(friend => ({
                     id: friend.id,
                     name: friend.username,
@@ -48,7 +48,7 @@ const BaseElementRankings: React.FC<BaseElementRankings> = ({ width, height }) =
 
         async function fetchPlayers() {
             try {
-                const response = await api.get(`/users`);
+                const response = await api.get(`/rankings`);
                 const fetchedPlayers = response.data.map(player => ({
                     id: player.id,
                     name: player.username,

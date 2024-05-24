@@ -71,7 +71,7 @@
   text-align: center;
   line-height: 3rem;
   border-radius: 0.5rem;
-  margin-top: 9rem;
+  margin-top: 4rem;
   margin-right: 1rem;
   color: black;
   font-weight: bold;
@@ -93,7 +93,7 @@
   text-align: center;
   line-height: 3rem;
   border-radius: 0.5rem;
-  margin-top: 9rem;
+  margin-top: 4rem;
   color: black;
   font-weight: bold;
   font-size: 1.25rem;
@@ -103,4 +103,12 @@
       border: 2px solid white;
       background: #e53935;
     }
+}
+
+.error-message-account{
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #ff0000;
+  padding: 1em;
+  text-align: center;
 }

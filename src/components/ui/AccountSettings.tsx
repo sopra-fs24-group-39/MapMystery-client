@@ -161,7 +161,7 @@ const handleCancel = () => {
           value={editedUserInfo.username}
           disabled={!isEditing}
           onChange={(e) => setEditedUserInfo({ ...editedUserInfo, username: e.target.value })}
-          maxLength={50}
+          maxLength={30}
         />
       </div>
       <div className="settings-item">
@@ -171,7 +171,7 @@ const handleCancel = () => {
           value={editedUserInfo.userEmail}
           disabled={!isEditing}
           onChange={(e) => setEditedUserInfo({ ...editedUserInfo, userEmail: e.target.value })}
-          maxLength={50}
+          maxLength={30}
         />
       </div>
       <div className="settings-item">
@@ -182,7 +182,7 @@ const handleCancel = () => {
           readOnly={!isEditing}
           disabled={!isEditing}
           onChange={handlePasswordChange}
-          maxLength={50}
+          maxLength={30}
         />
       </div>
       {isEditing && (
@@ -192,10 +192,11 @@ const handleCancel = () => {
             type="password"
             value={editedUserInfo.confirmPassword}
             onChange={handleConfirmPasswordChange}
-            maxLength={50}
+            maxLength={30}
           />
         </div>
       )}
+      {error && <div className="error-message-account">{error}</div>}
       <div className="settings-item">
         <label>Verified:</label>
         <span>{userInfo.verified ? 'Yes' : 'No'}</span>
@@ -204,7 +205,6 @@ const handleCancel = () => {
         <label>Account creation date:</label>
         <span>{userInfo.creationdate}</span>
       </div>
-      {error && <div className="error-message">{error}</div>}
       <div className="settings-item h-full justify-end">
         {isEditing ? (
           <div className="account-button-container">
