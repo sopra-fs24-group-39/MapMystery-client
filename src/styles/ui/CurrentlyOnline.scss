@@ -3,8 +3,11 @@
   width: 100%;
   display: flex;
   top: 5rem;
+  margin-right: 1rem;
+  align-items: flex-end;
+  justify-content: flex-end;
   position: absolute;
-  left: 108rem;
+  z-index: 10;
 }
 
 .online-players-box {
@@ -23,16 +26,14 @@
 }
 
 .dropdown-online {
-  display: flex;
   flex-direction: column;
-  margin-top: 10px;
   border: 1px solid #000;
   background-color: #fff;
   position: absolute;
-  margin-right: 0rem;
-  right: 0;
-  z-index: 1;
+  top: 100%;
+  left: 0;
   width: 100%;
+  z-index: 10;
   cursor: auto;
 }
 
