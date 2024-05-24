@@ -123,8 +123,6 @@ const Login = () => {
     }
   };
 
-
-
 const doLogin = async () => {
   try {
     const requestBody = JSON.stringify({ username, userEmail, password });
